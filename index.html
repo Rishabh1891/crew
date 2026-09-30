@@ -548,12 +548,16 @@ input{ font-family:inherit; }
 #app-root .nav-btn.active span{ color:#2563EB; font-weight:700; }
 #app-root .nav-btn span{ font-size:11px; font-weight:500; color:#64748B; }
 
-#app-root .nav-initials{
+#app-root .nav-avatar{
   width:26px; height:26px; border-radius:50%; background:#CBD5E1;
-  color:#475569; font-size:11px; font-weight:700; display:flex;
-  align-items:center; justify-content:center;
+  color:#475569; display:grid; overflow:hidden;
 }
-#app-root .nav-btn.active .nav-initials{ background:#2563EB; color:#FFFFFF; }
+#app-root .nav-avatar > *{ grid-area:1 / 1; }
+#app-root .nav-avatar > i{ align-self:center; justify-self:center; font-size:14px; visibility:hidden; }
+#app-root .nav-avatar.photo-unavailable > i{ visibility:visible; }
+#app-root .nav-avatar.photo-unavailable img{ visibility:hidden; }
+#app-root .nav-avatar img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:50%; }
+#app-root .nav-btn.active .nav-avatar{ background:#2563EB; color:#FFFFFF; }
 
 /* More Menu Sheet & Settings Overlay */
 .more-menu-overlay{
@@ -728,11 +732,11 @@ input{ font-family:inherit; }
 :root[data-theme="dark"] #app-root .nav-btn.active span{
   color:#60A5FA !important;
 }
-:root[data-theme="dark"] #app-root .nav-initials{
+:root[data-theme="dark"] #app-root .nav-avatar{
   background:var(--card) !important;
   color:var(--ink-soft) !important;
 }
-:root[data-theme="dark"] #app-root .nav-btn.active .nav-initials{
+:root[data-theme="dark"] #app-root .nav-btn.active .nav-avatar{
   background:#2563EB !important;
   color:#FFFFFF !important;
 }
@@ -2237,7 +2241,7 @@ body{ background:var(--bg-outer); }
         <span>Schedule</span>
       </button>
       <button class="nav-btn" data-nav="profile" onclick="switchView('profile')">
-        <div class="nav-icon-wrap"><span class="nav-initials">RT</span></div>
+        <div class="nav-icon-wrap"><div class="nav-avatar" aria-hidden="true"><i class="fa-solid fa-user"></i><img class="avatar-img-target" src="" alt="" onerror="this.parentElement.classList.add('photo-unavailable')" onload="this.parentElement.classList.remove('photo-unavailable')"></div></div>
         <span>Profile</span>
       </button>
       <button class="nav-btn" data-nav="settings" onclick="openSettings()">
@@ -3330,7 +3334,7 @@ function switchView(name){
   if (name === "chat-inbox") renderChatInbox();
   if (name === "documents") renderDocuments();
   if (name === "dashboard") renderDashboard();
-  if (name === "profile") updateAvatarTargetImages();
+  if (name === "profile") loadAvatar();
 }
 
 function toggleMoreMenu(event){
