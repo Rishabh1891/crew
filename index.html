@@ -2380,6 +2380,7 @@ const DUTY_TYPES = {
   report:   { icon: "fa-right-to-bracket", bg: "#F1E6D4", fg: "#B98A52", label: "Report" },
   reserve:  { icon: "fa-clock",            bg: "#DBF0EC", fg: "#34A79C", label: "Reserve" },
   training: { icon: "fa-calendar-user",    bg: "#FCE7F3", fg: "#D12B6D", label: "Training" },
+  meeting:  { icon: "fa-people-group",     bg: "#F1E6D4", fg: "#B98A52", label: "Meeting" },
   medical:  { icon: "fa-stethoscope",      bg: "#FCE7E9", fg: "#C23B4A", label: "Class 1 Medical" },
   layover:  { icon: "fa-bed",              bg: "#F3E3EC", fg: "#B4507C", label: "Layover" },
   leave:    { icon: "fa-umbrella-beach",   bg: "#FEF3C7", fg: "#D97706", label: "Leave" },
@@ -2659,19 +2660,11 @@ const ROSTER = {
   ],
   "2026-10-01": [{type:"off", note:"Rest"}],
   "2026-10-02": [{type:"off", note:"Rest · Gandhi Jayanti"}],
-  "2026-10-03": [{type:"off", note:"Rest · Ahmedabad pairing moved to 05–07 Oct"}],
+  "2026-10-03": [{type:"off", note:"Rest"}],
   "2026-10-04": [{type:"off", note:"Rest"}],
-  "2026-10-05": [
-    {type:"flight", flightNo:"AI423", aircraft:"B777-300ER", dep:"DEL", arr:"AMD", depTime:"09:50", arrTime:"11:40", airtime:"01h 50m", note:"Terminal 3 → Terminal 2 · Indira Gandhi International Airport to Sardar Vallabhbhai Patel International Airport", crew:{captains:["Anny Divya"],firstOfficers:["Rishabh Tripathi"],cabin:["Shivani Singh","Rahul Verma","Kritika Reddy","Ankit Sahu","Sayantani Roy","Mayank Bundela"]}},
-    {type:"layover", location:"Ahmedabad, Gujarat, India", start:"12:30", end:"14:00+2", hotel:{name:"Taj Skyline Ahmedabad", address:"Sankalp Square III, Ambli - Bopal Rd, Ahmedabad, Gujarat 380058", phone:"+91 79 6912 3000", transport:"Airline crew coach from SVPI Airport (AMD)", checkIn:"12:30 on 05 Oct", checkOut:"14:00 on 07 Oct"}, note:"Domestic layover · 51h 25m · Taj Skyline Ahmedabad"}
-  ],
-  "2026-10-06": [
-    {type:"layover", location:"Ahmedabad, Gujarat, India", start:"00:00", end:"23:59", hotel:{name:"Taj Skyline Ahmedabad", address:"Sankalp Square III, Ambli - Bopal Rd, Ahmedabad, Gujarat 380058", phone:"+91 79 6912 3000", transport:"Airline crew coach from SVPI Airport (AMD)", checkIn:"12:30 on 05 Oct", checkOut:"14:00 on 07 Oct"}, note:"Full layover day · Taj Skyline Ahmedabad"}
-  ],
-  "2026-10-07": [
-    {type:"flight", flightNo:"AI424", aircraft:"B777-300ER", dep:"AMD", arr:"DEL", depTime:"15:05", arrTime:"16:35", airtime:"01h 30m", note:"Terminal 2 → Terminal 3 · Sardar Vallabhbhai Patel International Airport to Indira Gandhi International Airport", crew:{captains:["Anny Divya"],firstOfficers:["Rishabh Tripathi"],cabin:["Shivani Singh","Rahul Verma","Kritika Reddy","Ankit Sahu","Sayantani Roy","Mayank Bundela"]}},
-    {type:"off", start:"16:35", note:"Post-flight mandatory rest"}
-  ],
+  "2026-10-05": [{type:"meeting", location:"Air India Security Office, Delhi", start:"12:00", end:"18:00", note:"12:00 pm–06:00 pm IST · Listed address: Office of the Regional Security Head, JAL Road, near Terminal 1, IGI Airport, Palam, New Delhi 110037. Address from a 2019 official notice; current location needs confirmation. <a href='https://www.google.com/maps/search/?api=1&amp;query=Air+India+Security+Office+JAL+Road+IGI+Airport+Terminal+1+New+Delhi' target='_blank' rel='noopener noreferrer'>View map</a> · <a href='https://www.aiasl.in/resources/Advertisement%20AIATSL%202019%20DELBOMMAACCU%20Revised.pdf' target='_blank' rel='noopener noreferrer'>Address source</a>"}],
+  "2026-10-06": [{type:"meeting", location:"Air India Security Office, Delhi", start:"12:00", end:"18:00", note:"12:00 pm–06:00 pm IST · Listed address: Office of the Regional Security Head, JAL Road, near Terminal 1, IGI Airport, Palam, New Delhi 110037. Address from a 2019 official notice; current location needs confirmation. <a href='https://www.google.com/maps/search/?api=1&amp;query=Air+India+Security+Office+JAL+Road+IGI+Airport+Terminal+1+New+Delhi' target='_blank' rel='noopener noreferrer'>View map</a> · <a href='https://www.aiasl.in/resources/Advertisement%20AIATSL%202019%20DELBOMMAACCU%20Revised.pdf' target='_blank' rel='noopener noreferrer'>Address source</a>"}],
+  "2026-10-07": [{type:"meeting", location:"Air India Security Office, Delhi", start:"12:00", end:"18:00", note:"12:00 pm–06:00 pm IST · Listed address: Office of the Regional Security Head, JAL Road, near Terminal 1, IGI Airport, Palam, New Delhi 110037. Address from a 2019 official notice; current location needs confirmation. <a href='https://www.google.com/maps/search/?api=1&amp;query=Air+India+Security+Office+JAL+Road+IGI+Airport+Terminal+1+New+Delhi' target='_blank' rel='noopener noreferrer'>View map</a> · <a href='https://www.aiasl.in/resources/Advertisement%20AIATSL%202019%20DELBOMMAACCU%20Revised.pdf' target='_blank' rel='noopener noreferrer'>Address source</a>"}],
   "2026-10-08": [{type:"reserve", location:"DEL", note:"Reserve · Replaces cancelled Newark rotation · Duty times to be assigned"}],
   "2026-10-09": [{type:"reserve", location:"DEL", note:"Reserve · Replaces cancelled Newark rotation · Duty times to be assigned"}],
   "2026-10-10": [{type:"reserve", location:"DEL", note:"Reserve · Replaces cancelled Newark rotation · Duty times to be assigned"}],
@@ -3693,6 +3686,9 @@ function buildCalendarGrid(monthDate, opts){
       } else if (primary.type === "report"){
         iconHtml = `<i class="fa-solid fa-right-from-bracket door-orange cal-ico" aria-hidden="true"></i>`;
         codeHtml = `<span class="cal-code">${primary.start || ""}</span>`;
+      } else if (primary.type === "meeting"){
+        iconHtml = `<i class="fa-solid fa-people-group cal-ico" style="color:${meta.fg};" aria-hidden="true"></i>`;
+        codeHtml = `<span class="cal-code">MTG</span>`;
       } else if (primary.type === "training"){
         iconHtml = `<span class="cal-ico cal-training-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3.5" width="13.5" height="13.5" rx="2.5" fill="#FCE7F3" stroke="#E0247D" stroke-width="1.6"/><path d="M2 8H15.5" stroke="#E0247D" stroke-width="1.5"/><path d="M5.5 1.8V4.5M11.5 1.8V4.5" stroke="#E0247D" stroke-width="1.6" stroke-linecap="round"/><circle cx="5.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="8.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="5.5" cy="14" r="0.8" fill="#E0247D"/><circle cx="17" cy="11.5" r="3.2" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5"/><path d="M12 20.5C12 17.5 14.2 16 17 16C19.8 16 22 17.5 22 20.5" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/></svg></span>`;
         codeHtml = `<span class="cal-code">DEL</span>`;
