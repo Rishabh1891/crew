@@ -2669,9 +2669,9 @@ const ROSTER = {
   "2026-10-09": [{type:"reserve", location:"DEL", note:"Reserve · Replaces cancelled Newark rotation · Duty times to be assigned"}],
   "2026-10-10": [{type:"reserve", location:"DEL", note:"Reserve · Replaces cancelled Newark rotation · Duty times to be assigned"}],
   "2026-10-11": [{type:"reserve", location:"DEL", note:"Reserve · Replaces cancelled Newark rotation · Duty times to be assigned"}],
-  "2026-10-12": [{type:"reserve", location:"DEL", note:"Reserve · Replaces cancelled Newark rotation · Duty times to be assigned"}],
-  "2026-10-13": [{type:"reserve", location:"DEL", note:"Reserve · Replaces cancelled Newark rotation · Duty times to be assigned"}],
-  "2026-10-14": [{type:"off", note:"Rest · Post-pattern mandatory rest"}],
+  "2026-10-12": [{type:"leave", note:"Leave"}],
+  "2026-10-13": [{type:"leave", note:"Leave"}],
+  "2026-10-14": [{type:"leave", note:"Leave"}],
   "2026-10-15": [{type:"off", note:"Rest"}],
   "2026-10-16": [{type:"off", note:"Rest"}],
   "2026-10-17": [
@@ -3700,7 +3700,7 @@ function buildCalendarGrid(monthDate, opts){
         codeHtml = `<span class="cal-code">LVYR</span>`;
       } else if (primary.type === "leave"){
         iconHtml = `<i class="fa-solid fa-umbrella-beach leave-amber cal-ico" aria-hidden="true"></i>`;
-        codeHtml = `<span class="cal-code">LV</span>`;
+        codeHtml = `<span class="cal-code">CL</span>`;
       } else { // off / rest
         iconHtml = `<i class="fa-solid fa-star star-pink cal-ico" aria-hidden="true"></i>`;
         codeHtml = `<span class="cal-code">DEL</span>`;
