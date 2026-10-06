@@ -3028,8 +3028,8 @@ const CHATS = [
     name: "Swati Rawat",
     initials: "SR",
     photo: "https://media.licdn.com/dms/image/v2/D5603AQE8z-enSqcCYQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1731760067163?e=2147483647&v=beta&t=c_TGNiJSjUIPUFYRzoNw845BgcKg0MwPYq4znNIVpnk",
-    preview: "Okay let me check and i will get back to you soon. thanks.",
-    time: "05:19 PM",
+    preview: "Please tell her to keep herself up-to-date with the career portal and our social media handles.",
+    time: "05:30 PM",
     date: "Today"
   },
   {
@@ -3072,7 +3072,17 @@ const CHAT_MESSAGES = [
     { direction: "outgoing", text: "Hey Swati I have referal for HR roll. She has good expereince.", time: "03:38 PM", date: "Today, 16 Sep 2026" },
     { direction: "incoming", text: "Okay Rishabh, please share her  CV.", time: "03:55 PM" },
     { direction: "outgoing", kind: "file", name: "Akanksha_Shukla_Resume.pdf", size: "339 KB", url: "Akanksha_Shukla_Resume.pdf", preview: "Akanksha_Shukla_Resume.png", time: "05:15 PM" },
-    { direction: "incoming", text: "Okay let me check and i will get back to you soon. thanks.", time: "05:19 PM" }
+    { direction: "incoming", text: "Okay let me check and i will get back to you soon. thanks.", time: "05:19 PM" },
+    { direction: "outgoing", text: "Hey Swati, does the job Senior Planning Analyst matches with the sent resume?", time: "05:10 PM", date: "6 Oct 2026" },
+    { direction: "incoming", text: "Not accurately, but if she has the knowledge of the mentioned software and CAE's rosterbuster, then she can be referred by you.", time: "05:18 PM", date: "6 Oct 2026" },
+    { direction: "outgoing", text: "No she doesn't have the knowledge but she is ready to get into the traininig and perform as per the expectations.", time: "05:21 PM", date: "6 Oct 2026" },
+    { direction: "incoming", text: "That we understand but she is expereinced in HR domain more.", time: "05:23 PM", date: "6 Oct 2026" },
+    { direction: "incoming", text: "To get in this profile, she must have acquire the knowledge of the functionalities of these softwares not in core. That thing can be trained.", time: "05:23 PM" },
+    { direction: "incoming", text: "Still if you want her in, there is one way only, the hiring drive can let her as she doesn't meet the direct entry criteria due to not meeting required qualifications.", time: "05:23 PM" },
+    { direction: "outgoing", text: "Okay, when the next hiring drive is expected and for what location?", time: "05:28 PM", date: "6 Oct 2026" },
+    { direction: "incoming", text: "Let me check with the recruitment team about the next drive and the location. I'll share the confirmed details and eligibility requirements with you once I have an update.", time: "05:28 PM", date: "6 Oct 2026" },
+    { direction: "incoming", text: "As per now, there is no plan for a hiring drive.", time: "05:30 PM", date: "6 Oct 2026" },
+    { direction: "incoming", text: "Please tell her to keep herself up-to-date with the career portal and our social media handles.", time: "05:30 PM" }
   ],
   [
     { direction: "incoming", text: "Hi Rishabh, We will be operating the Vienna sector together.", time: "07:21 PM", date: "14 Sep 2026" },
@@ -5003,7 +5013,7 @@ function renderChatInbox(){
           </a>
         </div>`;
     }
-    else content = escapeChatText(message.text);
+    else content = escapeChatText(message.text).replace(/\n/g, "<br>");
     return `${dateHeaderHtml}<div class="message-row ${message.direction}">
       <div class="message-bubble">${content}</div>
       <div class="message-time">${escapeChatText(message.time)}</div>
