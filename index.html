@@ -2153,8 +2153,8 @@ body{ background:var(--bg-outer); }
           <div class="profile-section-head" onclick="toggleProfileSection('ps-checkin')">
             <div class="ps-icon"><i class="fa-solid fa-plane-circle-check"></i></div>
             <div class="ps-body">
-              <div class="ps-title">Check-in Access</div>
-              <div class="ps-sub">Access duty or flight check-in options directly from your profile interface (depending on airline configuration).</div>
+              <div class="ps-title">Crew Check-in Access</div>
+              <div class="ps-sub">Access crew duty and operating flight check-in from your profile.</div>
             </div>
             <i class="fa-solid fa-chevron-right chev"></i>
           </div>
@@ -2175,7 +2175,7 @@ body{ background:var(--bg-outer); }
               <div class="checkin-stat"><div class="cs-label">Medical Valid Till</div><div class="cs-value">15 Sep 2027</div></div>
             </div>
             <button class="btn-checkin" onclick="showToast('Duty check-in confirmed', 'fa-clipboard-check')"><i class="fa-solid fa-clipboard-check"></i> Duty Check-in</button>
-            <button class="btn-checkin alt" onclick="showToast('Flight check-in confirmed', 'fa-plane-departure')"><i class="fa-solid fa-plane-departure"></i> Flight Check-in</button>
+            <button class="btn-checkin alt" onclick="showToast('Crew flight check-in confirmed', 'fa-plane-departure')"><i class="fa-solid fa-plane-departure"></i> Crew Flight Check-in</button>
           </div>
         </div>
 
@@ -2380,8 +2380,10 @@ const DUTY_TYPES = {
   report:   { icon: "fa-right-to-bracket", bg: "#F1E6D4", fg: "#B98A52", label: "Report" },
   reserve:  { icon: "fa-clock",            bg: "#DBF0EC", fg: "#34A79C", label: "Reserve" },
   training: { icon: "fa-calendar-user",    bg: "#FCE7F3", fg: "#D12B6D", label: "Training" },
+  groundTraining: { icon: "fa-calendar-user", bg: "#FCE7F3", fg: "#D12B6D", label: "Ground Training" },
   meeting:  { icon: "fa-people-group",     bg: "#F1E6D4", fg: "#B98A52", label: "Meeting" },
   medical:  { icon: "fa-stethoscope",      bg: "#FCE7E9", fg: "#C23B4A", label: "Class 1 Medical" },
+  technical:{ icon: "fa-plane-circle-check", bg: "#F1E6D4", fg: "#B98A52", label: "Technical Stop" },
   layover:  { icon: "fa-bed",              bg: "#F3E3EC", fg: "#B4507C", label: "Layover" },
   leave:    { icon: "fa-umbrella-beach",   bg: "#FEF3C7", fg: "#D97706", label: "Leave" },
   off:      { icon: "fa-star",             bg: "#FCE7F3", fg: "#D12B6D", label: "Rest" }
@@ -2394,7 +2396,7 @@ const SCHEDULE_IMAGE_ICONS = {
 
 function scheduleImageIcon(item, className){
   const cls = className || "";
-  if (item.type === "training"){
+  if (item.type === "training" || item.type === "groundTraining"){
     return `<span class="${cls} training-person-cal-icon">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
         <rect x="2" y="3.5" width="13" height="13" rx="2.5" fill="#FCE7F3" stroke="#D12B6D" stroke-width="1.6"/>
@@ -2672,18 +2674,21 @@ const ROSTER = {
   "2026-10-12": [{type:"leave", note:"Leave"}],
   "2026-10-13": [{type:"leave", note:"Leave"}],
   "2026-10-14": [{type:"leave", note:"Leave"}],
-  "2026-10-15": [{type:"off", note:"Rest"}],
-  "2026-10-16": [{type:"off", note:"Rest"}],
+  "2026-10-15": [{type:"groundTraining", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"Aircraft Line Proficiency Exam · 12:00 PM–06:00 PM IST"}],
+  "2026-10-16": [
+    {"type":"flight","flightNo":"AIC173","aircraft":"B777-300ER","dep":"DEL","arr":"SFO","depTime":"03:10","arrTime":"07:00","airtime":"16h 20m","note":"Departure: 03:10 AM IST · DEL Terminal 3 → Arrival: 07:00 AM PDT · SFO Terminal 1 (International Arrivals) · Same-day arrival: Friday, 16 October 2026 · IST is 12 hours 30 minutes ahead of PDT","crew":{"captains":["Arjun Menon","Neha Deshmukh"],"firstOfficers":["Rishabh Tripathi","Vikram Iyer"],"cabin":["Ananya Nair","Meera Krishnan","Kavya Reddy","Sneha Pillai","Divya Shetty","Pooja Kulkarni","Aditi Desai","Rhea Fernandes","Ishita Patil","Karthik Subramanian","Arjun Nambiar","Rohan Joshi","Siddharth Naik","Aditya Kamath","Rahul D’Souza"]}}
+  ],
   "2026-10-17": [
-    {type:"flight", flightNo:"AI161", aircraft:"B777-300ER", dep:"DEL", arr:"LHR", depTime:"02:45", arrTime:"07:30", airtime:"09h 15m", note:"Terminal 3 → Terminal 2 · Indira Gandhi International Airport to London Heathrow Airport", crew:{captains:["Soniya Gupta"],firstOfficers:["Rishabh Tripathi"],cabin:["Shreya Nair","Kritika Reddy","Priya Sharma","Ananya Iyer","Rahul Verma","Kavita Kullupati","Madhuri Sharma","Ankit Vats","Kalyani Mukherji","Meenakshi Sati"]}},
-    {type:"layover", location:"London, United Kingdom", start:"08:30", end:"08:30+1", hotel:{name:"Hilton London Heathrow Airport T4", address:"Heathrow Airport, Terminal 4, Hounslow TW6 3AF, UK", phone:"+44 20 8759 7755", transport:"Direct covered walkway connected to T4", checkIn:"08:30 on 17 Oct", checkOut:"08:30 on 18 Oct"}, note:"International layover · Hilton London Heathrow Airport T4"}
+    {"type":"layover","location":"San Francisco, California, USA","start":"00:00","end":"23:59","hotel":{"name":"Taj Campton Place","address":"San Francisco, California, USA"},"note":"Full layover day · Saturday, 17 October 2026 · Local time: PDT"}
   ],
   "2026-10-18": [
-    {type:"layover", location:"London, United Kingdom", start:"00:00", end:"23:59", hotel:{name:"Hilton London Heathrow Airport T4", address:"Heathrow Airport, Terminal 4, Hounslow TW6 3AF, UK", phone:"+44 20 8759 7755", transport:"Direct covered walkway connected to T4", checkIn:"08:30 on 17 Oct", checkOut:"08:30 on 18 Oct"}, note:"Full layover day · Hilton London Heathrow Airport T4"}
+    {"type":"flight","flightNo":"AIC174","aircraft":"B777-300ER","dep":"SFO","arr":"CCU","depTime":"00:55","arrTime":"16:15+1","airtime":"17h 50m","crew":{"captains":["Arjun Menon","Neha Deshmukh"],"firstOfficers":["Rishabh Tripathi","Vikram Iyer"],"cabin":["Ananya Nair","Meera Krishnan","Kavya Reddy","Sneha Pillai","Divya Shetty","Pooja Kulkarni","Aditi Desai","Rhea Fernandes","Ishita Patil","Karthik Subramanian","Arjun Nambiar","Rohan Joshi","Siddharth Naik","Aditya Kamath","Rahul D’Souza"]},"note":"Operator: AIR INDIA · San Francisco International Airport, Terminal I · Departure: Sunday, 18 October 2026, 00:55 PDT · Arrival: Monday, 19 October 2026, 16:15 IST (+1 day) · Netaji Subhash Chandra Bose International Airport · Technical stop: 1h 35m, 16:15–17:50 IST · Onward sector: CCU–DEL · Assigned cockpit and cabin crew listed in the crew portal. · Onward operating sector AI 4174 (same aircraft): CCU 17:50 → DEL 20:15 IST on 19 October · Sector flight time: 2h 25m · Indira Gandhi International Airport, Terminal 3"}
   ],
   "2026-10-19": [
-    {type:"flight", flightNo:"AI162", aircraft:"B777-300ER", dep:"LHR", arr:"DEL", depTime:"09:45", arrTime:"22:50", airtime:"08h 35m", note:"Terminal 2 → Terminal 3 · London Heathrow Airport to Indira Gandhi International Airport", crew:{captains:["Soniya Gupta"],firstOfficers:["Rishabh Tripathi"],cabin:["Shreya Nair","Kritika Reddy","Priya Sharma","Ananya Iyer","Rahul Verma","Kavita Kullupati","Madhuri Sharma","Ankit Vats","Kalyani Mukherji","Meenakshi Sati"]}},
-    {type:"off", start:"22:50", note:"Post-flight rest"}
+    {"type":"flight","flightNo":"AIC174","aircraft":"B777-300ER","dep":"SFO","arr":"CCU","depTime":"00:55","arrTime":"16:15","airtime":"17h 50m","continuation":true,"continuesFrom":"2026-10-18","showExitIcon":true,"note":"Arrival: Monday, 19 October 2026, 16:15 IST · Netaji Subhash Chandra Bose International Airport · Operator: AIR INDIA"},
+    {"type":"technical","location":"Netaji Subhash Chandra Bose International Airport (CCU)","start":"16:15","end":"17:50","note":"Technical stop · Scheduled turnaround: 1h 35m · Monday, 19 October 2026 · All times IST · Onward sector: CCU–DEL · Assigned cockpit and cabin crew listed in the crew portal. · Next sector: AI 4174 · CCU–DEL · Same aircraft."},
+    {"type":"flight","flightNo":"AI 4174","aircraft":"B777-300ER","dep":"CCU","arr":"DEL","depTime":"17:50","arrTime":"20:15","airtime":"02h 25m","crew":{"captains":["Arjun Menon","Neha Deshmukh"],"firstOfficers":["Rishabh Tripathi","Vikram Iyer"],"cabin":["Ananya Nair","Meera Krishnan","Kavya Reddy","Sneha Pillai","Divya Shetty","Pooja Kulkarni","Aditi Desai","Rhea Fernandes","Ishita Patil","Karthik Subramanian","Arjun Nambiar","Rohan Joshi","Siddharth Naik","Aditya Kamath","Rahul D’Souza"]},"note":"Operator: AIR INDIA · Continuation sector · Same aircraft as AIC174 · Monday, 19 October 2026 · Departure: 17:50 IST, Netaji Subhash Chandra Bose International Airport · Arrival: 20:15 IST, Indira Gandhi International Airport, Terminal 3 · Same day as CCU departure; +1 day from SFO departure"},
+    {"type":"off","start":"20:15","note":"Post-flight mandatory rest after SFO–CCU–DEL arrival"}
   ],
   "2026-10-20": [{type:"off", note:"Rest · Post-pattern mandatory rest"}],
   "2026-10-21": [{type:"off", note:"Rest"}],
@@ -3467,8 +3472,8 @@ function renderDashboard(){
           </div>`;
       } else if (it.type === "layover") {
         const hotelName = it.hotel ? it.hotel.name : (it.location || "Layover");
-        const hotelTiming = it.hotel ? (it.hotel.checkIn ? `Check-in ${it.hotel.checkIn}` : (it.start || "")) : (it.start || "");
-        const checkoutTiming = it.hotel && it.hotel.checkOut ? ` · Check-out ${it.hotel.checkOut}` : (it.end ? ` – ${it.end}` : "");
+        const hotelTiming = it.hotel ? (it.hotel.checkIn ? `Crew hotel check-in ${it.hotel.checkIn}` : (it.start || "")) : (it.start || "");
+        const checkoutTiming = it.hotel && it.hotel.checkOut ? ` · Crew hotel check-out ${it.hotel.checkOut}` : (it.end ? ` – ${it.end}` : "");
         sectorsHtml += `
           <div class="upnext-layover-tag">
             <i class="fa-solid fa-bed"></i>
@@ -3699,7 +3704,7 @@ function buildCalendarGrid(monthDate, opts){
       } else if (primary.type === "meeting"){
         iconHtml = `<i class="fa-solid fa-people-group cal-ico" style="color:${meta.fg};" aria-hidden="true"></i>`;
         codeHtml = `<span class="cal-code">MTG</span>`;
-      } else if (primary.type === "training"){
+      } else if (primary.type === "training" || primary.type === "groundTraining"){
         iconHtml = `<span class="cal-ico cal-training-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3.5" width="13.5" height="13.5" rx="2.5" fill="#FCE7F3" stroke="#E0247D" stroke-width="1.6"/><path d="M2 8H15.5" stroke="#E0247D" stroke-width="1.5"/><path d="M5.5 1.8V4.5M11.5 1.8V4.5" stroke="#E0247D" stroke-width="1.6" stroke-linecap="round"/><circle cx="5.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="8.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="5.5" cy="14" r="0.8" fill="#E0247D"/><circle cx="17" cy="11.5" r="3.2" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5"/><path d="M12 20.5C12 17.5 14.2 16 17 16C19.8 16 22 17.5 22 20.5" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/></svg></span>`;
         codeHtml = `<span class="cal-code">DEL</span>`;
       } else if (primary.type === "reserve"){
@@ -4030,7 +4035,7 @@ function buildDutyRowsHTML(items, dateStr, keyPrefix){
         <div class="di-grid">
           <div class="di-col"><div class="di-label">From</div><div class="di-value">${item.dep}</div></div>
           <div class="di-col arrow"><i class="fa-solid fa-arrow-right"></i></div>
-          <div class="di-col"><div class="di-label">Arrives</div><div class="di-value">${item.arr} ${item.arrTime}</div></div>
+          <div class="di-col"><div class="di-label">Scheduled arrival</div><div class="di-value">${item.arr} ${item.arrTime}</div></div>
         </div>`;
       noteHtml = `<div class="di-note">Continued from ${prettyDate(item.continuesFrom, {day:"numeric", month:"short"})}${item.note ? ` · ${item.note}` : ""}</div>`;
       clickable = false;
@@ -4038,12 +4043,12 @@ function buildDutyRowsHTML(items, dateStr, keyPrefix){
       title = item.isDeadhead ? `Deadhead (DH) · ${item.flightNo} · ${item.dep} → ${item.arr}` : `${item.flightNo} · ${item.dep} → ${item.arr}`;
       gridHtml = `
         <div class="di-grid">
-          <div class="di-col"><div class="di-label">Departs</div><div class="di-value">${item.dep} ${item.depTime}</div></div>
+          <div class="di-col"><div class="di-label">Scheduled departure</div><div class="di-value">${item.dep} ${item.depTime}</div></div>
           <div class="di-col arrow"><i class="fa-solid fa-arrow-right"></i></div>
-          <div class="di-col"><div class="di-label">Arrives</div><div class="di-value">${item.arr} ${item.arrTime}</div></div>
+          <div class="di-col"><div class="di-label">Scheduled arrival</div><div class="di-value">${item.arr} ${item.arrTime}</div></div>
         </div>`;
       const airtime = item.airtime || fmtHrsMins(flightDurationMinutes(item));
-      noteHtml = `<div class="di-note">${item.isDeadhead ? "Deadhead (DH) positioning · " : "Airtime · "}${airtime}${item.aircraft ? ` · ${item.aircraft}` : ""}${item.note ? ` · ${item.note}` : ""}</div>`;
+      noteHtml = `<div class="di-note">${item.isDeadhead ? "Deadhead (DH) positioning · " : "Sector flight time · "}${airtime}${item.aircraft ? ` · ${item.aircraft}` : ""}${item.note ? ` · ${item.note}` : ""}</div>`;
       clickable = !item.isDeadhead;
       expandHtml = item.isDeadhead ? "" : buildCrewListHTML(item);
     } else if (item.type === "report"){
@@ -4072,8 +4077,8 @@ function buildDutyRowsHTML(items, dateStr, keyPrefix){
         gridHtml = `
           <div class="di-grid">
             <div class="di-col"><div class="di-label">Hotel</div><div class="di-value">${item.hotel.name}</div></div>
-            <div class="di-col"><div class="di-label">Check-in</div><div class="di-value">${item.hotel.checkIn || ""}</div></div>
-            <div class="di-col"><div class="di-label">Check-out</div><div class="di-value">${item.hotel.checkOut || ""}</div></div>
+            <div class="di-col"><div class="di-label">Crew hotel check-in</div><div class="di-value">${item.hotel.checkIn || ""}</div></div>
+            <div class="di-col"><div class="di-label">Crew hotel check-out</div><div class="di-value">${item.hotel.checkOut || ""}</div></div>
           </div>`;
         noteHtml = `<div class="di-note">${item.hotel.address}${item.hotel.phone ? ` · ${item.hotel.phone}` : ""}${item.hotel.transport ? ` · ${item.hotel.transport}` : ""}${item.note ? ` · ${item.note}` : ""}</div>`;
       } else {
@@ -4261,6 +4266,7 @@ function buildCrewListHTML(item){
       <div><div class="crew-name">${c.name}</div><div class="crew-role">${c.role}</div></div>
     </div>`).join("");
   return `
+    <div class="di-title">Flight No ${escapeChatText(item.flightNo || "")}</div>
     <div class="crew-section-label">Crew Portal · Cockpit Crew</div>
     ${cockpit.length ? rowsHtml(cockpit) : `<div class="empty-state"><p>No cockpit crew assigned.</p></div>`}
     <div class="crew-section-label second">Cabin Crew</div>
@@ -4834,12 +4840,12 @@ function renderOTCard(t){
       <div class="ot-times">
         <div class="ot-time-dep">
           <div class="ot-time-val">${t.depTime}</div>
-          <div class="ot-time-lbl">Departure</div>
+          <div class="ot-time-lbl">Scheduled departure</div>
         </div>
         <div class="ot-duration-badge"><i class="fa-regular fa-clock"></i>${t.duration}</div>
         <div class="ot-time-arr" style="text-align:right;">
           <div class="ot-time-val">${t.arrTime}</div>
-          <div class="ot-time-lbl">Arrival</div>
+          <div class="ot-time-lbl">Scheduled arrival</div>
         </div>
       </div>
       <div class="ot-stats">
@@ -5136,10 +5142,10 @@ function renderDocuments(){
     var ci = document.createElement('div');
     if(activeDuty){
       ci.className = 'checkin-countdown open';
-      ci.innerHTML = '<span class="ci-dot"></span> Check-in confirmed \u00B7 Duty active';
+      ci.innerHTML = '<span class="ci-dot"></span> Crew check-in confirmed \u00B7 Duty active';
     } else {
       ci.className = 'checkin-countdown closed';
-      ci.innerHTML = '<span class="ci-dot"></span> No active check-in \u00B7 Rest period';
+      ci.innerHTML = '<span class="ci-dot"></span> No active crew check-in \u00B7 Rest period';
     }
     /* FTL Gauge */
     var monthDate = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
