@@ -3792,6 +3792,8 @@ function renderMonthBlockHTML(year, month){
 let scheduleLoadedMonths = [];
 let scheduleScrollBound = false;
 let scheduleScrollLocked = false;
+let scheduleScrollIdleTimer = null;
+let scheduleLastScrollTop = 0;
 let scheduleDateClickBound = false;
 
 function bindScheduleDateClicks(){
@@ -3811,6 +3813,7 @@ function bindScheduleDateClicks(){
 
 function renderScheduleCalendar(){
   const container = document.getElementById("sched-cal-scroll");
+  clearTimeout(scheduleScrollIdleTimer);
   scheduleLoadedMonths = [];
   let html = "";
   // Load a small window of months around the focused one; more are added on scroll.
@@ -3832,6 +3835,7 @@ function renderScheduleCalendar(){
 
   // Restore the selected date and its inline roster without rebuilding the calendar.
   restoreScheduleSelection();
+  scheduleLastScrollTop = document.querySelector("#view-schedule .app-main").scrollTop;
   renderScheduleStats();
   renderScheduleLegend();
   updateTodayButton();
@@ -3857,6 +3861,7 @@ function prependPrevMonth(){
   container.insertAdjacentHTML("afterbegin", renderMonthBlockHTML(prev.getFullYear(), prev.getMonth()));
   // Keep the visible content stable — offset the added height out of view.
   scrollParent.scrollTop += (container.scrollHeight - beforeHeight);
+  scheduleLastScrollTop = scrollParent.scrollTop;
   scheduleLoadedMonths.unshift({ year: prev.getFullYear(), month: prev.getMonth() });
 }
 function appendNextMonth(){
@@ -3874,26 +3879,40 @@ function bindScheduleScroll(){
 }
 
 function onScheduleScroll(){
-  if (scheduleMode !== "month" || scheduleScrollLocked) return;
-  scheduleScrollLocked = true;
-  requestAnimationFrame(() => {
-    const scrollParent = document.querySelector("#view-schedule .app-main");
-    const container = document.getElementById("sched-cal-scroll");
-    if (container && scrollParent){
-      const contRect = container.getBoundingClientRect();
-      const parentRect = scrollParent.getBoundingClientRect();
-      const topGap = contRect.top - parentRect.top;
-      const bottomGap = contRect.bottom - parentRect.bottom;
-      // Load another month once the loaded range's edge nears the viewport —
-      // only once we've actually scrolled toward that edge (gap has gone
-      // negative), so this can't keep firing on a range that already covers
-      // the visible area.
-      if (bottomGap < parentRect.height) appendNextMonth();
-      if (topGap < 0 && topGap > -parentRect.height) prependPrevMonth();
+  const scrollParent = document.querySelector("#view-schedule .app-main");
+  if (scheduleMode !== "month" || !scrollParent) return;
+  const scrollTop = scrollParent.scrollTop;
+  const direction = Math.sign(scrollTop - scheduleLastScrollTop);
+  scheduleLastScrollTop = scrollTop;
+
+  if (!scheduleScrollLocked){
+    scheduleScrollLocked = true;
+    requestAnimationFrame(() => {
       updateScheduleHeaderFromScroll();
+      scheduleScrollLocked = false;
+    });
+  }
+
+  // A prepend changes scrollTop to preserve the visible date. Its resulting
+  // scroll event must never start another load or interrupt iOS momentum.
+  if (!direction) return;
+  clearTimeout(scheduleScrollIdleTimer);
+  scheduleScrollIdleTimer = setTimeout(() => {
+    if (scheduleMode !== "month") return;
+    const container = document.getElementById("sched-cal-scroll");
+    if (!container) return;
+    const contRect = container.getBoundingClientRect();
+    const parentRect = scrollParent.getBoundingClientRect();
+    // Wait for the gesture AND momentum to settle before changing content
+    // above the viewport. Load only toward the user's last scroll direction.
+    if (direction < 0 && contRect.top > parentRect.top - parentRect.height){
+      prependPrevMonth();
+    } else if (direction > 0 && contRect.bottom < parentRect.bottom + parentRect.height){
+      appendNextMonth();
     }
-    scheduleScrollLocked = false;
-  });
+    scheduleLastScrollTop = scrollParent.scrollTop;
+    updateScheduleHeaderFromScroll();
+  }, 180);
 }
 
 // Keeps the sticky label/stats/Today-button in sync with whichever month
