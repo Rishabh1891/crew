@@ -1851,6 +1851,11 @@ body{ background:var(--bg-outer); }
 @media(min-width:600px){#app-root{border-left:1px solid var(--line);border-right:1px solid var(--line)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}}
 
+/* Unreleased dates remain tappable so their release status can be read. */
+#app-root .cal-cell.roster-to-be-released{ background:#F3F4F6 !important; }
+#app-root .cal-cell.roster-to-be-released .cal-num{ color:#A3A8B0 !important; }
+:root[data-theme="dark"] #app-root .cal-cell.roster-to-be-released{ background:#252A32 !important; }
+:root[data-theme="dark"] #app-root .cal-cell.roster-to-be-released .cal-num{ color:#858B95 !important; }
 </style>
 </head>
 <body>
@@ -2380,7 +2385,7 @@ const DUTY_TYPES = {
   report:   { icon: "fa-right-to-bracket", bg: "#F1E6D4", fg: "#B98A52", label: "Report" },
   reserve:  { icon: "fa-clock",            bg: "#DBF0EC", fg: "#34A79C", label: "Reserve" },
   training: { icon: "fa-calendar-user",    bg: "#FCE7F3", fg: "#D12B6D", label: "Training" },
-  groundTraining: { icon: "fa-calendar-user", bg: "#FCE7F3", fg: "#D12B6D", label: "Ground Training" },
+  groundTraining: { icon: "fa-calendar-user", bg: "#FCE7F3", fg: "#D12B6D", label: "Test FAA & EASA Regulatories" },
   meeting:  { icon: "fa-people-group",     bg: "#F1E6D4", fg: "#B98A52", label: "Meeting" },
   medical:  { icon: "fa-stethoscope",      bg: "#FCE7E9", fg: "#C23B4A", label: "Class 1 Medical" },
   technical:{ icon: "fa-plane-circle-check", bg: "#F1E6D4", fg: "#B98A52", label: "Technical Stop" },
@@ -2675,45 +2680,8 @@ const ROSTER = {
   "2026-10-13": [{type:"leave", note:"Leave"}],
   "2026-10-14": [{type:"leave", note:"Leave"}],
   "2026-10-15": [{type:"groundTraining", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"Aircraft Line Proficiency Exam · 12:00 PM–06:00 PM IST"}],
-  "2026-10-16": [
-    {"type":"flight","flightNo":"AIC173","aircraft":"B777-300ER","dep":"DEL","arr":"SFO","depTime":"03:10","arrTime":"07:00","airtime":"16h 20m","note":"Departure: 03:10 AM IST · DEL Terminal 3 → Arrival: 07:00 AM PDT · SFO Terminal 1 (International Arrivals) · Same-day arrival: Friday, 16 October 2026 · IST is 12 hours 30 minutes ahead of PDT","crew":{"captains":["Arjun Menon","Neha Deshmukh"],"firstOfficers":["Rishabh Tripathi","Vikram Iyer"],"cabin":["Ananya Nair","Meera Krishnan","Kavya Reddy","Sneha Pillai","Divya Shetty","Pooja Kulkarni","Aditi Desai","Rhea Fernandes","Ishita Patil","Karthik Subramanian","Arjun Nambiar","Rohan Joshi","Siddharth Naik","Aditya Kamath","Rahul D’Souza"]}}
-  ],
-  "2026-10-17": [
-    {"type":"layover","location":"San Francisco, California, USA","start":"00:00","end":"23:59","hotel":{"name":"Taj Campton Place","address":"San Francisco, California, USA"},"note":"Full layover day · Saturday, 17 October 2026 · Local time: PDT"}
-  ],
-  "2026-10-18": [
-    {"type":"flight","flightNo":"AIC174","aircraft":"B777-300ER","dep":"SFO","arr":"CCU","depTime":"00:55","arrTime":"16:15+1","airtime":"17h 50m","crew":{"captains":["Arjun Menon","Neha Deshmukh"],"firstOfficers":["Rishabh Tripathi","Vikram Iyer"],"cabin":["Ananya Nair","Meera Krishnan","Kavya Reddy","Sneha Pillai","Divya Shetty","Pooja Kulkarni","Aditi Desai","Rhea Fernandes","Ishita Patil","Karthik Subramanian","Arjun Nambiar","Rohan Joshi","Siddharth Naik","Aditya Kamath","Rahul D’Souza"]},"note":"Operator: AIR INDIA · San Francisco International Airport, Terminal I · Departure: Sunday, 18 October 2026, 00:55 PDT · Arrival: Monday, 19 October 2026, 16:15 IST (+1 day) · Netaji Subhash Chandra Bose International Airport · Technical stop: 1h 35m, 16:15–17:50 IST · Onward sector: CCU–DEL · Assigned cockpit and cabin crew listed in the crew portal. · Onward operating sector AI 4174 (same aircraft): CCU 17:50 → DEL 20:15 IST on 19 October · Sector flight time: 2h 25m · Indira Gandhi International Airport, Terminal 3"}
-  ],
-  "2026-10-19": [
-    {"type":"flight","flightNo":"AIC174","aircraft":"B777-300ER","dep":"SFO","arr":"CCU","depTime":"00:55","arrTime":"16:15","airtime":"17h 50m","continuation":true,"continuesFrom":"2026-10-18","showExitIcon":true,"note":"Arrival: Monday, 19 October 2026, 16:15 IST · Netaji Subhash Chandra Bose International Airport · Operator: AIR INDIA"},
-    {"type":"technical","location":"Netaji Subhash Chandra Bose International Airport (CCU)","start":"16:15","end":"17:50","note":"Technical stop · Scheduled turnaround: 1h 35m · Monday, 19 October 2026 · All times IST · Onward sector: CCU–DEL · Assigned cockpit and cabin crew listed in the crew portal. · Next sector: AI 4174 · CCU–DEL · Same aircraft."},
-    {"type":"flight","flightNo":"AI 4174","aircraft":"B777-300ER","dep":"CCU","arr":"DEL","depTime":"17:50","arrTime":"20:15","airtime":"02h 25m","crew":{"captains":["Arjun Menon","Neha Deshmukh"],"firstOfficers":["Rishabh Tripathi","Vikram Iyer"],"cabin":["Ananya Nair","Meera Krishnan","Kavya Reddy","Sneha Pillai","Divya Shetty","Pooja Kulkarni","Aditi Desai","Rhea Fernandes","Ishita Patil","Karthik Subramanian","Arjun Nambiar","Rohan Joshi","Siddharth Naik","Aditya Kamath","Rahul D’Souza"]},"note":"Operator: AIR INDIA · Continuation sector · Same aircraft as AIC174 · Monday, 19 October 2026 · Departure: 17:50 IST, Netaji Subhash Chandra Bose International Airport · Arrival: 20:15 IST, Indira Gandhi International Airport, Terminal 3 · Same day as CCU departure; +1 day from SFO departure"},
-    {"type":"off","start":"20:15","note":"Post-flight mandatory rest after SFO–CCU–DEL arrival"}
-  ],
-  "2026-10-20": [{type:"off", note:"Rest · Post-pattern mandatory rest"}],
-  "2026-10-21": [{type:"off", note:"Rest"}],
-  "2026-10-22": [
-    {type:"flight", flightNo:"AI839", aircraft:"B777-300ER", dep:"DEL", arr:"HYD", depTime:"07:00", arrTime:"09:15", airtime:"02h 15m", note:"Terminal 3 → Rajiv Gandhi International Airport", crew:{captains:["Iram Habib"],firstOfficers:["Rishabh Tripathi"],cabin:["Dimple Bordoloi","Mayank Bundela","Lunkim Haokip","Shivani Malviya","Tenzin Yangchen","Ankit Sahu"]}},
-    {type:"layover", location:"Hyderabad, Telangana, India", start:"10:00", end:"09:30+1", hotel:{name:"Novotel Hyderabad Airport", address:"Airport Approach Road, Shamshabad, Hyderabad, Telangana 500108", phone:"+91 40 6625 0000", transport:"Airline crew coach from RGIA Airport", checkIn:"10:00 on 22 Oct", checkOut:"09:30 on 23 Oct"}, note:"Domestic layover · Novotel Hyderabad Airport"}
-  ],
-  "2026-10-23": [
-    {type:"flight", flightNo:"AI840", aircraft:"B777-300ER", dep:"HYD", arr:"DEL", depTime:"10:30", arrTime:"12:45", airtime:"02h 15m", note:"Rajiv Gandhi International Airport → Terminal 3", crew:{captains:["Iram Habib"],firstOfficers:["Rishabh Tripathi"],cabin:["Dimple Bordoloi","Mayank Bundela","Lunkim Haokip","Shivani Malviya","Tenzin Yangchen","Ankit Sahu"]}},
-    {type:"off", start:"12:45", note:"Post-flight mandatory rest"}
-  ],
-  "2026-10-24": [{type:"reserve", reserveLocation:"airport", start:"06:00", end:"14:00", note:"ASBY · Airport Standby Reserve T3"}],
-  "2026-10-25": [{type:"reserve", reserveLocation:"airport", start:"06:00", end:"14:00", note:"ASBY · Starting Queue 53"}],
-  "2026-10-26": [
-    {type:"flight", flightNo:"AI887", aircraft:"B777-300ER", dep:"DEL", arr:"BOM", depTime:"21:00", arrTime:"23:20", airtime:"02h 20m", note:"Terminal 3 → Terminal 2 · Indira Gandhi International Airport to Chhatrapati Shivaji Maharaj International Airport", crew:{captains:["Anny Divya"],firstOfficers:["Rishabh Tripathi"],cabin:["Shivani Singh","Rahul Verma","Kritika Reddy","Ankit Sahu","Sayantani Roy","Mayank Bundela","Dimple Bordoloi","Lunkim Haokip","Tenzin Yangchen","Kavita Kullupati","Meera Pillai","Chirag Sen","Shreya Nair","Ananya Iyer","Priya Sharma"]}},
-    {type:"layover", location:"Mumbai, Maharashtra, India", start:"23:59", end:"18:00+1", hotel:{name:"The Lalit Mumbai", address:"Sahar Airport Rd, Navpada, Marol, Andheri East, Mumbai, Maharashtra 400059", phone:"+91 22 6699 2222", transport:"Airline crew coach from CSMIA Airport (BOM)", checkIn:"23:59 on 26 Oct", checkOut:"18:00 on 27 Oct"}, note:"Domestic layover · The Lalit Mumbai"}
-  ],
-  "2026-10-27": [
-    {type:"flight", flightNo:"AI888", aircraft:"B777-300ER", dep:"BOM", arr:"DEL", depTime:"19:10", arrTime:"21:15", airtime:"02h 05m", note:"Terminal 2 → Terminal 3 · Chhatrapati Shivaji Maharaj International Airport to Indira Gandhi International Airport", crew:{captains:["Anny Divya"],firstOfficers:["Rishabh Tripathi"],cabin:["Shivani Singh","Rahul Verma","Kritika Reddy","Ankit Sahu","Sayantani Roy","Mayank Bundela","Dimple Bordoloi","Lunkim Haokip","Tenzin Yangchen","Kavita Kullupati","Meera Pillai","Chirag Sen","Shreya Nair","Ananya Iyer","Priya Sharma"]}},
-    {type:"off", start:"21:15", note:"Post-flight mandatory rest"}
-  ],
-  "2026-10-28": [{type:"off", note:"Rest · Post-pattern mandatory rest"}],
-  "2026-10-29": [{type:"off", note:"Rest · Post Ultra Long-Haul mandatory FTL rest"}],
-  "2026-10-30": [{type:"training", location:"CAE Simulation Centre, Gurugram", start:"09:00", end:"17:00", note:"B777 Recency & FSTD Refresher Training"}],
-  "2026-10-31": [{type:"off", note:"Rest"}]
+  "2026-10-16": [{type:"groundTraining", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"Aircraft Line Proficiency Exam · 12:00 PM–06:00 PM IST"}]
+
 
 
 };
@@ -3625,7 +3593,14 @@ function renderUpcomingDuties(){
   });
 }
 
+function isRosterToBeReleased(dateStr){
+  return dateStr >= "2026-10-17" && dateStr <= "2026-10-31";
+}
+
 function getDayDetailHTML(dateStr){
+  if (isRosterToBeReleased(dateStr)){
+    return `<div class="day-detail-head"><div class="dd-date">${prettyDate(dateStr, {weekday:"long", day:"numeric", month:"long"})}</div></div><div class="empty-state"><i class="fa-regular fa-calendar"></i><p>To be Released</p></div>`;
+  }
   const items = SCHEDULE[dateStr] || [];
   const hasFlightOrDuty = items.some(i => i.type !== "off");
 
@@ -3733,7 +3708,14 @@ function buildCalendarGrid(monthDate, opts){
       }
     }
 
-    if (opts && opts.isUnpublished){
+    if (isRosterToBeReleased(dateStr)){
+      cells.push(`
+        <button type="button" class="cal-cell roster-to-be-released ${isSelected ? "selected" : ""}" data-date="${dateStr}"
+                ${opts.onSelectFn ? `onclick="${opts.onSelectFn}('${dateStr}')"` : ""}
+                title="To be Released" aria-label="${prettyDate(dateStr, {weekday:'long', day:'numeric', month:'long'})} — To be Released">
+          <span class="cal-num">${day}</span>
+        </button>`);
+    } else if (opts && opts.isUnpublished){
       cells.push(`
         <button type="button" class="cal-cell unpublished-block" data-date="${dateStr}">
           <span class="cal-num">${day}</span>
@@ -4241,6 +4223,10 @@ function renderScheduleAgenda(){
   let html = "";
   for (let day = 1; day <= daysInMonth; day++){
     const dateStr = fmt(new Date(year, month, day));
+    if (isRosterToBeReleased(dateStr)){
+      html += `<div class="agenda-date-label">${prettyDate(dateStr, {weekday:"short", day:"numeric", month:"short"})}</div><div class="empty-state"><p>To be Released</p></div>`;
+      continue;
+    }
     const items = SCHEDULE[dateStr];
     if (!items || !items.length) continue;
     const isToday = dateStr === fmt(TODAY);
