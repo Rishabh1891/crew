@@ -2386,6 +2386,7 @@ const DUTY_TYPES = {
   reserve:  { icon: "fa-clock",            bg: "#DBF0EC", fg: "#34A79C", label: "Reserve" },
   training: { icon: "fa-calendar-user",    bg: "#FCE7F3", fg: "#D12B6D", label: "Training" },
   groundTraining: { icon: "fa-calendar-user", bg: "#FCE7F3", fg: "#D12B6D", label: "Test FAA & EASA Regulatories" },
+  easaTest: { icon: "fa-calendar-user", bg: "#FCE7F3", fg: "#D12B6D", label: "EASA Regulatories Test" },
   meeting:  { icon: "fa-people-group",     bg: "#F1E6D4", fg: "#B98A52", label: "Meeting" },
   medical:  { icon: "fa-stethoscope",      bg: "#FCE7E9", fg: "#C23B4A", label: "Class 1 Medical" },
   technical:{ icon: "fa-plane-circle-check", bg: "#F1E6D4", fg: "#B98A52", label: "Technical Stop" },
@@ -2401,7 +2402,7 @@ const SCHEDULE_IMAGE_ICONS = {
 
 function scheduleImageIcon(item, className){
   const cls = className || "";
-  if (item.type === "training" || item.type === "groundTraining"){
+  if (item.type === "training" || item.type === "groundTraining" || item.type === "easaTest"){
     return `<span class="${cls} training-person-cal-icon">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
         <rect x="2" y="3.5" width="13" height="13" rx="2.5" fill="#FCE7F3" stroke="#D12B6D" stroke-width="1.6"/>
@@ -2680,7 +2681,8 @@ const ROSTER = {
   "2026-10-13": [{type:"leave", note:"Leave"}],
   "2026-10-14": [{type:"leave", note:"Leave"}],
   "2026-10-15": [{type:"groundTraining", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"Aircraft Line Proficiency Exam · 12:00 PM–06:00 PM IST"}],
-  "2026-10-16": [{type:"groundTraining", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"Aircraft Line Proficiency Exam · 12:00 PM–06:00 PM IST"}]
+  "2026-10-16": [{type:"groundTraining", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"Aircraft Line Proficiency Exam · 12:00 PM–06:00 PM IST"}],
+  "2026-10-17": [{type:"easaTest", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"12:00 PM–06:00 PM IST"}]
 
 
 
@@ -3491,7 +3493,7 @@ function renderDashboard(){
         <span class="upnext-label">Today's Roster</span>
         <span class="upnext-status ${isRest ? "unpublished" : "published"}">${isRest ? "Rest day" : "Published"}</span>
       </div>
-      <div class="upnext-duty">${isFlight ? (item.continuation ? `Arrival · ${item.flightNo}` : item.flightNo) : (isRest ? (item.note || "Rest") : meta.label + " (" + meta.label.toUpperCase() + ")")}</div>
+      <div class="upnext-duty">${isFlight ? (item.continuation ? `Arrival · ${item.flightNo}` : item.flightNo) : (isRest ? (item.note || "Rest") : item.type === "easaTest" ? meta.label : meta.label + " (" + meta.label.toUpperCase() + ")")}</div>
       ${isFlight ? `
         <div class="upnext-route">
           <div class="up-pt"><div class="code">${item.dep}</div><div class="time">${item.continuation ? "—" : item.depTime}</div></div>
@@ -3594,7 +3596,7 @@ function renderUpcomingDuties(){
 }
 
 function isRosterToBeReleased(dateStr){
-  return dateStr >= "2026-10-17" && dateStr <= "2026-10-31";
+  return dateStr >= "2026-10-18" && dateStr <= "2026-10-31";
 }
 
 function getDayDetailHTML(dateStr){
@@ -3690,7 +3692,7 @@ function buildCalendarGrid(monthDate, opts){
       } else if (primary.type === "meeting"){
         iconHtml = `<i class="fa-solid fa-people-group cal-ico" style="color:${meta.fg};" aria-hidden="true"></i>`;
         codeHtml = `<span class="cal-code">MTG</span>`;
-      } else if (primary.type === "training" || primary.type === "groundTraining"){
+      } else if (primary.type === "training" || primary.type === "groundTraining" || primary.type === "easaTest"){
         iconHtml = `<span class="cal-ico cal-training-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3.5" width="13.5" height="13.5" rx="2.5" fill="#FCE7F3" stroke="#E0247D" stroke-width="1.6"/><path d="M2 8H15.5" stroke="#E0247D" stroke-width="1.5"/><path d="M5.5 1.8V4.5M11.5 1.8V4.5" stroke="#E0247D" stroke-width="1.6" stroke-linecap="round"/><circle cx="5.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="8.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="5.5" cy="14" r="0.8" fill="#E0247D"/><circle cx="17" cy="11.5" r="3.2" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5"/><path d="M12 20.5C12 17.5 14.2 16 17 16C19.8 16 22 17.5 22 20.5" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/></svg></span>`;
         codeHtml = `<span class="cal-code">DEL</span>`;
       } else if (primary.type === "reserve"){
