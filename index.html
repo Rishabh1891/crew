@@ -2381,6 +2381,7 @@ const CURRENT_USER = {
 
 /* ---- Duty type styling: icon, colors, label ---------------------------- */
 const DUTY_TYPES = {
+  inTransit: { icon: "fa-plane", bg: "#FBE3E3", fg: "#C62828", label: "In flight" },
   flight:   { icon: "fa-plane-up",         bg: "#FBE3E3", fg: "#C62828", label: "Flight" },
   report:   { icon: "fa-right-to-bracket", bg: "#F1E6D4", fg: "#B98A52", label: "Report" },
   reserve:  { icon: "fa-clock",            bg: "#DBF0EC", fg: "#34A79C", label: "Reserve" },
@@ -2682,10 +2683,24 @@ const ROSTER = {
   "2026-10-14": [{type:"leave", note:"Leave"}],
   "2026-10-15": [{type:"groundTraining", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"Aircraft Line Proficiency Exam · 12:00 PM–06:00 PM IST"}],
   "2026-10-16": [{type:"groundTraining", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"Aircraft Line Proficiency Exam · 12:00 PM–06:00 PM IST"}],
-  "2026-10-17": [{type:"easaTest", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"12:00 PM–06:00 PM IST"}]
-
-
-
+  "2026-10-17": [{type:"easaTest", location:"Air India Dispatch Office, Terminal 3, DEL", start:"12:00", end:"18:00", note:"12:00 PM–06:00 PM IST"}],
+  "2026-10-18": [{type:"off", note:"Rest"}],
+  "2026-10-19": [{type:"medical", location:"Air Force Medical Council, Subroto Park, New Delhi", note:"Mandatory Doctor Visit"}],
+  "2026-10-20": [{type:"leave", note:"Casual Leave"}],
+  "2026-10-21": [{type:"reserve", location:"DEL", start:"09:00", end:"16:00", note:"Starting Queue 73 · 09:00 AM–04:00 PM IST"}],
+  "2026-10-22": [
+    {type:"flight", flightNo:"AI423", aircraft:"B777-300ER", dep:"DEL", arr:"AMD", depTime:"09:50", arrTime:"11:40", airtime:"01h 50m", note:"All times IST · Indira Gandhi International Airport (DEL), Terminal 3 → Sardar Vallabhbhai Patel International Airport (AMD), Terminal 2 · Boeing 777-300ER (widebody) · Scheduled duration: 1h 50m · Expected airborne time: approximately 1h 05m–1h 10m (wheels-up to wheels-down)", crew:{captains:["Arjun Mehta"],firstOfficers:["Rishabh Tripathi"],cabin:["Simran Kaur","Aarav Sharma","Ananya Iyer","Rohan Desai","Meera Nair","Aditya Reddy","Sayantani Roy","Chirag Patel","Dimple Bordoloi","Tenzin Dolma","Imran Khan","Pooja Hegde","Lalrinpuii Sailo","Siddharth Kulkarni","Ningthoujam Rahul"]}},
+    {type:"flight", flightNo:"AI424", aircraft:"B777-300ER", dep:"AMD", arr:"DEL", depTime:"12:30", arrTime:"14:10", airtime:"01h 40m", note:"All times IST · Sardar Vallabhbhai Patel International Airport (AMD), Terminal 2 (Gate 9) → Indira Gandhi International Airport (DEL), Terminal 3 · Boeing 777-300ER (widebody) · Same aircraft rotation · Scheduled duration: 1h 40m · Expected airborne time: approximately 1h 05m–1h 15m (wheels-up to wheels-down)", crew:{captains:["Arjun Mehta"],firstOfficers:["Rishabh Tripathi"],cabin:["Simran Kaur","Aarav Sharma","Ananya Iyer","Rohan Desai","Meera Nair","Aditya Reddy","Sayantani Roy","Chirag Patel","Dimple Bordoloi","Tenzin Dolma","Imran Khan","Pooja Hegde","Lalrinpuii Sailo","Siddharth Kulkarni","Ningthoujam Rahul"]}}
+  ],
+  "2026-10-23": [{"type": "off", "note": "Rest"}],
+  "2026-10-24": [{"type": "flight", "flightNo": "AI173", "dep": "DEL", "arr": "SFO", "depTime": "03:10", "arrTime": "07:00", "airtime": "16h 20m", "note": "Departure: 24 Oct, 03:10 AM IST (UTC+05:30) · Arrival: 24 Oct, 07:00 AM PDT (UTC−07:00) · Total air time: 16h 20m", "crew": {"captains": ["Rukumabh Venktaswamy", "Sobit Daga"], "firstOfficers": ["Rishabh Tripathi", "Maheep Singh"], "cabin": ["Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma", "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul"]}, "aircraft": "B777-300ER"}, {"type": "layover", "location": "San Francisco, USA", "hotel": {"name": "Taj Campton Place, San Francisco", "address": "San Francisco, California, USA", "checkIn": "24 Oct 2026 · after arrival; exact time not specified", "checkOut": "26 Oct 2026 · before flight; exact time not specified"}, "note": "Hotel layover begins after SFO arrival at 07:00 AM PDT · Local times PDT"}],
+  "2026-10-25": [{"type": "layover", "location": "San Francisco, USA", "hotel": {"name": "Taj Campton Place, San Francisco", "address": "San Francisco, California, USA", "checkIn": "24 Oct 2026 · after arrival; exact time not specified", "checkOut": "26 Oct 2026 · before flight; exact time not specified"}, "note": "Full-day hotel layover · Local times PDT"}],
+  "2026-10-26": [{"type": "layover", "location": "San Francisco, USA", "hotel": {"name": "Taj Campton Place, San Francisco", "address": "San Francisco, California, USA", "checkIn": "24 Oct 2026 · after arrival; exact time not specified", "checkOut": "26 Oct 2026 · before flight; exact time not specified"}, "note": "Hotel layover until departure preparation · Local times PDT"}, {"type": "flight", "flightNo": "AI184", "aircraft": "B777-300ER", "dep": "SFO", "arr": "CCU", "depTime": "19:35", "arrTime": "01:15", "airtime": "17h 10m", "crew": {"captains": ["Arjun Mehta", "Vikram Sethi"], "firstOfficers": ["Rishabh Tripathi", "Amrit Kaur"], "cabin": ["Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma", "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul"]}, "note": "Departure: Monday 26 Oct, 07:35 PM PDT (UTC−07:00) · CCU arrival: Wednesday 28 Oct, 01:15 AM IST (UTC+05:30) · Technical stop until 02:30 AM IST · Final Delhi arrival: 28 Oct, 04:55 AM IST"}],
+  "2026-10-27": [{"type": "inTransit", "calendarCode": "CCU", "location": "SFO → CCU → DEL", "note": "AI184 in flight · Departed SFO 26 Oct, 19:35 PDT · CCU arrival 28 Oct, 01:15 IST · Delhi arrival 28 Oct, 04:55 IST"}],
+  "2026-10-28": [{"type": "flight", "flightNo": "AI184", "aircraft": "B777-300ER", "dep": "SFO", "arr": "CCU", "depTime": "19:35", "arrTime": "01:15", "airtime": "17h 10m", "crew": {"captains": ["Rukumabh Venktaswamy", "Sobit Daga"], "firstOfficers": ["Rishabh Tripathi", "Maheep Singh"], "cabin": ["Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma", "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul"]}, "note": "CCU arrival: Wednesday 28 Oct, 01:15 AM IST · Continued from SFO departure on 26 Oct at 07:35 PM PDT", "continuation": true, "continuesFrom": "2026-10-26"}, {"type": "technical", "location": "CCU", "start": "01:15", "end": "02:30", "note": "AI184 technical stop · 28 October · All times IST · Duration: 1h 15m"}, {"type": "flight", "flightNo": "AI184", "aircraft": "B777-300ER", "dep": "CCU", "arr": "DEL", "depTime": "02:30", "arrTime": "04:55", "airtime": "02h 25m", "crew": {"captains": ["Arjun Mehta", "Vikram Sethi"], "firstOfficers": ["Rishabh Tripathi", "Amrit Kaur"], "cabin": ["Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma", "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul"]}, "note": "Final sector · Wednesday 28 October · All times IST"}],
+  "2026-10-29": [{"type": "off", "note": "Mandatory rest"}],
+  "2026-10-30": [{"type": "off", "note": "Mandatory rest"}],
+  "2026-10-31": [{"type": "flight", "flightNo": "AI537", "aircraft": "B777", "dep": "DEL", "arr": "MAA", "depTime": "15:45", "arrTime": "18:30", "airtime": "02h 45m", "crew": {"captains": ["Arvind Menon"], "firstOfficers": ["Rishabh Tripathi"], "cabin": ["Kavya Subramanian", "Arun Krishnan", "Meenakshi Raman", "Karthik Nair", "Lakshmi Menon", "Pranav Pillai", "Nandini Reddy", "Sai Teja", "Aishwarya Rao", "Vignesh Kumar", "Anjana Das", "Sourav Dutta", "Rituparna Sen", "Abhijit Roy", "Sreelakshmi Nair"]}, "note": "All times IST · 31 October · Boeing 777 · Return flight AI538 departs Chennai at 20:00 IST the same day"}, {"type": "flight", "flightNo": "AI538", "aircraft": "B777-300ER", "dep": "MAA", "arr": "DEL", "depTime": "20:00", "arrTime": "22:45", "airtime": "02h 45m", "crew": {"captains": ["Arvind Menon"], "firstOfficers": ["Rishabh Tripathi"], "cabin": ["Kavya Subramanian", "Arun Krishnan", "Meenakshi Raman", "Karthik Nair", "Lakshmi Menon", "Pranav Pillai", "Nandini Reddy", "Sai Teja", "Aishwarya Rao", "Vignesh Kumar", "Anjana Das", "Sourav Dutta", "Rituparna Sen", "Abhijit Roy", "Sreelakshmi Nair"]}, "note": "Saturday 31 October 2026 · All times IST · Chennai International Airport (MAA), Terminal 4 → Indira Gandhi International Airport (DEL), Terminal 3 · Boeing 777-300ER"}]
 };
 // Existing screen code reads this alias; keep it when adding roster entries.
 const SCHEDULE = ROSTER;
@@ -2995,9 +3010,9 @@ const CHATS = [
     name: "Swati Rawat",
     initials: "SR",
     photo: "https://media.licdn.com/dms/image/v2/D5603AQE8z-enSqcCYQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1731760067163?e=2147483647&v=beta&t=c_TGNiJSjUIPUFYRzoNw845BgcKg0MwPYq4znNIVpnk",
-    preview: "Okay captain.",
-    time: "06:15 PM",
-    date: "9 Oct 2026"
+    preview: "Hey Swati, Let me check with her and reply you till EOD.",
+    time: "04:53 PM",
+    date: "17 Oct 2026"
   },
   {
     name: "Anny Divya",
@@ -3061,7 +3076,10 @@ const CHAT_MESSAGES = [
     { direction: "outgoing", text: "Will this work if she increases her knowledge over functions of these software?", time: "06:12 PM" },
     { direction: "incoming", text: "The interviewer can tell her to perform some activities, then there she will fail.", time: "06:13 PM" },
     { direction: "outgoing", text: "Okay lend me some time i will tell you.", time: "06:14 PM" },
-    { direction: "incoming", text: "Okay captain.", time: "06:15 PM" }
+    { direction: "incoming", text: "Okay captain.", time: "06:15 PM" },
+    { direction: "incoming", text: "Hey Rishabh, has she read for the interview?", time: "04:41 PM", date: "Today, 17 Oct 2026" },
+    { direction: "incoming", text: "Like has she prepared or ready to give the interview?", time: "04:41 PM" },
+    { direction: "outgoing", text: "Hey Swati, Let me check with her and reply you till EOD.", time: "04:53 PM" }
   ],
   [
     { direction: "incoming", text: "Hey Rishabh hope you are doing well. I have told amrit for flight planning for AIC185.", time: "11:02 AM", date: "27 Sep 2026" },
@@ -3596,7 +3614,8 @@ function renderUpcomingDuties(){
 }
 
 function isRosterToBeReleased(dateStr){
-  return dateStr >= "2026-10-18" && dateStr <= "2026-10-31";
+  return dateStr >= "2026-10-18" && dateStr <= "2026-10-31" &&
+    !(SCHEDULE[dateStr] && SCHEDULE[dateStr].length);
 }
 
 function getDayDetailHTML(dateStr){
@@ -3624,7 +3643,7 @@ function getDayDetailHTML(dateStr){
 function isFlightTripDay(day, eventsMap){
   const items = (eventsMap && eventsMap[day]) || [];
   return items.some(item => {
-    if (item.type === "flight" || item.type === "layover" || item.continuation) return true;
+    if (item.type === "flight" || item.type === "inTransit" || item.type === "layover" || item.continuation) return true;
     if (item.type === "off" && item.note && /layover|post-duty/i.test(item.note)) return true;
     if (item.type === "off" && item.note && /layover|san francisco|birmingham|overnight/i.test(item.note)) return true;
     return false;
@@ -3695,6 +3714,12 @@ function buildCalendarGrid(monthDate, opts){
       } else if (primary.type === "training" || primary.type === "groundTraining" || primary.type === "easaTest"){
         iconHtml = `<span class="cal-ico cal-training-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3.5" width="13.5" height="13.5" rx="2.5" fill="#FCE7F3" stroke="#E0247D" stroke-width="1.6"/><path d="M2 8H15.5" stroke="#E0247D" stroke-width="1.5"/><path d="M5.5 1.8V4.5M11.5 1.8V4.5" stroke="#E0247D" stroke-width="1.6" stroke-linecap="round"/><circle cx="5.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="8.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="5.5" cy="14" r="0.8" fill="#E0247D"/><circle cx="17" cy="11.5" r="3.2" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5"/><path d="M12 20.5C12 17.5 14.2 16 17 16C19.8 16 22 17.5 22 20.5" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/></svg></span>`;
         codeHtml = `<span class="cal-code">DEL</span>`;
+      } else if (primary.type === "inTransit"){
+        iconHtml = `<i class="fa-solid fa-plane plane-dark cal-ico" aria-hidden="true"></i>`;
+        codeHtml = `<span class="cal-code">${primary.calendarCode || "ENR"}</span>`;
+      } else if (primary.type === "medical"){
+        iconHtml = `<i class="fa-solid fa-stethoscope medical-red cal-ico" aria-hidden="true"></i>`;
+        codeHtml = `<span class="cal-code">MED</span>`;
       } else if (primary.type === "reserve"){
         iconHtml = `<i class="fa-solid fa-clock reserve-teal cal-ico" aria-hidden="true"></i>`;
         codeHtml = `<span class="cal-code">${reserveLocationLabel(primary)}</span>`;
