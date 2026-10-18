@@ -3523,7 +3523,7 @@ function renderDashboard(){
         <span class="upnext-label">Today's Roster</span>
         <span class="upnext-status ${isRest ? "unpublished" : "published"}">${isRest ? "Rest day" : "Published"}</span>
       </div>
-      <div class="upnext-duty">${isFlight ? (item.continuation ? `Arrival · ${item.flightNo}` : item.flightNo) : (isRest ? (item.note || "Rest") : item.type === "easaTest" ? meta.label : meta.label + " (" + meta.label.toUpperCase() + ")")}</div>
+      <div class="upnext-duty">${isFlight ? (item.continuation ? `Arrival · ${item.flightNo}` : item.flightNo) : (isRest ? (item.note || "Rest") : ["easaTest", "medical"].includes(item.type) ? meta.label : meta.label + " (" + meta.label.toUpperCase() + ")")}</div>
       ${isFlight ? `
         <div class="upnext-route">
           <div class="up-pt"><div class="code">${item.dep}</div><div class="time">${item.continuation ? "—" : item.depTime}</div></div>
