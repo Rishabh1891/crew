@@ -1015,10 +1015,10 @@ input{ font-family:inherit; }
 /* --- Tabs --- */
 .bid-tabs{
   display:flex; border-bottom:1px solid var(--line,rgba(0,0,0,.08));
-  margin:0 14px; flex-shrink:0;
+  margin:0 14px; flex-shrink:0; overflow-x:auto;
 }
 .bid-tab{
-  flex:1; background:none; border:none; padding:10px 0; font-size:12.5px;
+  flex:1 0 auto; background:none; border:none; padding:10px 8px; font-size:12.5px; white-space:nowrap;
   font-weight:600; color:var(--ink-muted); cursor:pointer; position:relative;
   display:flex; align-items:center; justify-content:center; gap:5px;
   transition:color .15s;
@@ -2048,6 +2048,10 @@ body{ background:var(--bg-outer); }
       <div class="bid-tabs">
         <button class="bid-tab active" id="bid-tab-overview" onclick="switchBidTab('overview')">Overview</button>
         <button class="bid-tab" id="bid-tab-open" onclick="switchBidTab('open')">Open Time</button>
+        <button class="bid-tab" id="bid-tab-swaps" onclick="switchBidTab('swaps')">
+          Swap requests
+          <span class="bid-count-pill" id="bid-swaps-count">8</span>
+        </button>
         <button class="bid-tab" id="bid-tab-mybids" onclick="switchBidTab('mybids')">
           My Bids
           <span class="bid-count-pill" id="bid-mybids-count">2</span>
@@ -2693,11 +2697,17 @@ const ROSTER = {
     {type:"flight", flightNo:"AIC816", dep:"BOM", arr:"DEL", depTime:"21:00", arrTime:"23:15", airtime:"02h 15m", note:"All times IST · Return flight · Chhatrapati Shivaji Maharaj International Airport (BOM) → Indira Gandhi International Airport (DEL)", crew:{captains:["Arjun Mehta"],firstOfficers:["Rishabh Tripathi"],cabin:["Simran Kaur","Aarav Sharma","Ananya Iyer","Rohan Desai","Meera Nair","Aditya Reddy","Sayantani Roy","Chirag Patel","Dimple Bordoloi","Tenzin Dolma","Imran Khan","Pooja Hegde","Lalrinpuii Sailo","Siddharth Kulkarni","Ningthoujam Rahul"]}}
   ],
   "2026-10-23": [{"type": "off", "note": "Rest"}],
-  "2026-10-24": [{"type": "flight", "flightNo": "AI173", "dep": "DEL", "arr": "SFO", "depTime": "03:10", "arrTime": "07:00", "airtime": "16h 20m", "note": "Departure: 24 Oct, 03:10 AM IST (UTC+05:30) · Arrival: 24 Oct, 07:00 AM PDT (UTC−07:00) · Total air time: 16h 20m", "crew": {"captains": ["Rukumabh Venktaswamy", "Sobit Daga"], "firstOfficers": ["Rishabh Tripathi", "Maheep Singh"], "cabin": ["Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma", "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul"]}, "aircraft": "B777-300ER"}],
-  "2026-10-25": [{"type": "flight", "flightNo": "AI184", "aircraft": "B777-300ER", "crew": {"captains": ["Rukumabh Venktaswamy", "Sobit Daga"], "firstOfficers": ["Rishabh Tripathi", "Maheep Singh"], "cabin": ["Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma", "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul"]}, "dep": "SFO", "arr": "CCU", "depTime": "19:35", "arrTime": "01:15", "airtime": "17h 10m", "note": "Departure: Sunday 25 Oct 2026, 19:35 PDT (UTC−07:00), San Francisco International Airport, Terminal I · Arrival: Tuesday 27 Oct, 01:15 IST (UTC+05:30), Netaji Subhash Chandra Bose International Airport · Arrival +2 calendar days · SFO arrival-to-departure gap since AI173: 36h 35m · Continues to DEL on the same aircraft after a 1h 15m technical stop; passengers remain onboard"}],
-  "2026-10-26": [{"type": "flight", "flightNo": "AI184", "aircraft": "B777-300ER", "crew": {"captains": ["Rukumabh Venktaswamy", "Sobit Daga"], "firstOfficers": ["Rishabh Tripathi", "Maheep Singh"], "cabin": ["Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma", "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul"]}, "dep": "SFO", "arr": "CCU", "depTime": "19:35", "arrTime": "01:15", "airtime": "17h 10m", "note": "Roster date override: CCU arrival recorded on 26 Oct at 01:15 IST; actual itinerary arrival is 27 Oct · Continued from SFO departure 25 Oct, 19:35 PDT · Same aircraft and crew continue to DEL", "continuation": true, "continuesFrom": "2026-10-25"}, {"type": "technical", "location": "CCU", "start": "01:15", "end": "02:30", "note": "26 October · All times IST · Technical stop: 1h 15m · Passengers remain onboard · Same AI184 aircraft and crew"}, {"type": "flight", "flightNo": "AI184", "aircraft": "B777-300ER", "crew": {"captains": ["Rukumabh Venktaswamy", "Sobit Daga"], "firstOfficers": ["Rishabh Tripathi", "Maheep Singh"], "cabin": ["Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma", "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul"]}, "dep": "CCU", "arr": "DEL", "depTime": "02:30", "arrTime": "04:55", "airtime": "02h 25m", "showExitIcon": true, "note": "Roster date override: DEL exit from CCU recorded on 26 Oct at 04:55 IST; actual itinerary arrival is 27 Oct · Same AI184 aircraft and crew · CCU 02:30 → DEL Terminal 3, 04:55 IST · Roster arrival-to-AI308 departure gap: 45h 40m", "continuation": true, "continuesFrom": "2026-10-25"}],
-  "2026-10-27": [{"type": "off", "location": "DEL", "start": "00:00", "end": "23:59", "note": "Full-day rest · 27 October 2026 · Forced roster allocation following DEL exit recorded on 26 October · Next departure: AI308 on 28 Oct at 02:35 IST"}],
-  "2026-10-28": [{"type": "flight", "flightNo": "AI308", "aircraft": "B777-300ER", "dep": "DEL", "arr": "MEL", "depTime": "02:35", "arrTime": "20:20", "airtime": "12h 15m", "crew": {"captains": ["Michael Anderson", "Anjali Deshmukh"], "firstOfficers": ["Rishabh Tripathi", "Neha Kapoor"], "cabin": ["Priya Malhotra", "Rahul Bhatia", "Sneha Nair", "Karan Mehra", "Aditi Rao", "Arjun Sinha", "Pallavi Menon", "Rohit Khanna", "Ishita Sen", "Varun Joshi", "Nisha Thomas", "Sameer Kulkarni", "Rhea Fernandes", "Dev Patel", "Sana Ahmed"]}, "note": "Wednesday 28 October 2026 · Departure: 02:35 IST (UTC+05:30), Delhi Terminal 3 · Arrival: 20:20 AEDT (UTC+11:00), Melbourne Terminal 2 · Ground interval at MEL before AI309: 5h 10m · Roster gap at DEL since overridden AI184 exit 26 Oct, 04:55 IST: 45h 40m · Actual itinerary arrival-to-departure gap: 21h 40m"}],
+  "2026-10-24": [
+    {"type": "flight", "flightNo": "AI423", "aircraft": "B777-300ER", "dep": "DEL", "arr": "AMD", "depTime": "09:50", "arrTime": "11:40", "airtime": "01h 50m", "crew": {"captains": ["Rukumabh Venktaswamy", "Sobit Daga"], "firstOfficers": ["Rishabh Tripathi", "Maheep Singh"], "cabin": ["Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma", "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul"]}, "note": "24 October 2026 · All times IST · Scheduled / On Time · Boeing 777-300ER (B77W) · Delhi Terminal 3, Gate 44B → Ahmedabad Terminal 2"},
+    {"type": "flight", "flightNo": "AI424", "aircraft": "B777-300ER", "dep": "AMD", "arr": "DEL", "depTime": "12:30", "arrTime": "14:10", "airtime": "01h 40m", "crew": {"captains": ["Rukumabh Venktaswamy", "Sobit Daga"], "firstOfficers": ["Rishabh Tripathi", "Maheep Singh"], "cabin": ["Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma", "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul"]}, "note": "24 October 2026 · All times IST · Return sector · Scheduled / On Time · Boeing 777-300ER (B77W) · Ahmedabad Terminal 2 → Delhi Terminal 3 · Departure: 12:30 IST (some inventories display a 12:20 departure block)"}
+  ],
+  "2026-10-25": [{type:"off", location:"DEL", note:"Rest"}],
+  "2026-10-26": [
+    {type:"flight", flightNo:"AI421", aircraft:"B777-300ER", dep:"DEL", arr:"ATQ", depTime:"08:00", arrTime:"09:15", airtime:"01h 15m", note:"26 October 2026 · All times IST · Boeing 777-300ER (B77W) · Delhi Terminal 3 → Amritsar Terminal 2", crew:{captains:["Rukumabh Venktaswamy"],firstOfficers:["Rishabh Tripathi"],cabin:["Aanya Sharma","Ishita Mehra","Kavya Nair","Sneha Iyer","Riya Kapoor","Anushka Patel","Tanvi Deshmukh","Pallavi Reddy","Shreya Banerjee","Nandini Rao","Divya Menon","Priyanka Joshi","Megha Chatterjee","Aditi Singh","Sakshi Kulkarni"]}},
+    {type:"flight", flightNo:"AI422", aircraft:"B777-300ER", dep:"ATQ", arr:"DEL", depTime:"10:50", arrTime:"12:15", airtime:"01h 25m", note:"26 October 2026 · All times IST · Return sector · Boeing 777-300ER (B77W) · Amritsar Terminal 2 → Delhi Terminal 3", crew:{captains:["Rukumabh Venktaswamy"],firstOfficers:["Rishabh Tripathi"],cabin:["Aanya Sharma","Ishita Mehra","Kavya Nair","Sneha Iyer","Riya Kapoor","Anushka Patel","Tanvi Deshmukh","Pallavi Reddy","Shreya Banerjee","Nandini Rao","Divya Menon","Priyanka Joshi","Megha Chatterjee","Aditi Singh","Sakshi Kulkarni"]}}
+  ],
+  "2026-10-27": [{"type": "off", "location": "DEL", "start": "00:00", "end": "23:59", "note": "Full-day rest · 27 October 2026 · Next departure: AI308 on 28 Oct at 02:35 IST"}],
+  "2026-10-28": [{"type": "flight", "flightNo": "AI308", "aircraft": "B777-300ER", "dep": "DEL", "arr": "MEL", "depTime": "02:35", "arrTime": "20:20", "airtime": "12h 15m", "crew": {"captains": ["Michael Anderson", "Anjali Deshmukh"], "firstOfficers": ["Rishabh Tripathi", "Neha Kapoor"], "cabin": ["Priya Malhotra", "Rahul Bhatia", "Sneha Nair", "Karan Mehra", "Aditi Rao", "Arjun Sinha", "Pallavi Menon", "Rohit Khanna", "Ishita Sen", "Varun Joshi", "Nisha Thomas", "Sameer Kulkarni", "Rhea Fernandes", "Dev Patel", "Sana Ahmed"]}, "note": "Wednesday 28 October 2026 · Departure: 02:35 IST (UTC+05:30), Delhi Terminal 3 · Arrival: 20:20 AEDT (UTC+11:00), Melbourne Terminal 2 · Ground interval at MEL before AI309: 5h 10m"}],
   "2026-10-29": [{"type": "flight", "flightNo": "AI309", "aircraft": "B777-300ER", "dep": "MEL", "arr": "DEL", "depTime": "01:30", "arrTime": "08:50", "airtime": "12h 50m", "crew": {"captains": ["Michael Anderson", "Anjali Deshmukh"], "firstOfficers": ["Rishabh Tripathi", "Neha Kapoor"], "cabin": ["Priya Malhotra", "Rahul Bhatia", "Sneha Nair", "Karan Mehra", "Aditi Rao", "Arjun Sinha", "Pallavi Menon", "Rohit Khanna", "Ishita Sen", "Varun Joshi", "Nisha Thomas", "Sameer Kulkarni", "Rhea Fernandes", "Dev Patel", "Sana Ahmed"]}, "note": "Thursday 29 October 2026 · Departure: 01:30 AEDT (UTC+11:00), Melbourne Terminal 2 · Arrival: 08:50 IST (UTC+05:30), Delhi Terminal 3 · Ground interval since AI308 arrival: 5h 10m"}],
   "2026-10-30": [{"type": "off", "note": "Mandatory rest"}],
   "2026-10-31": [{"type": "flight", "flightNo": "AI537", "aircraft": "B777", "dep": "DEL", "arr": "MAA", "depTime": "15:45", "arrTime": "18:30", "airtime": "02h 45m", "crew": {"captains": ["Arvind Menon"], "firstOfficers": ["Rishabh Tripathi"], "cabin": ["Kavya Subramanian", "Arun Krishnan", "Meenakshi Raman", "Karthik Nair", "Lakshmi Menon", "Pranav Pillai", "Nandini Reddy", "Sai Teja", "Aishwarya Rao", "Vignesh Kumar", "Anjana Das", "Sourav Dutta", "Rituparna Sen", "Abhijit Roy", "Sreelakshmi Nair"]}, "note": "All times IST · 31 October · Boeing 777 · Return flight AI538 departs Chennai at 20:00 IST the same day"}, {"type": "flight", "flightNo": "AI538", "aircraft": "B777-300ER", "dep": "MAA", "arr": "DEL", "depTime": "20:00", "arrTime": "22:45", "airtime": "02h 45m", "crew": {"captains": ["Arvind Menon"], "firstOfficers": ["Rishabh Tripathi"], "cabin": ["Kavya Subramanian", "Arun Krishnan", "Meenakshi Raman", "Karthik Nair", "Lakshmi Menon", "Pranav Pillai", "Nandini Reddy", "Sai Teja", "Aishwarya Rao", "Vignesh Kumar", "Anjana Das", "Sourav Dutta", "Rituparna Sen", "Abhijit Roy", "Sreelakshmi Nair"]}, "note": "Saturday 31 October 2026 · All times IST · Chennai International Airport (MAA), Terminal 4 → Indira Gandhi International Airport (DEL), Terminal 3 · Boeing 777-300ER"}]
@@ -2708,11 +2718,19 @@ const SCHEDULE = ROSTER;
 /* ---- Mock duty swap requests -------------------------------------------
    direction: "incoming" (someone asked YOU) / "outgoing" (you requested) */
 let SWAPS = [
+  { id:4, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Nikhil Bhatia", crewId:"58172634", note:"First Officer · B777-300ER · Requesting both sectors, 08:00–12:15 IST. Can offer my 28 October Delhi–Mumbai return." },
+  { id:5, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Aditya Sethi", crewId:"63819427", note:"First Officer · B777-300ER · Available for the full Amritsar return trip. Happy to exchange a domestic turn later this month." },
+  { id:6, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Karan Malhotra", crewId:"71428653", note:"First Officer · B777-300ER · Prefer the 08:00 Delhi departure and 12:15 return. Can offer my 29 October Delhi–Ahmedabad return." },
+  { id:7, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Rohit Menon", crewId:"82936145", note:"First Officer · B777-300ER · Requesting the same-day AI421/AI422 pairing. Available to report at Delhi Terminal 3." },
+  { id:8, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Vivek Khanna", crewId:"49381726", note:"First Officer · B777-300ER · Looking for an Amritsar turn on 26 October. Can offer my 30 October Delhi–Hyderabad return." },
+  { id:9, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Arjun Nair", crewId:"56294813", note:"First Officer · B777-300ER · Available for AI421 at 08:00 and AI422 at 10:50. Prefer to swap the complete return pairing." },
+  { id:10, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Devansh Rao", crewId:"68723594", note:"First Officer · B777-300ER · Requesting your Delhi–Amritsar return. Can exchange my 31 October Delhi–Chennai return." },
+  { id:11, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Akash Kulkarni", crewId:"75349182", note:"First Officer · B777-300ER · Available for both legs on 26 October, returning to Delhi at 12:15 IST. Flexible on the exchange date." },
   { id:1, direction:"incoming", status:"pending",  date:"2026-11-07", route:"DEL → BOM · AI401", counterparty:"Ashu Puneet", crewId:"CA2231", note:"Family event, can trade my Nov 10 DXB turn if that helps." },
   { id:2, direction:"outgoing", status:"pending",  date:"2026-09-19", route:"DEL → DXB · AI945", counterparty:"Marcus Lee",    crewId:"CA1188", note:"" },
   { id:3, direction:"outgoing", status:"accepted", date:"2026-08-15", route:"DEL Training",       counterparty:"Priya Menon",   crewId:"CA1042", note:"" }
 ];
-let swapIdCounter = 4;
+let swapIdCounter = Math.max(...SWAPS.map(s => s.id)) + 1;
 
 /* ==========================================================================
    CREW DIRECTORY FOR DUTY SWAPS
@@ -4363,10 +4381,14 @@ function setSwapTab(tab){
 }
 
 function renderSwapList(){
-  const list = document.getElementById("swap-list");
   const items = SWAPS.filter(s => s.direction === swapTab);
+  renderSwapCards(document.getElementById("swap-list"), items,
+    `No ${swapTab === "incoming" ? "incoming" : "outgoing"} swap requests.`);
+}
+
+function renderSwapCards(list, items, emptyMessage = "No incoming swap requests for this month."){
   if (!items.length){
-    list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-people-arrows"></i><p>No ${swapTab === "incoming" ? "incoming" : "outgoing"} swap requests.</p></div>`;
+    list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-people-arrows"></i><p>${emptyMessage}</p></div>`;
     return;
   }
   list.innerHTML = items.map(s => `
@@ -4398,6 +4420,7 @@ function respondSwap(id, newStatus){
   if (!s) return;
   s.status = newStatus;
   renderSwapList();
+  renderBidContent();
   renderDashboard();
   showToast(newStatus === "accepted" ? "Swap accepted" : (s.direction === "outgoing" ? "Request cancelled" : "Swap declined"),
             newStatus === "accepted" ? "fa-circle-check" : "fa-circle-xmark");
@@ -4555,7 +4578,7 @@ function submitSwapRequest(){
    ========================================================================== */
 
 /* ---- State ---- */
-let bidTab = "overview";          // "overview" | "open" | "mybids"
+let bidTab = "overview";          // "overview" | "open" | "swaps" | "mybids"
 let bidFilter = "all";        // filter chip value
 let bidPeriodOffset = 0;      // months offset from current month
 let placedBids = new Set();   // IDs of open-time pairings user has bid on this session
@@ -4783,6 +4806,7 @@ function switchBidTab(tab){
   bidTab = tab;
   document.getElementById("bid-tab-overview").classList.toggle("active", tab === "overview");
   document.getElementById("bid-tab-open").classList.toggle("active", tab === "open");
+  document.getElementById("bid-tab-swaps").classList.toggle("active", tab === "swaps");
   document.getElementById("bid-tab-mybids").classList.toggle("active", tab === "mybids");
   const filtersEl = document.getElementById("bid-filters");
   if (filtersEl) filtersEl.style.display = tab === "open" ? "flex" : "none";
@@ -4799,10 +4823,18 @@ function setBidFilter(btn, filter){
 function renderBidContent(){
   const content = document.getElementById("bid-content");
   if (!content) return;
+  const requests = SWAPS.filter(s => s.direction === "incoming" && s.date.startsWith(boardMonthKey()));
+  const pendingRequests = requests.filter(s => s.status === "pending").length;
+  document.getElementById("bid-swaps-count").textContent = pendingRequests;
   if (bidTab === "overview"){
     renderBoardOverview(content);
   } else if (bidTab === "open"){
     renderOpenTime(content);
+  } else if (bidTab === "swaps"){
+    renderSwapCards(content, requests);
+    if (requests.length){
+      content.innerHTML = `<p class="board-note" role="status">${pendingRequests} pending pilot request${pendingRequests === 1 ? "" : "s"} · ${requests.length} total</p>` + content.innerHTML;
+    }
   } else {
     renderMyBids(content);
   }
