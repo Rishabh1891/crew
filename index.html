@@ -835,6 +835,13 @@ input{ font-family:inherit; }
 .duty-expand{ max-height:0; overflow:hidden; transition:max-height .32s ease; }
 .duty-expand-inner{ padding-top:8px; }
 .duty-expand-card{ background:var(--card-alt); border-radius:var(--radius-md); padding:14px 16px 6px; }
+.schedule-notice{
+  display:flex; gap:10px; align-items:flex-start; margin-top:10px; padding:12px 14px;
+  border:1px solid #F2C7CD; border-radius:var(--radius-sm); background:#FFF4F5; color:#8E2636;
+  font-size:12.5px; font-weight:600; line-height:1.45;
+}
+.schedule-notice i{ margin-top:2px; color:#C23B4A; }
+:root[data-theme="dark"] .schedule-notice{ background:#351D25; border-color:#713240; color:#F5B7C0; }
 
 .crew-section-label{ font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--ink-muted); margin:0 0 6px; }
 .crew-section-label.second{ margin-top:12px; }
@@ -2721,6 +2728,13 @@ const ROSTER = {
 // Existing screen code reads this alias; keep it when adding roster entries.
 const SCHEDULE = ROSTER;
 
+// These notices are scoped to the affected Chennai sector and are shown only
+// in the selected day's detail panel.
+const SCHEDULE_NOTICES = {
+  "2026-09-15": "Operations suspended due to AEP issue for this sector only.",
+  "2026-09-16": "Layover suspended for this sector only."
+};
+
 /* ---- Mock duty swap requests -------------------------------------------
    direction: "incoming" (someone asked YOU) / "outgoing" (you requested) */
 let SWAPS = [
@@ -3678,7 +3692,10 @@ function getDayDetailHTML(dateStr){
   if (items.length === 1 && items[0].type === "off"){
     return head + `<div class="empty-state"><i class="fa-solid fa-star" style="color:#D12B6D;"></i><p>${items[0].note || "Rest"}. Enjoy the rest!</p></div>`;
   }
-  return head + buildDutyRowsHTML(items, dateStr, "");
+  const notice = SCHEDULE_NOTICES[dateStr]
+    ? `<div class="schedule-notice" role="note"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><span>${SCHEDULE_NOTICES[dateStr]}</span></div>`
+    : "";
+  return head + buildDutyRowsHTML(items, dateStr, "") + notice;
 }
 
 function isFlightTripDay(day, eventsMap){
