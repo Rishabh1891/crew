@@ -1229,6 +1229,9 @@ input{ font-family:inherit; }
 .message-row.outgoing .message-bubble{ background:var(--navy); color:#fff; border-bottom-right-radius:5px; }
 .message-time{ margin:4px 5px 0; font-size:9.5px; color:var(--ink-muted); }
 .message-media{ display:block; max-width:220px; max-height:240px; border-radius:10px; object-fit:cover; }
+.message-caption{ margin-top:7px; padding:10px 12px; border-radius:15px; font-size:13px; line-height:1.45; white-space:pre-line; overflow-wrap:anywhere; }
+.message-row.outgoing .message-caption{ background:var(--navy); color:#fff; border-bottom-right-radius:5px; }
+.message-row.incoming .message-caption{ background:#E7E7EA; color:#17191D; border-bottom-left-radius:5px; }
 .message-file-card{ display:flex; flex-direction:column; gap:6px; max-width:230px; }
 .message-file-thumb{ display:block; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.18); }
 .message-file-thumb img{ width:100%; display:block; object-fit:cover; }
@@ -3048,9 +3051,9 @@ const CHATS = [
     name: "Swati Rawat",
     initials: "SR",
     photo: "https://media.licdn.com/dms/image/v2/D5603AQE8z-enSqcCYQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1731760067163?e=2147483647&v=beta&t=c_TGNiJSjUIPUFYRzoNw845BgcKg0MwPYq4znNIVpnk",
-    preview: "Hey Rishabh, an e-mail has been sent to Akanksha for the assesment. Please tell her all the best",
-    time: "06:43 PM",
-    date: "24 Oct 2026"
+    preview: "She will have to fill a pre-interview form for cross checking the details.",
+    time: "05:41 PM",
+    date: "26 Oct 2026"
   },
   {
     name: "Anny Divya",
@@ -3134,7 +3137,11 @@ const CHAT_MESSAGES = [
     {"direction": "incoming", "text": "Okay i will check with the IOCC recruiters to arrange her test link.", "time": "06:19 PM"},
     {"direction": "incoming", "text": "Hey Rishabh, your roster has been updated to training.", "time": "03:11 PM", "date": "24 Oct 2026"},
     {"direction": "incoming", "text": "And for Akanksha, I will provide the link soon. Tell her all the best and love from my side. ❤️", "time": "03:13 PM"},
-    {"direction": "incoming", "text": "Hey Rishabh, an e-mail has been sent to Akanksha for the assesment. Please tell her all the best", "time": "06:43 PM", "date": "24 Oct 2026"}
+    {"direction": "incoming", "text": "Hey Rishabh, an e-mail has been sent to Akanksha for the assesment. Please tell her all the best", "time": "06:43 PM", "date": "24 Oct 2026"},
+    {"direction": "outgoing", "kind": "image", "name": "Assessment result", "url": "assessment-result-26-oct.svg", "text": "Hey Swati, she did good, and may i know what's the next process and what does this message mean?", "time": "05:36 PM", "date": "26 Oct 2026"},
+    {"direction": "incoming", "text": "Well congrats and good to see that. It means the submission is being reviewed just to ensure that it was not cheated using any tool.", "time": "05:38 PM"},
+    {"direction": "outgoing", "text": "Okay what will happen next.", "time": "05:40 PM"},
+    {"direction": "incoming", "text": "She will have to fill a pre-interview form for cross checking the details. Then she will be called for an face to face round.\n\nand you will get 17,000 rs if she cleared the probation as a referral bonus👍", "time": "05:41 PM"}
   ],
   [
     { direction: "incoming", text: "Hey Rishabh hope you are doing well. I have told amrit for flight planning for AIC185.", time: "11:02 AM", date: "27 Sep 2026" },
@@ -5107,7 +5114,7 @@ function renderChatInbox(){
       dateHeaderHtml = `<div class="chat-date-divider"><span>${escapeChatText(message.date)}</span></div>`;
     }
     let content = "";
-    if (message.kind === "image") content = `<img class="message-media" src="${message.url}" alt="${escapeChatText(message.name || '')}">`;
+    if (message.kind === "image") content = `<img class="message-media" src="${message.url}" alt="${escapeChatText(message.name || '')}">${message.text ? `<div class="message-caption">${escapeChatText(message.text)}</div>` : ""}`;
     else if (message.kind === "video") content = `<video class="message-media" src="${message.url}" controls></video>`;
     else if (message.kind === "audio") content = `<audio src="${message.url}" controls></audio>`;
     else if (message.kind === "file" || message.file) {
