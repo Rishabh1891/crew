@@ -1866,6 +1866,14 @@ body{ background:var(--bg-outer); }
 #app-root .cal-cell.roster-to-be-released .cal-num{ color:#A3A8B0 !important; }
 :root[data-theme="dark"] #app-root .cal-cell.roster-to-be-released{ background:#252A32 !important; }
 :root[data-theme="dark"] #app-root .cal-cell.roster-to-be-released .cal-num{ color:#858B95 !important; }
+#app-root .cal-cell.nov-rest-grey{ background:#E5E7EB !important; }
+#app-root .cal-cell.nov-rest-grey .cal-num,
+#app-root .cal-cell.nov-rest-grey .cal-code{ color:#6B7280 !important; }
+#app-root .cal-cell.nov-rest-grey .cal-ico{ color:#E0247D !important; }
+:root[data-theme="dark"] #app-root .cal-cell.nov-rest-grey{ background:#303640 !important; }
+:root[data-theme="dark"] #app-root .cal-cell.nov-rest-grey .cal-num,
+:root[data-theme="dark"] #app-root .cal-cell.nov-rest-grey .cal-code{ color:#A1A8B3 !important; }
+:root[data-theme="dark"] #app-root .cal-cell.nov-rest-grey .cal-ico{ color:#F38CBD !important; }
 </style>
 </head>
 <body>
@@ -2726,7 +2734,33 @@ const ROSTER = {
   "2026-10-31": [
     {type:"training", location:"Air India Training Academy", start:"11:00", end:"14:00", note:"Pilot Fog Training · 11:00 AM–02:00 PM IST"},
     {type:"training", location:"Aircraft Visit", start:"16:00", end:"18:00", note:"Aircraft Visit · 04:00 PM–06:00 PM IST"}
-  ]
+  ],
+  // November 2026 roster
+  "2026-11-01": [{type:"off", note:"Star"}],
+  "2026-11-02": [
+    {type:"flight", flightNo:"AI 421", dep:"DEL", arr:"ATQ", depTime:"08:05", arrTime:"09:25", airtime:"01h 20m", note:"Outbound · Delhi to Amritsar", crew:{captains:["Karthik Subramanian"],firstOfficers:["Rishabh Tripathi"],cabin:["Simran Kaur","Aarav Sharma","Ananya Iyer","Rohan Desai","Meera Nair","Aditya Reddy","Sayantani Roy","Chirag Patel","Dimple Bordoloi","Tenzin Dolma","Imran Khan","Pooja Hegde","Lalrinpuii Sailo","Siddharth Kulkarni","Ningthoujam Rahul"]}},
+    {type:"flight", flightNo:"AI 422", dep:"ATQ", arr:"DEL", depTime:"10:45", arrTime:"12:10", airtime:"01h 25m", note:"Inbound · Amritsar to Delhi", crew:{captains:["Karthik Subramanian"],firstOfficers:["Rishabh Tripathi"],cabin:["Simran Kaur","Aarav Sharma","Ananya Iyer","Rohan Desai","Meera Nair","Aditya Reddy","Sayantani Roy","Chirag Patel","Dimple Bordoloi","Tenzin Dolma","Imran Khan","Pooja Hegde","Lalrinpuii Sailo","Siddharth Kulkarni","Ningthoujam Rahul"]}}
+  ],
+  "2026-11-03": [
+    {type:"flight", flightNo:"AI 441", dep:"DEL", arr:"BOM", depTime:"17:00", arrTime:"19:15", airtime:"02h 15m", note:"Outbound · Delhi to Mumbai"},
+    {type:"flight", flightNo:"AI 442", dep:"BOM", arr:"DEL", depTime:"20:30", arrTime:"22:45", airtime:"02h 15m", note:"Inbound · Mumbai to Delhi"}
+  ],
+  "2026-11-04": [{type:"off", note:"Rest"}],
+  "2026-11-05": [
+    {type:"flight", flightNo:"AI 421", dep:"DEL", arr:"ATQ", depTime:"09:45", arrTime:"11:05", airtime:"01h 20m", note:"DEL Terminal 3 to ATQ"},
+    {type:"layover", location:"Amritsar, India", hotel:{name:"Taj Swarna", address:"Plot No. C-3, Outer Circular Road, Basant Avenue, Amritsar, Punjab 143001"}, note:"Layover begins at Taj Swarna"}
+  ],
+  "2026-11-06": [{type:"flight", flightNo:"AI 117", dep:"ATQ", arr:"BHX", depTime:"13:55", arrTime:"18:15", airtime:"09h 50m", note:"International sector · Arrival time UK local time", crew:{captains:["Shekhar Trichipalli","Manu Kulkarni"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
+  "2026-11-07": [{type:"layover", location:"Birmingham, UK", hotel:{name:"Novotel Birmingham Airport"}, note:"Layover in Birmingham"}],
+  "2026-11-08": [{type:"flight", flightNo:"AI 118", dep:"BHX", arr:"ATQ", depTime:"20:30", arrTime:"11:45+1", airtime:"09h 45m", note:"International sector · Departure UK time · Arrival Nov 9 India time", crew:{captains:["Shekhar Trichipalli","Manu Kulkarni"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
+  "2026-11-09": [{type:"flight", flightNo:"AI 422", dep:"ATQ", arr:"DEL", depTime:"13:30", arrTime:"14:55", airtime:"01h 25m", note:"Nov 9 · Amritsar to Delhi"}],
+  "2026-11-10": [{type:"off", note:"Rest"}],
+  "2026-11-11": [{type:"off", note:"Rest"}],
+  "2026-11-12": [{type:"flight", flightNo:"AI 173", dep:"DEL", arr:"SFO", depTime:"03:10", arrTime:"07:00", airtime:"16h 20m", note:"International sector · DEL Terminal 3 to SFO", crew:{captains:["Zoya Aggarwall","Shreyas Kapoor"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
+  "2026-11-13": [{type:"layover", location:"San Francisco, USA", hotel:{name:"Taj Crampton Place", address:"340 Stockton St, San Francisco, CA 94108, USA"}, note:"Layover at Taj Crampton Place, San Francisco"}],
+  "2026-11-14": [{type:"flight", flightNo:"AI 174", dep:"SFO", arr:"DEL", depTime:"10:30", arrTime:"16:45+1", airtime:"15h 45m", note:"International sector · SFO International Terminal · Arrival Nov 15 at DEL Terminal 3", crew:{captains:["Zoya Aggarwall","Shreyas Kapoor"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
+  "2026-11-15": [{type:"off", note:"Rest"}],
+  "2026-11-16": [{type:"off", note:"Rest"}]
 };
 // Existing screen code reads this alias; keep it when adding roster entries.
 const SCHEDULE = ROSTER;
@@ -3176,8 +3210,9 @@ const DOCUMENTS = [
 /* ==========================================================================
    STATE
    ========================================================================== */
-let scheduleViewMonth = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
-let scheduleSelectedDate = fmt(TODAY);
+// November is the active published roster month.
+let scheduleViewMonth = new Date(2026, 10, 1);
+let scheduleSelectedDate = "2026-11-01";
 let scheduleDetailOpen = false;
 let swapViewMonth = new Date(TODAY.getFullYear(), TODAY.getMonth() + 2, 1); // Oct 2026 default, mirrors reference design
 let swapSelectedDate = null;
@@ -3676,7 +3711,8 @@ function renderUpcomingDuties(){
 }
 
 function isRosterToBeReleased(dateStr){
-  return dateStr >= "2026-10-18" && dateStr <= "2026-10-31" &&
+  return ((dateStr >= "2026-10-18" && dateStr <= "2026-10-31") ||
+    (dateStr >= "2026-11-17" && dateStr <= "2026-11-30")) &&
     !(SCHEDULE[dateStr] && SCHEDULE[dateStr].length);
 }
 
@@ -3752,6 +3788,7 @@ function buildCalendarGrid(monthDate, opts){
     const isSelected = dateStr === opts.selected;
     const events = (opts.eventsMap && opts.eventsMap[dateStr]) || [];
     const primary = events.find(e => e.type !== "off") || events[0];
+    const isNovemberRest = dateStr.startsWith("2026-11-") && primary?.type === "off" && primary.note !== "Star";
     const flightSpanClass = opts.showFlightSpans ? flightSpanPosition(dateStr, opts.eventsMap) : "";
 
     let iconHtml = "", codeHtml = "";
@@ -3807,7 +3844,7 @@ function buildCalendarGrid(monthDate, opts){
                 title="To be Released" aria-label="${prettyDate(dateStr, {weekday:'long', day:'numeric', month:'long'})} — To be Released">
           <span class="cal-num">${day}</span>
         </button>`);
-    } else if (opts && opts.isUnpublished){
+    } else if (opts && opts.isUnpublished && !events.length){
       cells.push(`
         <button type="button" class="cal-cell unpublished-block" data-date="${dateStr}">
           <span class="cal-num">${day}</span>
@@ -3815,7 +3852,7 @@ function buildCalendarGrid(monthDate, opts){
     } else {
       cells.push(`
         <button type="button"
-                class="cal-cell ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${flightSpanClass ? "flight-span-cell" : ""}"
+                class="cal-cell ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isNovemberRest ? "nov-rest-grey" : ""} ${flightSpanClass ? "flight-span-cell" : ""}"
                 data-date="${dateStr}"
                 ${opts && opts.onSelectFn ? `onclick="${opts.onSelectFn}('${dateStr}')"` : ""}
                 title="${dutyMeaning}"
@@ -3843,7 +3880,7 @@ function buildCalendarGrid(monthDate, opts){
 
 function renderMonthBlockHTML(year, month){
   const label = new Date(year, month, 1).toLocaleDateString("en-US", { month:"long", year:"numeric" });
-  const isUnpublished = (year > 2026 || (year === 2026 && month >= 10)); // Nov 2026+
+  const isUnpublished = (year > 2026 || (year === 2026 && month > 10)); // Dec 2026+
   const gridHtml = buildCalendarGrid(new Date(year, month, 1), {
     selected: scheduleSelectedDate,
     eventsMap: SCHEDULE,
