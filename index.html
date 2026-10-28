@@ -822,6 +822,16 @@ input{ font-family:inherit; }
 .duty-item .di-duty-icon-image{ width:22px; height:22px; object-fit:contain; }
 .duty-item .di-body{ flex:1; min-width:0; }
 .duty-item .di-title{ font-weight:700; font-size:14px; color:var(--ink); margin-bottom:9px; }
+.flight-di-title{ display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
+.flight-time-badge{
+  display:inline-flex; align-items:center; gap:6px; margin:0; padding:3px 8px;
+  border:1px solid #FCD34D; border-radius:7px; background:#FEF3C7; color:#92400E;
+  font-size:10.5px; font-weight:700; line-height:1.25; width:max-content;
+}
+.flight-time-badge i{ font-size:10px; }
+:root[data-theme="dark"] .flight-time-badge{
+  background:#422006; border-color:#A16207; color:#FDE68A;
+}
 .di-grid{ display:flex; align-items:flex-start; gap:10px; }
 .di-col{ flex:1; min-width:0; }
 .di-col .di-label{ font-size:10.5px; color:var(--ink-muted); text-transform:capitalize; margin-bottom:3px; }
@@ -1866,14 +1876,6 @@ body{ background:var(--bg-outer); }
 #app-root .cal-cell.roster-to-be-released .cal-num{ color:#A3A8B0 !important; }
 :root[data-theme="dark"] #app-root .cal-cell.roster-to-be-released{ background:#252A32 !important; }
 :root[data-theme="dark"] #app-root .cal-cell.roster-to-be-released .cal-num{ color:#858B95 !important; }
-#app-root .cal-cell.nov-rest-grey{ background:#E5E7EB !important; }
-#app-root .cal-cell.nov-rest-grey .cal-num,
-#app-root .cal-cell.nov-rest-grey .cal-code{ color:#6B7280 !important; }
-#app-root .cal-cell.nov-rest-grey .cal-ico{ color:#E0247D !important; }
-:root[data-theme="dark"] #app-root .cal-cell.nov-rest-grey{ background:#303640 !important; }
-:root[data-theme="dark"] #app-root .cal-cell.nov-rest-grey .cal-num,
-:root[data-theme="dark"] #app-root .cal-cell.nov-rest-grey .cal-code{ color:#A1A8B3 !important; }
-:root[data-theme="dark"] #app-root .cal-cell.nov-rest-grey .cal-ico{ color:#F38CBD !important; }
 </style>
 </head>
 <body>
@@ -2760,8 +2762,59 @@ const ROSTER = {
   "2026-11-13": [{type:"layover", location:"San Francisco, USA", hotel:{name:"Taj Crampton Place", address:"340 Stockton St, San Francisco, CA 94108, USA"}, note:"Layover at Taj Crampton Place, San Francisco"}],
   "2026-11-14": [{type:"flight", flightNo:"AI 174", dep:"SFO", arr:"DEL", depTime:"10:30", arrTime:"16:45+1", airtime:"15h 45m", note:"International sector · SFO International Terminal · Arrival Nov 15 at DEL Terminal 3", crew:{captains:["Zoya Aggarwall","Shreyas Kapoor"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
   "2026-11-15": [{type:"off", note:"Rest"}],
-  "2026-11-16": [{type:"off", note:"Rest"}]
+  "2026-11-16": [{type:"off", note:"Rest"}],
+  "2026-11-17": [
+    {type:"flight", flightNo:"AI 2943", aircraft:"Airbus A350", dep:"DEL", arr:"BOM", depTime:"07:30", arrTime:"09:45", airtime:"02h 15m", isDeadhead:true, note:"ACM flight · Deadhead (DH) positioning flight", crew:{cockpitCount:4,cabinCount:15}},
+    {type:"layover", location:"Mumbai, India", hotel:{name:"Grand Hyatt Mumbai Hotel & Residences"}, note:"Layover at Grand Hyatt Mumbai"}
+  ],
+  "2026-11-18": [
+    {type:"flight", flightNo:"AI 193", dep:"BOM", arr:"FCO", depTime:"04:00", arrTime:"08:50", airtime:"08h 20m", note:"Departure 04:00 IST · Arrival approximately 08:50 Rome local time"},
+    {type:"layover", location:"Rome, Italy", hotel:{name:"Hilton Rome Airport"}, note:"Layover until the night of 19 November"}
+  ],
+  "2026-11-19": [{type:"flight", flightNo:"AI 119", dep:"FCO", arr:"BOM", depTime:"22:40", arrTime:"10:05+1", airtime:"07h 55m", note:"Take-off 22:40 Rome local time on 19 November · Landing 10:05 IST in Mumbai on 20 November"}],
+  "2026-11-20": [
+    {type:"flight", flightNo:"AI 119", dep:"FCO", arr:"BOM", arrTime:"10:05", airtime:"07h 55m", continuation:true, continuesFrom:"2026-11-19", showExitIcon:true, note:"Arrival exit at BOM · 10:05 IST"},
+    {type:"flight", flightNo:"AI 864", dep:"BOM", arr:"DEL", depTime:"11:00", arrTime:"13:15", airtime:"02h 15m", isDeadhead:true, note:"Deadhead (DH) positioning flight · Mumbai to Delhi"}
+  ],
+  "2026-11-21": [{type:"off", note:"Rest"}],
+  "2026-11-22": [{type:"off", note:"Rest"}],
+  "2026-11-23": [{type:"reserve", location:"DEL", start:"04:22", end:"13:10", note:"Starting Queue 68"}],
+  "2026-11-24": [{type:"flight", flightNo:"AI 308", dep:"DEL", arr:"MEL", depTime:"02:35", arrTime:"20:20", airtime:"12h 15m", note:"Air India · Local times · Departure from Indira Gandhi International Airport, Terminal 3 · Arrival at Melbourne Airport"}],
+  "2026-11-25": [{type:"flight", flightNo:"AI 309", dep:"MEL", arr:"DEL", depTime:"01:30", arrTime:"08:50", airtime:"12h 50m", note:"Local times · Departure from Melbourne Airport, Terminal 2 · Arrival at Indira Gandhi International Airport, Terminal 3"}],
+  "2026-11-26": [{type:"off", note:"Rest"}],
+  "2026-11-27": [{type:"off", note:"Rest"}],
+  "2026-11-28": [
+    {type:"flight", flightNo:"AI 187", aircraft:"Boeing 777-300ER (B77W)", dep:"DEL", arr:"YYZ", depTime:"03:00", arrTime:"07:15", airtime:"14h 45m", note:"Air India nonstop · Departure DEL Terminal 3 at 03:00 IST · Arrival Toronto Pearson Terminal 1 at 07:15 EST", crew:{captains:["Raj Chandok","Gautam Hathiramani"],firstOfficers:["Rishabh Tripathi","Amit Sharma"]}},
+    {type:"layover", location:"Toronto, Canada", hotel:{name:"Novotel Toronto Centre"}, note:"Mandatory rest and recovery for the four-person cockpit crew through 29 November"}
+  ],
+  "2026-11-29": [{type:"flight", flightNo:"AI 188", aircraft:"Boeing 777-300ER (B77W)", dep:"YYZ", arr:"DEL", depTime:"12:15", arrTime:"14:45+1", airtime:"14h 00m", note:"Air India nonstop · Departure Toronto Pearson Terminal 1 at 12:15 EST · Arrival DEL Terminal 3 at 14:45 IST on 30 November", crew:{captains:["Raj Chandok","Gautam Hathiramani"],firstOfficers:["Rishabh Tripathi","Amit Sharma"]}}],
+  "2026-11-30": [{type:"flight", flightNo:"AI 188", aircraft:"Boeing 777-300ER (B77W)", dep:"YYZ", arr:"DEL", arrTime:"14:45", airtime:"14h 00m", continuation:true, continuesFrom:"2026-11-29", showExitIcon:true, note:"Arrival at Indira Gandhi International Airport, Terminal 3 · 14:45 IST"}]
 };
+
+// Assign a varied mock crew roster to each November flight. Rishabh Tripathi
+// remains the fixed First Officer on every sector.
+const NOVEMBER_CAPTAINS = ["Arjun Mehta", "Karthik Subramanian", "Zoya Aggarwall", "Manu Kulkarni", "Shekhar Trichipalli", "Vikramaditya Singh", "Anny Divya", "Shreyas Kapoor"];
+const NOVEMBER_FIRST_OFFICERS = ["Amrit Kaur", "Maheep Singh", "Rashot Ulook Totiya", "Sobit Daga", "Ankit Vats", "Soniya Gupta"];
+const NOVEMBER_CABIN_CREW = [
+  "Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma",
+  "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul", "Shivani Singh", "Kritika Reddy", "Ankit Sahu", "Mayank Bundela", "Lunkim Haokip",
+  "Kavita Kullupati", "Meera Pillai", "Shreya Nair", "Deboleena Mukherjee", "Anirban Bhattacharya", "Subhashree Ghosh", "Debanjan Banerjee", "Arpita Chakraborty", "Kalyani Mukherji", "Meenakshi Sati"
+];
+function novemberCrew(seed){
+  const offset = [...seed].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const pick = (pool, index) => pool[(offset + index) % pool.length];
+  return {
+    captains:[pick(NOVEMBER_CAPTAINS, 0), pick(NOVEMBER_CAPTAINS, 3)],
+    firstOfficers:["Rishabh Tripathi", pick(NOVEMBER_FIRST_OFFICERS, 1)],
+    cabin:Array.from({length:15}, (_, index) => pick(NOVEMBER_CABIN_CREW, index * 2))
+  };
+}
+for (const [date, events] of Object.entries(ROSTER)){
+  if (!date.startsWith("2026-11-")) continue;
+  events.filter(event => event.type === "flight").forEach(event => {
+    event.crew = {...novemberCrew(`${date}-${event.flightNo}`), ...(event.crew || {})};
+  });
+}
 // Existing screen code reads this alias; keep it when adding roster entries.
 const SCHEDULE = ROSTER;
 
@@ -3788,7 +3841,6 @@ function buildCalendarGrid(monthDate, opts){
     const isSelected = dateStr === opts.selected;
     const events = (opts.eventsMap && opts.eventsMap[dateStr]) || [];
     const primary = events.find(e => e.type !== "off") || events[0];
-    const isNovemberRest = dateStr.startsWith("2026-11-") && primary?.type === "off" && primary.note !== "Star";
     const flightSpanClass = opts.showFlightSpans ? flightSpanPosition(dateStr, opts.eventsMap) : "";
 
     let iconHtml = "", codeHtml = "";
@@ -3852,7 +3904,7 @@ function buildCalendarGrid(monthDate, opts){
     } else {
       cells.push(`
         <button type="button"
-                class="cal-cell ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isNovemberRest ? "nov-rest-grey" : ""} ${flightSpanClass ? "flight-span-cell" : ""}"
+                class="cal-cell ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${flightSpanClass ? "flight-span-cell" : ""}"
                 data-date="${dateStr}"
                 ${opts && opts.onSelectFn ? `onclick="${opts.onSelectFn}('${dateStr}')"` : ""}
                 title="${dutyMeaning}"
@@ -4168,7 +4220,7 @@ function buildDutyRowsHTML(items, dateStr, keyPrefix){
   items.forEach((item, idx) => {
     const meta = dutyMeta(item.type);
     const key = `${keyPrefix}${dateStr}__${idx}`;
-    let title, gridHtml = "", noteHtml = "", clickable = false, expandHtml = "";
+    let title, gridHtml = "", noteHtml = "", flightTimeHtml = "", clickable = false, expandHtml = "";
 
     if (item.type === "flight" && item.continuation){
       title = `Arrival · ${item.flightNo}`;
@@ -4189,7 +4241,8 @@ function buildDutyRowsHTML(items, dateStr, keyPrefix){
           <div class="di-col"><div class="di-label">Scheduled arrival</div><div class="di-value">${item.arr} ${item.arrTime}</div></div>
         </div>`;
       const airtime = item.airtime || fmtHrsMins(flightDurationMinutes(item));
-      noteHtml = `<div class="di-note">${item.isDeadhead ? "Deadhead (DH) positioning · " : "Sector flight time · "}${airtime}${item.aircraft ? ` · ${item.aircraft}` : ""}${item.note ? ` · ${item.note}` : ""}</div>`;
+      flightTimeHtml = airtime ? `<span class="flight-time-badge"><i class="fa-regular fa-clock" aria-hidden="true"></i> ${airtime}</span>` : "";
+      noteHtml = `<div class="di-note">${item.isDeadhead ? "Deadhead (DH) positioning" : ""}${item.aircraft ? `${item.isDeadhead ? " · " : ""}${item.aircraft}` : ""}${item.note ? `${item.isDeadhead || item.aircraft ? " · " : ""}${item.note}` : ""}</div>`;
       clickable = !item.isDeadhead;
       expandHtml = item.isDeadhead ? "" : buildCrewListHTML(item);
     } else if (item.type === "report"){
@@ -4250,7 +4303,7 @@ function buildDutyRowsHTML(items, dateStr, keyPrefix){
              ${clickable ? `onclick="toggleDutyDetail('${key}')"` : ""}>
           <div class="di-icon" style="color:${meta.fg};">${scheduleImageIcon(item, "di-duty-icon-image") || `<i class="fa-solid ${meta.icon}"></i>`}</div>
           <div class="di-body">
-            <div class="di-title">${title}</div>
+            <div class="di-title ${item.type === "flight" ? "flight-di-title" : ""}">${title}${flightTimeHtml}</div>
             ${gridHtml}
             ${noteHtml}
           </div>
@@ -4405,6 +4458,8 @@ function buildCrewListHTML(item){
   const cabin = (configured.cabin || []).map((name, index) => ({
     role:index === 0 ? "Lead Cabin Crew" : "Cabin Crew", name
   }));
+  const cockpitCount = configured.cockpitCount || cockpit.length;
+  const cabinCount = configured.cabinCount || cabin.length;
   const rowsHtml = (arr) => arr.map(c => `
     <div class="crew-row">
       <div class="crew-avatar">${initials(c.name)}</div>
@@ -4412,10 +4467,11 @@ function buildCrewListHTML(item){
     </div>`).join("");
   return `
     <div class="di-title">Flight No ${escapeChatText(item.flightNo || "")}</div>
-    <div class="crew-section-label">Crew Portal · Cockpit Crew</div>
+    <div class="crew-section-label">Crew Portal · Cockpit Crew${cockpitCount ? ` (${cockpitCount})` : ""}</div>
     ${cockpit.length ? rowsHtml(cockpit) : `<div class="empty-state"><p>No cockpit crew assigned.</p></div>`}
-    <div class="crew-section-label second">Cabin Crew</div>
-    ${cabin.length ? rowsHtml(cabin) : `<div class="empty-state"><p>No cabin crew assigned.</p></div>`}`;
+    ${configured.cockpitCount && !cockpit.length ? `<div class="empty-state"><p>${cockpitCount} cockpit crew assigned.</p></div>` : ""}
+    <div class="crew-section-label second">Cabin Crew${cabinCount ? ` (${cabinCount})` : ""}</div>
+    ${cabin.length ? rowsHtml(cabin) : `<div class="empty-state"><p>${configured.cabinCount ? `${cabinCount} cabin crew assigned.` : "No cabin crew assigned."}</p></div>`}`;
 }
 
 function buildAirportInfoHTML(locationCode){
