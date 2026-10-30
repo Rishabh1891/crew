@@ -3265,9 +3265,9 @@ const DOCUMENTS = [
 /* ==========================================================================
    STATE
    ========================================================================== */
-// November is the active published roster month.
-let scheduleViewMonth = new Date(2026, 10, 1);
-let scheduleSelectedDate = "2026-11-01";
+// Open the roster on the device's current date and month.
+let scheduleViewMonth = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+let scheduleSelectedDate = fmt(TODAY);
 let scheduleDetailOpen = false;
 let swapViewMonth = new Date(TODAY.getFullYear(), TODAY.getMonth() + 2, 1); // Oct 2026 default, mirrors reference design
 let swapSelectedDate = null;
@@ -3663,7 +3663,7 @@ function renderDashboard(){
         <span class="upnext-label">Today's Roster</span>
         <span class="upnext-status ${isRest ? "unpublished" : "published"}">${isRest ? "Rest day" : "Published"}</span>
       </div>
-      <div class="upnext-duty">${isFlight ? (item.continuation ? `Arrival · ${item.flightNo}` : item.flightNo) : (isRest ? (item.note || "Rest") : ["easaTest", "medical"].includes(item.type) ? meta.label : meta.label + " (" + meta.label.toUpperCase() + ")")}</div>
+      <div class="upnext-duty">${isFlight ? (item.continuation ? `Arrival · ${item.flightNo}` : item.flightNo) : (isRest ? (item.note || "Rest") : item.type === "training" ? "Traning" : ["easaTest", "medical"].includes(item.type) ? meta.label : meta.label + " (" + meta.label.toUpperCase() + ")")}</div>
       ${isFlight ? `
         <div class="upnext-route">
           <div class="up-pt"><div class="code">${item.dep}</div><div class="time">${item.continuation ? "—" : item.depTime}</div></div>
