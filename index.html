@@ -2399,7 +2399,7 @@ const CURRENT_USER = {
   cplNo: "924351",
   medicalNo: "GR-992/2026",
   medicalValid: "15 Sep 2027",
-  photo: "https://i.ibb.co/LdfV1v2s/BED36544-95-E4-4-A45-92-DD-02739-BEAA96-B-1-201-a.jpg",
+  photo: "https://i.postimg.cc/GtMvvKx0/EFFB3A25-7BA6-4809-91BC-4CC312D303F0-1-201-a.jpg",
   coverPhoto: "https://networkthoughts.com/wp-content/uploads/2023/08/air-india-newlogo-red.jpg"
 };
 
@@ -2733,10 +2733,7 @@ const ROSTER = {
     {type:"training", location:"Air India Training Academy", start:"11:00", end:"14:00", note:"Pilot Fog Training · 11:00 AM–02:00 PM IST"},
     {type:"training", location:"Aircraft Visit", start:"16:00", end:"18:00", note:"Aircraft Visit · 04:00 PM–06:00 PM IST"}
   ],
-  "2026-10-31": [
-    {type:"training", location:"Air India Training Academy", start:"11:00", end:"14:00", note:"Pilot Fog Training · 11:00 AM–02:00 PM IST"},
-    {type:"training", location:"Aircraft Visit", start:"16:00", end:"18:00", note:"Aircraft Visit · 04:00 PM–06:00 PM IST"}
-  ],
+  "2026-10-31": [{type:"leave", leaveCode:"SL", note:"Medical Leave"}],
   // November 2026 roster
   "2026-11-01": [{type:"off", note:"Star"}],
   "2026-11-02": [
@@ -3663,7 +3660,7 @@ function renderDashboard(){
         <span class="upnext-label">Today's Roster</span>
         <span class="upnext-status ${isRest ? "unpublished" : "published"}">${isRest ? "Rest day" : "Published"}</span>
       </div>
-      <div class="upnext-duty">${isFlight ? (item.continuation ? `Arrival · ${item.flightNo}` : item.flightNo) : (isRest ? (item.note || "Rest") : item.type === "training" ? "Traning" : ["easaTest", "medical"].includes(item.type) ? meta.label : meta.label + " (" + meta.label.toUpperCase() + ")")}</div>
+      <div class="upnext-duty">${isFlight ? (item.continuation ? `Arrival · ${item.flightNo}` : item.flightNo) : (isRest ? (item.note || "Rest") : item.leaveCode === "SL" ? "Medical Leave (SL)" : item.type === "training" ? "Training" : ["easaTest", "medical"].includes(item.type) ? meta.label : meta.label + " (" + meta.label.toUpperCase() + ")")}</div>
       ${isFlight ? `
         <div class="upnext-route">
           <div class="up-pt"><div class="code">${item.dep}</div><div class="time">${item.continuation ? "—" : item.depTime}</div></div>
@@ -3739,7 +3736,7 @@ function renderUpcomingDuties(){
     const row = document.createElement("button");
     row.type = "button";
     row.className = "crew-agenda-row";
-    const title = duty.type === "flight" ? `${duty.flightNo} · ${duty.dep} → ${duty.arr}` : meta.label;
+    const title = duty.type === "flight" ? `${duty.flightNo} · ${duty.dep} → ${duty.arr}` : duty.leaveCode === "SL" ? "Medical Leave · SL" : meta.label;
     const timing = duty.type === "flight" ? `${duty.depTime} – ${duty.arrTime}` : [duty.start, duty.end].filter(Boolean).join(" – ");
     const detail = [timing, duty.type === "flight" ? duty.airtime : duty.note].filter(Boolean).join(" · ");
     row.innerHTML = `<span class="crew-agenda-date"></span><span class="crew-agenda-icon"><i aria-hidden="true"></i></span><span class="crew-agenda-copy"><strong></strong><small></small></span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>`;
@@ -3749,8 +3746,8 @@ function renderUpcomingDuties(){
     day.textContent = date.slice(-2);
     dateLabel.prepend(day);
     const icon = row.querySelector(".crew-agenda-icon i");
-    icon.className = `fa-solid ${meta.icon}`;
-    icon.style.color = meta.fg;
+    icon.className = `fa-solid ${duty.leaveCode === "SL" ? "fa-kit-medical" : meta.icon}`;
+    icon.style.color = duty.leaveCode === "SL" ? "#C23B4A" : meta.fg;
     row.querySelector(".crew-agenda-copy strong").textContent = title;
     row.querySelector("small").textContent = detail;
     row.setAttribute("aria-label", `${prettyDate(date, {day:"numeric",month:"long",year:"numeric"})}, ${title}, ${detail}`);
@@ -3883,8 +3880,8 @@ function buildCalendarGrid(monthDate, opts){
         iconHtml = `<i class="fa-solid fa-bed layover-magenta cal-ico" aria-hidden="true"></i>`;
         codeHtml = `<span class="cal-code">LVYR</span>`;
       } else if (primary.type === "leave"){
-        iconHtml = `<i class="fa-solid fa-umbrella-beach leave-amber cal-ico" aria-hidden="true"></i>`;
-        codeHtml = `<span class="cal-code">CL</span>`;
+        iconHtml = `<i class="fa-solid ${primary.leaveCode === "SL" ? "fa-kit-medical medical-red" : "fa-umbrella-beach leave-amber"} cal-ico" aria-hidden="true"></i>`;
+        codeHtml = `<span class="cal-code">${primary.leaveCode || "CL"}</span>`;
       } else { // off / rest
         iconHtml = `<i class="fa-solid fa-star star-pink cal-ico" aria-hidden="true"></i>`;
         codeHtml = `<span class="cal-code">DEL</span>`;
@@ -4288,7 +4285,7 @@ function buildDutyRowsHTML(items, dateStr, keyPrefix){
         : (item.note ? `<div class="di-note">Day off</div>` : "");
       clickable = false;
     } else {
-      title = `${meta.label} · ${item.location || CURRENT_USER.base}`;
+      title = item.leaveCode === "SL" ? "Medical Leave · SL" : `${meta.label} · ${item.location || CURRENT_USER.base}`;
       gridHtml = `
         <div class="di-grid">
           <div class="di-col"><div class="di-label">Location</div><div class="di-value">${item.location || CURRENT_USER.base}</div></div>
@@ -4301,9 +4298,9 @@ function buildDutyRowsHTML(items, dateStr, keyPrefix){
 
     rows += `
       <div class="duty-wrap">
-        <div class="duty-item ${clickable ? "clickable" : ""}" data-key="${key}" style="border-left-color:${meta.fg};"
+        <div class="duty-item ${clickable ? "clickable" : ""}" data-key="${key}" style="border-left-color:${item.leaveCode === "SL" ? "#C23B4A" : meta.fg};"
              ${clickable ? `onclick="toggleDutyDetail('${key}')"` : ""}>
-          <div class="di-icon" style="color:${meta.fg};">${scheduleImageIcon(item, "di-duty-icon-image") || `<i class="fa-solid ${meta.icon}"></i>`}</div>
+          <div class="di-icon" style="color:${item.leaveCode === "SL" ? "#C23B4A" : meta.fg};">${scheduleImageIcon(item, "di-duty-icon-image") || `<i class="fa-solid ${item.leaveCode === "SL" ? "fa-kit-medical" : meta.icon}"></i>`}</div>
           <div class="di-body">
             <div class="di-title ${item.type === "flight" ? "flight-di-title" : ""}">${title}${flightTimeHtml}</div>
             ${gridHtml}
