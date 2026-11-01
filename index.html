@@ -2413,11 +2413,12 @@ const DUTY_TYPES = {
   groundTraining: { icon: "fa-calendar-user", bg: "#FCE7F3", fg: "#D12B6D", label: "Test FAA & EASA Regulatories" },
   easaTest: { icon: "fa-calendar-user", bg: "#FCE7F3", fg: "#D12B6D", label: "EASA Regulatories Test" },
   meeting:  { icon: "fa-people-group",     bg: "#F1E6D4", fg: "#B98A52", label: "Meeting" },
+  conference: { icon: "fa-people-group",   bg: "#F1E6D4", fg: "#B98A52", label: "Conference" },
   medical:  { icon: "fa-stethoscope",      bg: "#FCE7E9", fg: "#C23B4A", label: "Class 1 Medical" },
   technical:{ icon: "fa-plane-circle-check", bg: "#F1E6D4", fg: "#B98A52", label: "Technical Stop" },
   layover:  { icon: "fa-bed",              bg: "#F3E3EC", fg: "#B4507C", label: "Layover" },
   leave:    { icon: "fa-umbrella-beach",   bg: "#FEF3C7", fg: "#D97706", label: "Leave" },
-  off:      { icon: "fa-star",             bg: "#FCE7F3", fg: "#D12B6D", label: "Rest" }
+  off:      { icon: "fa-star",             bg: "#FCE7F3", fg: "#D12B6D", label: "Rest Day" }
 };
 
 const SCHEDULE_IMAGE_ICONS = {
@@ -2735,11 +2736,8 @@ const ROSTER = {
   ],
   "2026-10-31": [{type:"leave", leaveCode:"SL", note:"Medical Leave"}],
   // November 2026 roster
-  "2026-11-01": [{type:"off", note:"Star"}],
-  "2026-11-02": [
-    {type:"flight", flightNo:"AI 421", dep:"DEL", arr:"ATQ", depTime:"08:05", arrTime:"09:25", airtime:"01h 20m", note:"Outbound · Delhi to Amritsar", crew:{captains:["Karthik Subramanian"],firstOfficers:["Rishabh Tripathi"],cabin:["Simran Kaur","Aarav Sharma","Ananya Iyer","Rohan Desai","Meera Nair","Aditya Reddy","Sayantani Roy","Chirag Patel","Dimple Bordoloi","Tenzin Dolma","Imran Khan","Pooja Hegde","Lalrinpuii Sailo","Siddharth Kulkarni","Ningthoujam Rahul"]}},
-    {type:"flight", flightNo:"AI 422", dep:"ATQ", arr:"DEL", depTime:"10:45", arrTime:"12:10", airtime:"01h 25m", note:"Inbound · Amritsar to Delhi", crew:{captains:["Karthik Subramanian"],firstOfficers:["Rishabh Tripathi"],cabin:["Simran Kaur","Aarav Sharma","Ananya Iyer","Rohan Desai","Meera Nair","Aditya Reddy","Sayantani Roy","Chirag Patel","Dimple Bordoloi","Tenzin Dolma","Imran Khan","Pooja Hegde","Lalrinpuii Sailo","Siddharth Kulkarni","Ningthoujam Rahul"]}}
-  ],
+  "2026-11-01": [{type:"off", note:"Rest Day"}],
+  "2026-11-02": [{type:"conference", location:"Air India Training Academy", start:"11:30", end:"17:00", note:"11:30 AM–05:00 PM IST"}],
   "2026-11-03": [
     {type:"flight", flightNo:"AI 441", dep:"DEL", arr:"BOM", depTime:"17:00", arrTime:"19:15", airtime:"02h 15m", note:"Outbound · Delhi to Mumbai"},
     {type:"flight", flightNo:"AI 442", dep:"BOM", arr:"DEL", depTime:"20:30", arrTime:"22:45", airtime:"02h 15m", note:"Inbound · Mumbai to Delhi"}
@@ -3731,7 +3729,7 @@ function renderUpcomingDuties(){
     container.appendChild(empty);
   }
   upcoming.forEach(([date, items]) => {
-    const duty = items.find(item => item.type !== "off");
+    const duty = items.find(item => item.type === "conference") || items.find(item => item.type !== "off");
     const meta = dutyMeta(duty.type);
     const row = document.createElement("button");
     row.type = "button";
@@ -3839,7 +3837,7 @@ function buildCalendarGrid(monthDate, opts){
     const isToday = dateStr === fmt(TODAY);
     const isSelected = dateStr === opts.selected;
     const events = (opts.eventsMap && opts.eventsMap[dateStr]) || [];
-    const primary = events.find(e => e.type !== "off") || events[0];
+    const primary = events.find(e => e.type === "conference") || events.find(e => e.type !== "off") || events[0];
     const flightSpanClass = opts.showFlightSpans ? flightSpanPosition(dateStr, opts.eventsMap) : "";
 
     let iconHtml = "", codeHtml = "";
@@ -3861,9 +3859,9 @@ function buildCalendarGrid(monthDate, opts){
       } else if (primary.type === "report"){
         iconHtml = `<i class="fa-solid fa-right-from-bracket door-orange cal-ico" aria-hidden="true"></i>`;
         codeHtml = `<span class="cal-code">${primary.start || ""}</span>`;
-      } else if (primary.type === "meeting"){
+      } else if (primary.type === "meeting" || primary.type === "conference"){
         iconHtml = `<i class="fa-solid fa-people-group cal-ico" style="color:${meta.fg};" aria-hidden="true"></i>`;
-        codeHtml = `<span class="cal-code">MTG</span>`;
+        codeHtml = `<span class="cal-code">${primary.type === "conference" ? "CONF" : "MTG"}</span>`;
       } else if (primary.type === "training" || primary.type === "groundTraining" || primary.type === "easaTest"){
         iconHtml = `<span class="cal-ico cal-training-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3.5" width="13.5" height="13.5" rx="2.5" fill="#FCE7F3" stroke="#E0247D" stroke-width="1.6"/><path d="M2 8H15.5" stroke="#E0247D" stroke-width="1.5"/><path d="M5.5 1.8V4.5M11.5 1.8V4.5" stroke="#E0247D" stroke-width="1.6" stroke-linecap="round"/><circle cx="5.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="8.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="5.5" cy="14" r="0.8" fill="#E0247D"/><circle cx="17" cy="11.5" r="3.2" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5"/><path d="M12 20.5C12 17.5 14.2 16 17 16C19.8 16 22 17.5 22 20.5" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/></svg></span>`;
         codeHtml = `<span class="cal-code">DEL</span>`;
