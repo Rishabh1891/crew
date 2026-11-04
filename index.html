@@ -2744,15 +2744,15 @@ const ROSTER = {
   ],
   "2026-11-04": [{type:"off", note:"Rest"}],
   "2026-11-05": [
-    {type:"flight", flightNo:"AI 421", dep:"DEL", arr:"ATQ", depTime:"09:45", arrTime:"11:05", airtime:"01h 20m", note:"DEL Terminal 3 to ATQ"},
-    {type:"layover", location:"Amritsar, India", hotel:{name:"Taj Swarna", address:"Plot No. C-3, Outer Circular Road, Basant Avenue, Amritsar, Punjab 143001"}, note:"Layover begins at Taj Swarna"}
+    {type:"flight", flightNo:"AI 423", aircraft:"Boeing 777-300ER", dep:"DEL", arr:"AMD", depTime:"09:20", arrTime:"11:05", airtime:"01h 45m", note:"Alternate listed timing: 09:50 AM departure · 11:40 AM arrival", crew:{captains:["Rukumabh Venktaswamy"],firstOfficers:["Rishabh Tripathi"]}},
+    {type:"flight", flightNo:"AI 424", aircraft:"Boeing 777-300ER", dep:"AMD", arr:"DEL", depTime:"12:40", arrTime:"14:30", airtime:"01h 50m", note:"Alternate listed timing: 01:10 PM departure · 03:00 PM arrival", crew:{captains:["Rukumabh Venktaswamy"],firstOfficers:["Rishabh Tripathi"]}}
   ],
-  "2026-11-06": [{type:"flight", flightNo:"AI 117", dep:"ATQ", arr:"BHX", depTime:"13:55", arrTime:"18:15", airtime:"09h 50m", note:"International sector · Arrival time UK local time", crew:{captains:["Shekhar Trichipalli","Manu Kulkarni"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
-  "2026-11-07": [{type:"layover", location:"Birmingham, UK", hotel:{name:"Novotel Birmingham Airport"}, note:"Layover in Birmingham"}],
-  "2026-11-08": [{type:"flight", flightNo:"AI 118", dep:"BHX", arr:"ATQ", depTime:"20:30", arrTime:"11:45+1", airtime:"09h 45m", note:"International sector · Departure UK time · Arrival Nov 9 India time", crew:{captains:["Shekhar Trichipalli","Manu Kulkarni"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
-  "2026-11-09": [{type:"flight", flightNo:"AI 422", dep:"ATQ", arr:"DEL", depTime:"13:30", arrTime:"14:55", airtime:"01h 25m", note:"Nov 9 · Amritsar to Delhi"}],
-  "2026-11-10": [{type:"off", note:"Rest"}],
-  "2026-11-11": [{type:"off", note:"Rest"}],
+  "2026-11-06": [{type:"leave", leaveCode:"CL", note:"Diwali Leave"}],
+  "2026-11-07": [{type:"leave", leaveCode:"CL", note:"Diwali Leave"}],
+  "2026-11-08": [{type:"leave", leaveCode:"CL", note:"Diwali Leave"}],
+  "2026-11-09": [{type:"leave", leaveCode:"CL", note:"Diwali Leave"}],
+  "2026-11-10": [{type:"reserve", location:"DEL", note:"ASBY · Starting Queue 24"}],
+  "2026-11-11": [{type:"reserve", location:"DEL", note:"ASBY · Continuing reserve"}],
   "2026-11-12": [{type:"flight", flightNo:"AI 173", dep:"DEL", arr:"SFO", depTime:"03:10", arrTime:"07:00", airtime:"16h 20m", note:"International sector · DEL Terminal 3 to SFO", crew:{captains:["Zoya Aggarwall","Shreyas Kapoor"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
   "2026-11-13": [{type:"layover", location:"San Francisco, USA", hotel:{name:"Taj Crampton Place", address:"340 Stockton St, San Francisco, CA 94108, USA"}, note:"Layover at Taj Crampton Place, San Francisco"}],
   "2026-11-14": [{type:"flight", flightNo:"AI 174", dep:"SFO", arr:"DEL", depTime:"10:30", arrTime:"16:45+1", airtime:"15h 45m", note:"International sector · SFO International Terminal · Arrival Nov 15 at DEL Terminal 3", crew:{captains:["Zoya Aggarwall","Shreyas Kapoor"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
@@ -3734,14 +3734,18 @@ function renderUpcomingDuties(){
     container.appendChild(empty);
   }
   upcoming.forEach(([date, items]) => {
+    const flights = items.filter(item => item.type === "flight");
     const duty = items.find(item => item.type === "conference") || items.find(item => item.type !== "off");
     const meta = dutyMeta(duty.type);
     const row = document.createElement("button");
     row.type = "button";
     row.className = "crew-agenda-row";
-    const title = duty.type === "flight" ? `${duty.flightNo} · ${duty.dep} → ${duty.arr}` : duty.leaveCode === "SL" ? "Medical Leave · SL" : meta.label;
-    const timing = duty.type === "flight" ? `${duty.depTime} – ${duty.arrTime}` : [duty.start, duty.end].filter(Boolean).join(" – ");
-    const detail = [timing, duty.type === "flight" ? duty.airtime : duty.note].filter(Boolean).join(" · ");
+    const flightRoute = flights.length > 1 ? `${flights[0].dep} → ${flights.map(item => item.arr).join(" → ")}` : `${duty.dep} → ${duty.arr}`;
+    const title = flights.length > 1 ? `${flights.map(item => item.flightNo).join(" + ")} · ${flightRoute}` : duty.type === "flight" ? `${duty.flightNo} · ${duty.dep} → ${duty.arr}` : duty.leaveCode === "SL" ? "Medical Leave · SL" : meta.label;
+    const timing = flights.length > 1 ? flights.map(item => `${item.depTime}–${item.arrTime}`).join(" · ") : duty.type === "flight" ? `${duty.depTime} – ${duty.arrTime}` : [duty.start, duty.end].filter(Boolean).join(" – ");
+    const detail = flights.length > 1
+      ? [timing, flights.map(item => item.note).filter(Boolean).join(" · "), flights[0].aircraft].filter(Boolean).join(" · ")
+      : [timing, duty.type === "flight" ? duty.airtime : duty.note].filter(Boolean).join(" · ");
     row.innerHTML = `<span class="crew-agenda-date"></span><span class="crew-agenda-icon"><i aria-hidden="true"></i></span><span class="crew-agenda-copy"><strong></strong><small></small></span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>`;
     const dateLabel = row.querySelector(".crew-agenda-date");
     dateLabel.textContent = prettyDate(date, {month:"short"});
