@@ -2743,10 +2743,7 @@ const ROSTER = {
     {type:"flight", flightNo:"AIC816", dep:"BOM", arr:"DEL", depTime:"21:00", arrTime:"23:15", airtime:"02h 15m", note:"Return flight · Mumbai to Delhi"}
   ],
   "2026-11-04": [{type:"off", note:"Rest"}],
-  "2026-11-05": [
-    {type:"flight", flightNo:"AI 423", aircraft:"Boeing 777-300ER", dep:"DEL", arr:"AMD", depTime:"09:20", arrTime:"11:05", airtime:"01h 45m", note:"Alternate listed timing: 09:50 AM departure · 11:40 AM arrival", crew:{captains:["Rukumabh Venktaswamy"],firstOfficers:["Rishabh Tripathi"]}},
-    {type:"flight", flightNo:"AI 424", aircraft:"Boeing 777-300ER", dep:"AMD", arr:"DEL", depTime:"12:40", arrTime:"14:30", airtime:"01h 50m", note:"Alternate listed timing: 01:10 PM departure · 03:00 PM arrival", crew:{captains:["Rukumabh Venktaswamy"],firstOfficers:["Rishabh Tripathi"]}}
-  ],
+  "2026-11-05": [{type:"leave", leaveCode:"SL", note:"Medical Leave"}],
   "2026-11-06": [{type:"leave", leaveCode:"CL", note:"Diwali Leave"}],
   "2026-11-07": [{type:"leave", leaveCode:"CL", note:"Diwali Leave"}],
   "2026-11-08": [{type:"leave", leaveCode:"CL", note:"Diwali Leave"}],
@@ -3133,9 +3130,9 @@ const CHATS = [
     name: "Swati Rawat",
     initials: "SR",
     photo: "https://media.licdn.com/dms/image/v2/D5603AQE8z-enSqcCYQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1731760067163?e=2147483647&v=beta&t=c_TGNiJSjUIPUFYRzoNw845BgcKg0MwPYq4znNIVpnk",
-    preview: "Okay swati will do that.",
-    time: "03:11 PM",
-    date: "1 Nov 2026"
+    preview: "As per the procedure, please share a supporting medical document to justify this medical leave.",
+    time: "10:21 AM",
+    date: "5 Nov 2026"
   },
   {
     name: "Anny Divya",
@@ -3230,7 +3227,9 @@ const CHAT_MESSAGES = [
     {"direction": "incoming", "text": "Lohani sir want to talk about something regarding your performances.", "time": "10:34 AM"},
     {"direction": "incoming", "text": "Please comply with the rosters.", "time": "10:35 AM"},
     {"direction": "incoming", "text": "And try to appear in formal dress-up.", "time": "10:37 AM"},
-    {"direction": "outgoing", "text": "Okay swati will do that.", "time": "03:11 PM"}
+    {"direction": "outgoing", "text": "Okay swati will do that.", "time": "03:11 PM"},
+    {"direction": "incoming", "text": "Hey Rishabh, hope you are well now.", "time": "10:21 AM", "date": "5 Nov 2026"},
+    {"direction": "incoming", "text": "As per the procedure, please share a supporting medical document to justify this medical leave.", "time": "10:21 AM"}
   ],
   [
     { direction: "incoming", text: "Hey Rishabh hope you are doing well. I have told amrit for flight planning for AIC185.", time: "11:02 AM", date: "27 Sep 2026" },
