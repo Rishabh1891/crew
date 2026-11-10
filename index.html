@@ -2748,7 +2748,81 @@ const ROSTER = {
   "2026-11-07": [{type:"leave", leaveCode:"CL", note:"Diwali Leave"}],
   "2026-11-08": [{type:"leave", leaveCode:"CL", note:"Diwali Leave"}],
   "2026-11-09": [{type:"leave", leaveCode:"CL", note:"Diwali Leave"}],
-  "2026-11-10": [{type:"reserve", location:"DEL", note:"ASBY · Starting Queue 24"}],
+  "2026-11-10": [
+    {
+      type: "flight",
+      flightNo: "AI 537",
+      aircraft: "Boeing 777-300ER (Widebody)",
+      dep: "DEL",
+      arr: "MAA",
+      depTime: "15:45",
+      arrTime: "18:30",
+      airtime: "02h 45m",
+      status: "Scheduled / On Time",
+      delay: "0 minutes",
+      note: "Terminal 3 → Terminal 4 · Delhi (DEL) to Chennai (MAA) · Scheduled / On Time (0 min delay)",
+      crew: {
+        captains: ["Soniya Gupta"],
+        firstOfficers: ["Rishabh Tripathi"],
+        cabin: [
+          "Shreya Nair",
+          "Kritika Reddy",
+          "Priya Sharma",
+          "Ananya Iyer",
+          "Rahul Verma",
+          "Kavita Kullupati",
+          "Madhuri Sharma",
+          "Ankit Vats",
+          "Kalyani Mukherji",
+          "Meenakshi Sati",
+          "Sheena Khan",
+          "Mohana Chaturvedi",
+          "Omna Om Vashishth",
+          "Khushi Desai",
+          "Harjeet Bal"
+        ]
+      }
+    },
+    {
+      type: "flight",
+      flightNo: "AI 538",
+      aircraft: "Boeing 777-300ER (Widebody)",
+      dep: "MAA",
+      arr: "DEL",
+      depTime: "20:00",
+      arrTime: "22:45",
+      airtime: "02h 45m",
+      status: "Scheduled / On Time",
+      delay: "0 minutes",
+      note: "Terminal 4 → Terminal 3 · Chennai (MAA) to Delhi (DEL) · Scheduled / On Time (0 min delay)",
+      crew: {
+        captains: ["Soniya Gupta"],
+        firstOfficers: ["Rishabh Tripathi"],
+        cabin: [
+          "Shreya Nair",
+          "Kritika Reddy",
+          "Priya Sharma",
+          "Ananya Iyer",
+          "Rahul Verma",
+          "Kavita Kullupati",
+          "Madhuri Sharma",
+          "Ankit Vats",
+          "Kalyani Mukherji",
+          "Meenakshi Sati",
+          "Sheena Khan",
+          "Mohana Chaturvedi",
+          "Omna Om Vashishth",
+          "Khushi Desai",
+          "Harjeet Bal"
+        ]
+      }
+    },
+    {
+      type: "off",
+      start: "22:45",
+      note: "Post-flight mandatory rest"
+    }
+  ],
   "2026-11-11": [{type:"reserve", location:"DEL", note:"ASBY · Continuing reserve"}],
   "2026-11-12": [{type:"flight", flightNo:"AI 173", dep:"DEL", arr:"SFO", depTime:"03:10", arrTime:"07:00", airtime:"16h 20m", note:"International sector · DEL Terminal 3 to SFO", crew:{captains:["Zoya Aggarwall","Shreyas Kapoor"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
   "2026-11-13": [{type:"layover", location:"San Francisco, USA", hotel:{name:"Taj Crampton Place", address:"340 Stockton St, San Francisco, CA 94108, USA"}, note:"Layover at Taj Crampton Place, San Francisco"}],
