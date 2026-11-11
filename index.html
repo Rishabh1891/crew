@@ -2823,7 +2823,57 @@ const ROSTER = {
       note: "Post-flight mandatory rest"
     }
   ],
-  "2026-11-11": [{type:"reserve", location:"DEL", note:"ASBY · Continuing reserve"}],
+  "2026-11-11": [
+    {
+      type: "flight",
+      flightNo: "AI 441",
+      aircraft: "Boeing 777-300ER",
+      dep: "DEL",
+      arr: "BOM",
+      depTime: "17:00",
+      arrTime: "19:25",
+      airtime: "02h 25m",
+      note: "Terminal 3 → Terminal 2 · Delhi (DEL) to Mumbai (BOM) · Estimated Runway Arrival 18:41 IST",
+      crew: {
+        captains: ["Devendra Saxena"],
+        firstOfficers: ["Rishabh Tripathi"],
+        cabin: [
+          "Sneha Chatterjee",
+          "Kavya Nambiar",
+          "Pooja Sharma",
+          "Ananya Deshmukh",
+          "Tenzin Yangchen",
+          "Ritu Choudhury",
+          "Meera Sundaram",
+          "Kritika Rathore",
+          "Shreya Patel",
+          "Deepali Verma",
+          "Swati Sen",
+          "Roshni Gowda",
+          "Lunkim Haokip",
+          "Harpreet Kaur",
+          "Divya Reddiar"
+        ]
+      }
+    },
+    {
+      type: "flight",
+      flightNo: "AI 2940",
+      aircraft: "Airbus A320neo",
+      dep: "BOM",
+      arr: "DEL",
+      depTime: "20:00",
+      arrTime: "22:15",
+      airtime: "02h 15m",
+      isDeadhead: true,
+      note: "Deadhead (DH) positioning flight · Terminal 2 → Terminal 3 · Chhatrapati Shivaji Maharaj International Airport to Indira Gandhi International Airport"
+    },
+    {
+      type: "off",
+      start: "22:15",
+      note: "Post-flight mandatory rest after deadhead positioning AI 2940"
+    }
+  ],
   "2026-11-12": [{type:"flight", flightNo:"AI 173", dep:"DEL", arr:"SFO", depTime:"03:10", arrTime:"07:00", airtime:"16h 20m", note:"International sector · DEL Terminal 3 to SFO", crew:{captains:["Zoya Aggarwall","Shreyas Kapoor"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
   "2026-11-13": [{type:"layover", location:"San Francisco, USA", hotel:{name:"Taj Crampton Place", address:"340 Stockton St, San Francisco, CA 94108, USA"}, note:"Layover at Taj Crampton Place, San Francisco"}],
   "2026-11-14": [{type:"flight", flightNo:"AI 174", dep:"SFO", arr:"DEL", depTime:"10:30", arrTime:"16:45+1", airtime:"15h 45m", note:"International sector · SFO International Terminal · Arrival Nov 15 at DEL Terminal 3", crew:{captains:["Zoya Aggarwall","Shreyas Kapoor"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
