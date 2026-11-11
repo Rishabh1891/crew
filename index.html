@@ -2858,25 +2858,26 @@ const ROSTER = {
     },
     {
       type: "flight",
-      flightNo: "AI 2940",
+      flightNo: "AIC2556",
+      airline: "Air India",
       aircraft: "Airbus A320neo",
       dep: "BOM",
       arr: "DEL",
-      depTime: "20:00",
-      arrTime: "22:15",
-      airtime: "02h 15m",
+      depTime: "23:55",
+      arrTime: "02:15+1",
+      airtime: "02h 20m",
       isDeadhead: true,
-      note: "Deadhead (DH) positioning flight · Terminal 2 → Terminal 3 · Chhatrapati Shivaji Maharaj International Airport to Indira Gandhi International Airport"
+      note: "Terminal 2 → Terminal 3 · Mumbai (BOM) to Delhi (DEL) · 11:55 PM – 02:15 AM+1 · Nonstop · Air India · Deadhead (DH) positioning flight"
     },
     {
       type: "off",
-      start: "22:15",
-      note: "Post-flight mandatory rest after deadhead positioning AI 2940"
+      start: "02:15",
+      note: "Post-flight mandatory rest after positioning AIC2556"
     }
   ],
-  "2026-11-12": [{type:"flight", flightNo:"AI 173", dep:"DEL", arr:"SFO", depTime:"03:10", arrTime:"07:00", airtime:"16h 20m", note:"International sector · DEL Terminal 3 to SFO", crew:{captains:["Zoya Aggarwall","Shreyas Kapoor"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
-  "2026-11-13": [{type:"layover", location:"San Francisco, USA", hotel:{name:"Taj Crampton Place", address:"340 Stockton St, San Francisco, CA 94108, USA"}, note:"Layover at Taj Crampton Place, San Francisco"}],
-  "2026-11-14": [{type:"flight", flightNo:"AI 174", dep:"SFO", arr:"DEL", depTime:"10:30", arrTime:"16:45+1", airtime:"15h 45m", note:"International sector · SFO International Terminal · Arrival Nov 15 at DEL Terminal 3", crew:{captains:["Zoya Aggarwall","Shreyas Kapoor"],firstOfficers:["Rishabh Tripathi","Amrit Kaur"]}}],
+  "2026-11-12": [{type:"off", note:"Rest"}],
+  "2026-11-13": [{type:"off", note:"Rest"}],
+  "2026-11-14": [{type:"off", note:"Rest"}],
   "2026-11-15": [{type:"off", note:"Rest"}],
   "2026-11-16": [{type:"off", note:"Rest"}],
   "2026-11-17": [
@@ -3254,9 +3255,9 @@ const CHATS = [
     name: "Swati Rawat",
     initials: "SR",
     photo: "https://media.licdn.com/dms/image/v2/D5603AQE8z-enSqcCYQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1731760067163?e=2147483647&v=beta&t=c_TGNiJSjUIPUFYRzoNw845BgcKg0MwPYq4znNIVpnk",
-    preview: "I have to ask her for this",
-    time: "11:52 PM",
-    date: "10 Nov 2026"
+    preview: "okay i will call you.",
+    time: "08:41 PM",
+    date: "11 Nov 2026"
   },
   {
     name: "Anny Divya",
@@ -3356,7 +3357,12 @@ const CHAT_MESSAGES = [
     {"direction": "incoming", "text": "As per the procedure, please share a supporting medical document to justify this medical leave.", "time": "10:21 AM"},
     {"direction": "incoming", "text": "Hey Rishabh, just wanted to confirm from you, that the position of Senior Planning Analyst is for our Cochin location.", "time": "05:53 PM", "date": "10 Nov 2026"},
     {"direction": "incoming", "text": "She is fine with it right?", "time": "05:53 PM"},
-    {"direction": "outgoing", "text": "I have to ask her for this", "time": "11:52 PM"}
+    {"direction": "outgoing", "text": "I have to ask her for this", "time": "11:52 PM"},
+    {"direction": "outgoing", "text": "Hey Swati, can we connect on call tomorrow after 3pm?", "time": "08:31 PM", "date": "11 Nov 2026"},
+    {"direction": "incoming", "text": "Sure captain", "time": "08:36 PM"},
+    {"direction": "incoming", "text": "you can tell me what is it about to preprare a good solution for you.", "time": "08:36 PM"},
+    {"direction": "outgoing", "text": "some queries and about Akanksha's deployment.", "time": "08:38 PM"},
+    {"direction": "incoming", "text": "okay i will call you.", "time": "08:41 PM"}
   ],
   [
     { direction: "incoming", text: "Hey Rishabh hope you are doing well. I have told amrit for flight planning for AIC185.", time: "11:02 AM", date: "27 Sep 2026" },
