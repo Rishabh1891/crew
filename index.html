@@ -2594,6 +2594,34 @@ const AIRPORTS = {
       { name:"ATIS",          val:"118.85" },
       { name:"Approach",      val:"128.55 / 132.8" }
     ]
+  },
+  YYZ: {
+    name: "Toronto Pearson International Airport",
+    icao: "CYYZ", iata: "YYZ",
+    city: "Toronto, Ontario, Canada",
+    elevation: "569 ft (173 m)",
+    timezone: "EST (UTC -5:00)",
+    dispatch: "Air India Station Operations, Terminal 1, Toronto Pearson International Airport, Mississauga, ON L5P 1B2, Canada",
+    frequencies: [
+      { name:"Tower",         val:"118.35 / 118.7" },
+      { name:"Ground",        val:"121.9 / 121.65" },
+      { name:"ATIS",          val:"120.825" },
+      { name:"Approach",      val:"128.8 / 132.8" }
+    ]
+  },
+  CDG: {
+    name: "Paris Charles de Gaulle Airport",
+    icao: "LFPG", iata: "CDG",
+    city: "Paris, France",
+    elevation: "392 ft (119 m)",
+    timezone: "CET (UTC +1:00)",
+    dispatch: "Air India Station Operations, Terminal 2C, Paris Charles de Gaulle Airport, 95700 Roissy-en-France, France",
+    frequencies: [
+      { name:"Tower",         val:"118.65 / 120.9" },
+      { name:"Ground",        val:"121.8 / 121.9" },
+      { name:"ATIS",          val:"126.175" },
+      { name:"Approach",      val:"121.15 / 133.375" }
+    ]
   }
 };
 
@@ -2877,28 +2905,206 @@ const ROSTER = {
   ],
   "2026-11-12": [{type:"off", note:"Rest"}],
   "2026-11-13": [{type:"off", note:"Rest"}],
-  "2026-11-14": [{type:"off", note:"Rest"}],
-  "2026-11-15": [{type:"off", note:"Rest"}],
-  "2026-11-16": [{type:"off", note:"Rest"}],
+  "2026-11-14": [{type:"reserve", location:"DEL", start:"04:00", end:"14:00", queue:73, note:"ASBY · Starting Queue 73 · 04:00 AM–02:00 PM IST"}],
+  "2026-11-15": [
+    {
+      type: "flight",
+      flightNo: "AIC189",
+      aircraft: "Boeing 777-300ER (Widebody)",
+      dep: "DEL",
+      arr: "VIE",
+      depTime: "09:40",
+      arrTime: "15:45",
+      airtime: "09h 40m",
+      note: "Terminal 3 → Terminal 3 · New Delhi (DEL) to Vienna (VIE) · 09:40 AM IST → 03:45 PM CET · Nonstop",
+      crew: {
+        captains: ["Zoya Aggarwall", "Shreyas Kapoor"],
+        firstOfficers: ["Rishabh Tripathi", "Amrit Kaur"],
+        cabin: [
+          "Kritika Reddy",
+          "Sneha Chatterjee",
+          "Rahul Verma",
+          "Kavya Nambiar",
+          "Tenzin Yangchen",
+          "Ananya Deshmukh",
+          "Ritu Choudhury",
+          "Aditya Nair",
+          "Pooja Sharma",
+          "Meera Sundaram",
+          "Ankit Vats",
+          "Shreya Patel",
+          "Lunkim Haokip",
+          "Roshan D'Souza",
+          "Harpreet Kaur"
+        ]
+      }
+    },
+    {
+      type: "flight",
+      flightNo: "AIC189",
+      aircraft: "Boeing 777-300ER (Widebody)",
+      dep: "VIE",
+      arr: "YYZ",
+      depTime: "17:05",
+      arrTime: "20:50",
+      airtime: "09h 45m",
+      note: "Terminal 3 → Terminal 1 · Vienna (VIE) to Toronto (YYZ) · 05:05 PM CET → 08:50 PM EST · Nonstop",
+      crew: {
+        captains: ["Rajat Malhotra", "Shreyas Kapoor"],
+        firstOfficers: ["Rishabh Tripathi", "Amrit Kaur"],
+        cabin: [
+          "Kritika Reddy",
+          "Sneha Chatterjee",
+          "Rahul Verma",
+          "Kavya Nambiar",
+          "Tenzin Yangchen",
+          "Ananya Deshmukh",
+          "Ritu Choudhury",
+          "Aditya Nair",
+          "Pooja Sharma",
+          "Meera Sundaram",
+          "Ankit Vats",
+          "Shreya Patel",
+          "Lunkim Haokip",
+          "Roshan D'Souza",
+          "Harpreet Kaur"
+        ]
+      }
+    }
+  ],
+  "2026-11-16": [
+    {
+      type: "flight",
+      flightNo: "AIC190",
+      aircraft: "Boeing 777-300ER (Widebody)",
+      dep: "YYZ",
+      arr: "DEL",
+      depTime: "00:35",
+      arrTime: "02:50+1",
+      airtime: "15h 45m",
+      note: "Terminal 1 → Terminal 3 · Toronto (YYZ) to New Delhi (DEL) · 12:35 AM EST (Mon 16 Nov) → 02:50 AM IST (Tue 17 Nov) · Nonstop",
+      crew: {
+        captains: ["Rajat Malhotra", "Shreyas Kapoor"],
+        firstOfficers: ["Rishabh Tripathi", "Amrit Kaur"],
+        cabin: [
+          "Kritika Reddy",
+          "Sneha Chatterjee",
+          "Rahul Verma",
+          "Kavya Nambiar",
+          "Tenzin Yangchen",
+          "Ananya Deshmukh",
+          "Ritu Choudhury",
+          "Aditya Nair",
+          "Pooja Sharma",
+          "Meera Sundaram",
+          "Ankit Vats",
+          "Shreya Patel",
+          "Lunkim Haokip",
+          "Roshan D'Souza",
+          "Harpreet Kaur"
+        ]
+      }
+    }
+  ],
   "2026-11-17": [
-    {type:"flight", flightNo:"AI 2943", aircraft:"Airbus A350", dep:"DEL", arr:"BOM", depTime:"07:30", arrTime:"09:45", airtime:"02h 15m", isDeadhead:true, note:"ACM flight · Deadhead (DH) positioning flight", crew:{cockpitCount:4,cabinCount:15}},
-    {type:"layover", location:"Mumbai, India", hotel:{name:"Grand Hyatt Mumbai Hotel & Residences"}, note:"Layover at Grand Hyatt Mumbai"}
+    {
+      type: "flight",
+      flightNo: "AIC190",
+      aircraft: "Boeing 777-300ER (Widebody)",
+      dep: "YYZ",
+      arr: "DEL",
+      arrTime: "02:50",
+      airtime: "15h 45m",
+      continuation: true,
+      continuesFrom: "2026-11-16",
+      showExitIcon: true,
+      note: "Arrival at Indira Gandhi International Airport (DEL Terminal 3) · 02:50 AM IST · Continued from Nov 16"
+    },
+    {
+      type: "off",
+      start: "02:50",
+      note: "Post-flight mandatory FTL rest"
+    }
   ],
-  "2026-11-18": [
-    {type:"flight", flightNo:"AI 193", dep:"BOM", arr:"FCO", depTime:"04:00", arrTime:"08:50", airtime:"08h 20m", note:"Departure 04:00 IST · Arrival approximately 08:50 Rome local time"},
-    {type:"layover", location:"Rome, Italy", hotel:{name:"Hilton Rome Airport"}, note:"Layover until the night of 19 November"}
-  ],
-  "2026-11-19": [{type:"flight", flightNo:"AI 119", dep:"FCO", arr:"BOM", depTime:"22:40", arrTime:"10:05+1", airtime:"07h 55m", note:"Take-off 22:40 Rome local time on 19 November · Landing 10:05 IST in Mumbai on 20 November"}],
+  "2026-11-18": [{type:"off", note:"Rest"}],
+  "2026-11-19": [{type:"off", note:"Rest"}],
   "2026-11-20": [
-    {type:"flight", flightNo:"AI 119", dep:"FCO", arr:"BOM", arrTime:"10:05", airtime:"07h 55m", continuation:true, continuesFrom:"2026-11-19", showExitIcon:true, note:"Arrival exit at BOM · 10:05 IST"},
-    {type:"flight", flightNo:"AI 864", dep:"BOM", arr:"DEL", depTime:"11:00", arrTime:"13:15", airtime:"02h 15m", isDeadhead:true, note:"Deadhead (DH) positioning flight · Mumbai to Delhi"}
+    {
+      type: "flight",
+      flightNo: "AI 143",
+      aircraft: "Boeing 777-300ER (B77W)",
+      dep: "DEL",
+      arr: "CDG",
+      depTime: "12:45",
+      arrTime: "19:05",
+      airtime: "10h 50m",
+      note: "DEL Terminal 3 → CDG Terminal 2C · 12:45 PM IST → 07:05 PM CET · Nonstop · 10h 50m",
+      crew: {
+        captains: ["Gautam Hathiramani", "Manu Kulkarni"],
+        firstOfficers: ["Rishabh Tripathi", "Amrit Kaur"]
+      }
+    },
+    {
+      type: "layover",
+      location: "Paris, France",
+      hotel: {
+        name: "Paris Marriott Charles de Gaulle Airport Hotel",
+        address: "Zone Hoteliere, 50 Allee des Vergers, 95700 Roissy-en-France, France"
+      },
+      note: "Post-flight layover at Paris Marriott Charles de Gaulle Airport Hotel"
+    }
   ],
-  "2026-11-21": [{type:"off", note:"Rest"}],
-  "2026-11-22": [{type:"off", note:"Rest"}],
-  "2026-11-23": [{type:"reserve", location:"DEL", start:"04:22", end:"13:10", note:"Starting Queue 68"}],
-  "2026-11-24": [{type:"flight", flightNo:"AI 308", dep:"DEL", arr:"MEL", depTime:"02:35", arrTime:"20:20", airtime:"12h 15m", note:"Air India · Local times · Departure from Indira Gandhi International Airport, Terminal 3 · Arrival at Melbourne Airport"}],
-  "2026-11-25": [{type:"flight", flightNo:"AI 309", dep:"MEL", arr:"DEL", depTime:"01:30", arrTime:"08:50", airtime:"12h 50m", note:"Local times · Departure from Melbourne Airport, Terminal 2 · Arrival at Indira Gandhi International Airport, Terminal 3"}],
-  "2026-11-26": [{type:"off", note:"Rest"}],
+  "2026-11-21": [
+    {
+      type: "layover",
+      location: "Paris, France",
+      hotel: {
+        name: "Paris Marriott Charles de Gaulle Airport Hotel",
+        address: "Zone Hoteliere, 50 Allee des Vergers, 95700 Roissy-en-France, France"
+      },
+      note: "Layover in Paris · Paris Marriott Charles de Gaulle Airport Hotel"
+    }
+  ],
+  "2026-11-22": [
+    {
+      type: "flight",
+      flightNo: "AI 142",
+      aircraft: "Boeing 787-8 (B788)",
+      dep: "CDG",
+      arr: "DEL",
+      depTime: "20:35",
+      arrTime: "10:35+1",
+      airtime: "09h 30m",
+      note: "CDG Terminal 2C → DEL Terminal 3 · 08:35 PM CET (Sun 22 Nov) → 10:35 AM IST (Mon 23 Nov) · Nonstop · 9h 30m",
+      crew: {
+        captains: ["Gautam Hathiramani", "Manu Kulkarni"],
+        firstOfficers: ["Rishabh Tripathi", "Amrit Kaur"]
+      }
+    }
+  ],
+  "2026-11-23": [
+    {
+      type: "flight",
+      flightNo: "AI 142",
+      aircraft: "Boeing 787-8 (B788)",
+      dep: "CDG",
+      arr: "DEL",
+      arrTime: "10:35",
+      airtime: "09h 30m",
+      continuation: true,
+      continuesFrom: "2026-11-22",
+      showExitIcon: true,
+      note: "Arrival at Indira Gandhi International Airport (DEL Terminal 3) · 10:35 AM IST · Continued from Nov 22"
+    },
+    {
+      type: "off",
+      start: "10:35",
+      note: "Post-flight mandatory FTL rest"
+    }
+  ],
+  "2026-11-24": [{type:"off", note:"Rest"}],
+  "2026-11-25": [{type:"off", note:"Rest"}],
+  "2026-11-26": [{type:"reserve", location:"DEL", start:"11:23", end:"19:00", queue:53, note:"ASBY · Starting Queue 53 · 11:23 AM–07:00 PM IST"}],
   "2026-11-27": [{type:"off", note:"Rest"}],
   "2026-11-28": [
     {type:"flight", flightNo:"AI 187", aircraft:"Boeing 777-300ER (B77W)", dep:"DEL", arr:"YYZ", depTime:"03:00", arrTime:"07:15", airtime:"14h 45m", note:"Air India nonstop · Departure DEL Terminal 3 at 03:00 IST · Arrival Toronto Pearson Terminal 1 at 07:15 EST", crew:{captains:["Raj Chandok","Gautam Hathiramani"],firstOfficers:["Rishabh Tripathi","Amit Sharma"]}},
