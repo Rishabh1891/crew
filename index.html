@@ -2908,122 +2908,94 @@ const ROSTER = {
   "2026-11-14": [{type:"reserve", location:"DEL", start:"04:00", end:"14:00", queue:73, note:"ASBY · Starting Queue 73 · 04:00 AM–02:00 PM IST"}],
   "2026-11-15": [
     {
-      type: "flight",
-      flightNo: "AIC189",
-      aircraft: "Boeing 777-300ER (Widebody)",
-      dep: "DEL",
-      arr: "VIE",
-      depTime: "09:40",
-      arrTime: "15:45",
-      airtime: "09h 40m",
-      note: "Terminal 3 → Terminal 3 · New Delhi (DEL) to Vienna (VIE) · 09:40 AM IST → 03:45 PM CET · Nonstop",
-      crew: {
-        captains: ["Zoya Aggarwall", "Shreyas Kapoor"],
-        firstOfficers: ["Rishabh Tripathi", "Amrit Kaur"],
-        cabin: [
-          "Kritika Reddy",
-          "Sneha Chatterjee",
-          "Rahul Verma",
-          "Kavya Nambiar",
-          "Tenzin Yangchen",
-          "Ananya Deshmukh",
-          "Ritu Choudhury",
-          "Aditya Nair",
-          "Pooja Sharma",
-          "Meera Sundaram",
-          "Ankit Vats",
-          "Shreya Patel",
-          "Lunkim Haokip",
-          "Roshan D'Souza",
-          "Harpreet Kaur"
-        ]
-      }
-    },
-    {
-      type: "flight",
-      flightNo: "AIC189",
-      aircraft: "Boeing 777-300ER (Widebody)",
-      dep: "VIE",
-      arr: "YYZ",
-      depTime: "17:05",
-      arrTime: "20:50",
-      airtime: "09h 45m",
-      note: "Terminal 3 → Terminal 1 · Vienna (VIE) to Toronto (YYZ) · 05:05 PM CET → 08:50 PM EST · Nonstop",
-      crew: {
-        captains: ["Rajat Malhotra", "Shreyas Kapoor"],
-        firstOfficers: ["Rishabh Tripathi", "Amrit Kaur"],
-        cabin: [
-          "Kritika Reddy",
-          "Sneha Chatterjee",
-          "Rahul Verma",
-          "Kavya Nambiar",
-          "Tenzin Yangchen",
-          "Ananya Deshmukh",
-          "Ritu Choudhury",
-          "Aditya Nair",
-          "Pooja Sharma",
-          "Meera Sundaram",
-          "Ankit Vats",
-          "Shreya Patel",
-          "Lunkim Haokip",
-          "Roshan D'Souza",
-          "Harpreet Kaur"
-        ]
-      }
+      type: "reserve",
+      location: "DEL",
+      start: "06:00",
+      end: "14:00",
+      info: "Pull Out Safe",
+      note: "ASBY · Pull Out Safe"
     }
   ],
   "2026-11-16": [
     {
       type: "flight",
-      flightNo: "AIC190",
-      aircraft: "Boeing 777-300ER (Widebody)",
-      dep: "YYZ",
-      arr: "DEL",
-      depTime: "00:35",
-      arrTime: "02:50+1",
-      airtime: "15h 45m",
-      note: "Terminal 1 → Terminal 3 · Toronto (YYZ) to New Delhi (DEL) · 12:35 AM EST (Mon 16 Nov) → 02:50 AM IST (Tue 17 Nov) · Nonstop",
+      flightNo: "AI 423",
+      aircraft: "Boeing 777-300ER",
+      dep: "DEL",
+      arr: "AMD",
+      depTime: "01:15",
+      arrTime: "03:00",
+      airtime: "01h 45m",
+      note: "Terminal 3 (Gate 37) → Terminal 2 · New Delhi (DEL) to Ahmedabad (AMD) · 01:15 AM → 03:00 AM IST",
       crew: {
-        captains: ["Rajat Malhotra", "Shreyas Kapoor"],
-        firstOfficers: ["Rishabh Tripathi", "Amrit Kaur"],
+        captains: ["Iftiqar Bhatt"],
+        firstOfficers: ["Rishabh Tripathi"],
         cabin: [
-          "Kritika Reddy",
           "Sneha Chatterjee",
-          "Rahul Verma",
           "Kavya Nambiar",
-          "Tenzin Yangchen",
-          "Ananya Deshmukh",
-          "Ritu Choudhury",
-          "Aditya Nair",
           "Pooja Sharma",
+          "Ananya Deshmukh",
+          "Tenzin Yangchen",
+          "Ritu Choudhury",
           "Meera Sundaram",
-          "Ankit Vats",
+          "Kritika Rathore",
           "Shreya Patel",
+          "Deepali Verma",
+          "Swati Sen",
+          "Roshni Gowda",
           "Lunkim Haokip",
-          "Roshan D'Souza",
-          "Harpreet Kaur"
+          "Harpreet Kaur",
+          "Divya Reddiar"
         ]
       }
+    },
+    {
+      type: "layover",
+      location: "Ahmedabad, India",
+      hotel: {
+        name: "Taj Skyline Ahmedabad",
+        address: "Sindhu Bhavan Marg, PRL Colony, Bodakdev, Ahmedabad, Gujarat 380058"
+      },
+      note: "Layover at Taj Skyline Ahmedabad"
     }
   ],
   "2026-11-17": [
     {
       type: "flight",
-      flightNo: "AIC190",
-      aircraft: "Boeing 777-300ER (Widebody)",
-      dep: "YYZ",
+      flightNo: "AI 424",
+      aircraft: "Boeing 777-300ER",
+      dep: "AMD",
       arr: "DEL",
-      arrTime: "02:50",
-      airtime: "15h 45m",
-      continuation: true,
-      continuesFrom: "2026-11-16",
-      showExitIcon: true,
-      note: "Arrival at Indira Gandhi International Airport (DEL Terminal 3) · 02:50 AM IST · Continued from Nov 16"
+      depTime: "06:15",
+      arrTime: "07:50",
+      airtime: "01h 35m",
+      note: "Terminal 2 (Gate -) → Terminal 3 · Ahmedabad (AMD) to New Delhi (DEL) · 06:15 AM → 07:50 AM IST",
+      crew: {
+        captains: ["Iftiqar Bhatt"],
+        firstOfficers: ["Rishabh Tripathi"],
+        cabin: [
+          "Sneha Chatterjee",
+          "Kavya Nambiar",
+          "Pooja Sharma",
+          "Ananya Deshmukh",
+          "Tenzin Yangchen",
+          "Ritu Choudhury",
+          "Meera Sundaram",
+          "Kritika Rathore",
+          "Shreya Patel",
+          "Deepali Verma",
+          "Swati Sen",
+          "Roshni Gowda",
+          "Lunkim Haokip",
+          "Harpreet Kaur",
+          "Divya Reddiar"
+        ]
+      }
     },
     {
       type: "off",
-      start: "02:50",
-      note: "Post-flight mandatory FTL rest"
+      start: "07:50",
+      note: "Post-flight mandatory rest"
     }
   ],
   "2026-11-18": [{type:"off", note:"Rest"}],
@@ -4048,8 +4020,9 @@ function renderDashboard(){
         <div class="upnext-grid">
           <div class="up-field"><div class="up-field-label">Location</div><div class="up-field-value">${item.location || CURRENT_USER.base}</div></div>
           <div class="up-field"><div class="up-field-label">Start</div><div class="up-field-value">${item.start || "00:00"}</div></div>
-          <div class="up-field"><div class="up-field-label">End</div><div class="up-field-value">${item.end || "00:00"}</div></div>
-        </div>`
+          <div class="up-field"><div class="up-field-label">${item.type === "reserve" ? (item.queue ? "Queue" : (item.info ? "Status" : "End")) : "End"}</div><div class="up-field-value">${item.type === "reserve" ? (item.info || (item.queue ? `Queue ${item.queue}` : item.end || "00:00")) : (item.end || "00:00")}</div></div>
+        </div>
+        ${item.note ? `<div style="margin-top:10px; font-size:12px; font-weight:600; color:var(--ink-muted); display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-circle-info" style="color:var(--cae-blue);"></i> ${item.note}</div>` : ""}`
       }`;
   }
 
@@ -4633,7 +4606,7 @@ function buildDutyRowsHTML(items, dateStr, keyPrefix){
         <div class="di-grid">
           <div class="di-col"><div class="di-label">Location</div><div class="di-value">${reserveLocationLabel(item)}</div></div>
           <div class="di-col"><div class="di-label">Start</div><div class="di-value">${item.start || ""}</div></div>
-          <div class="di-col"><div class="di-label">End</div><div class="di-value">${item.end || ""}</div></div>
+          <div class="di-col"><div class="di-label">${item.queue ? "Queue" : (item.info ? "Status" : "End")}</div><div class="di-value">${item.queue || item.info || item.end || ""}</div></div>
         </div>`;
       if (item.note) noteHtml = `<div class="di-note">${item.note}</div>`;
       clickable = false; // reserve intentionally has no drill-down detail
