@@ -2315,7 +2315,7 @@ body{ background:var(--bg-outer); }
           <div class="mm-ico" style="background:#E6FFFA; color:#319795;"><i class="fa-solid fa-comments"></i></div>
           <span>Crew Chat</span>
         </button>
-        <button onclick="switchViewFromMore('board')">
+        <button onclick="switchViewFromMore('board_overview')">
           <div class="mm-ico" style="background:#EDF2F7; color:#4A5568;"><i class="fa-solid fa-chart-pie"></i></div>
           <span>Logbook / FTL</span>
         </button>
@@ -3163,6 +3163,7 @@ function createAI537Pairing(date){
       type:"flight",
       flightNo:"AI 537",
       aircraft:"Boeing 777-300ER (77W)",
+      registration:"VT-ALN",
       dep:"DEL",
       arr:"MAA",
       depTime:"15:45",
@@ -3175,6 +3176,7 @@ function createAI537Pairing(date){
       type:"flight",
       flightNo:"AI 538",
       aircraft:"Boeing 777-300ER (77W)",
+      registration:"VT-ALN",
       dep:"MAA",
       arr:"DEL",
       depTime:"20:00",
@@ -3185,20 +3187,32 @@ function createAI537Pairing(date){
     }
   ];
 }
+SCHEDULE["2026-11-16"] = createAI537Pairing("2026-11-16");
 
 // These notices are scoped to the affected Chennai sector and are shown only
 // in the selected day's detail panel.
 const SCHEDULE_NOTICES = {
   "2026-09-15": "Operations suspended due to AEP issue for this sector only.",
-  "2026-09-16": "Layover suspended for this sector only."
+  "2026-09-16": "Layover suspended for this sector only.",
+  "2026-11-16": "Crew-reported 'rotawetter' issue on aircraft VT-ALN; pending maintenance confirmation before its next takeoff."
 };
+
+const AIRCRAFT_LOGBOOK = [
+  {
+    date:"2026-11-16",
+    time:"03:13 AM",
+    aircraft:"VT-ALN",
+    sector:"DEL–MAA · AI 537",
+    reporter:"Harnidhi Sandhu",
+    report:"'Rotawetter' issue reported. Confirm with maintenance before the aircraft's next takeoff.",
+    status:"Pending maintenance confirmation"
+  }
+];
 
 /* ---- Mock duty swap requests -------------------------------------------
    direction: "incoming" (someone asked YOU) / "outgoing" (you requested) */
-let SWAPS = [
-  { id:12, direction:"incoming", status:"pending", date:"2026-11-15", route:"DEL · Reserve (06:00–14:00 IST)", counterparty:"Harnidhi Sandhu", crewId:"84620175", photo:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAkoMv2XW3JZTXC5c9rzCLjq7X-XZznTSSYRzHECcFliBpfOs5X5guKz6r&s=10", offerDate:"2026-11-16", offerRoute:"DEL → MAA → DEL · AI 537 / AI 538", offerFlightNums:["AI 537","AI 538"], note:"Requesting today's DEL reserve duty in exchange for my AI 537 / AI 538 Delhi–Chennai return tomorrow, 16 Nov. Approving replaces your 16 Nov roster with this pairing." },
-];
-let swapIdCounter = Math.max(...SWAPS.map(s => s.id)) + 1;
+let SWAPS = [];
+let swapIdCounter = 1;
 
 /* ==========================================================================
    CREW DIRECTORY FOR DUTY SWAPS
@@ -3527,6 +3541,14 @@ const MY_BIDS = [
 /* ---- Mock chat threads ---------------------------------------------------*/
 const CHATS = [
   {
+    name: "Harnidhi Sandhu",
+    initials: "HS",
+    photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAkoMv2XW3JZTXC5c9rzCLjq7X-XZznTSSYRzHECcFliBpfOs5X5guKz6r&s=10",
+    preview: "Happy flying. 🫰❤️",
+    time: "03:14 AM",
+    date: "16 Nov 2026"
+  },
+  {
     name: "Pavan Kesarbai Sinha",
     initials: "PS",
     photo: "https://media.licdn.com/dms/image/v2/D5603AQGM7oRNwxUdfg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1711207227622?e=1796256000&v=beta&t=yzcjut1kuUWM6ju-ZNJ2WZjP00IkY-XXD8RJGKpAoIQ",
@@ -3577,6 +3599,12 @@ const CHATS = [
 ];
 
 const CHAT_MESSAGES = [
+  [
+    { direction:"incoming", text:"Hey captain, thanks for accepting my swap it helped a lot.", time:"03:11 AM", date:"16 Nov 2026" },
+    { direction:"incoming", text:"Also, the Aircraft VT-ALN has some rotawetter issue, kindly confirm before its next take off.", time:"03:12 AM" },
+    { direction:"incoming", text:"Add in log book.", time:"03:13 AM" },
+    { direction:"incoming", text:"Happy flying. 🫰❤️", time:"03:14 AM" }
+  ],
   [
     { direction: "outgoing", text: "Hey Pavan, this is First Officer Rishabh speaking. I got your reference from Swati.", time: "04:03 PM", date: "14 Nov 2026" },
     { direction: "incoming", text: "Hey captain how are you. Good to connect.", time: "04:04 PM" },
@@ -3938,6 +3966,9 @@ function switchViewFromMore(viewName){
   } else if (viewName === 'board_mybids'){
     switchView('board');
     switchBidTab('mybids');
+  } else if (viewName === 'board_overview'){
+    switchView('board');
+    switchBidTab('overview');
   } else {
     switchView(viewName);
   }
@@ -5247,6 +5278,7 @@ function boardStats(key){
 
 function renderBoardOverview(container){
   const key=boardMonthKey(), stats=boardStats(key), d=getBidPeriodDate();
+  const aircraftLogEntries = AIRCRAFT_LOGBOOK.filter(entry => entry.date.startsWith(key));
   const totalDays=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
   const previous=boardStats(`${new Date(d.getFullYear(),d.getMonth()-1,1).getFullYear()}-${String(new Date(d.getFullYear(),d.getMonth()-1,1).getMonth()+1).padStart(2,'0')}`);
   const colors=['#26899a','#42b8a7','#bd80a4','#bac7d5','#d6a15c'];
@@ -5260,6 +5292,19 @@ function renderBoardOverview(container){
   const ftl28Pct = Math.min(Math.round((blockHours / 100) * 100), 100);
   const ftl365Hours = 310 + blockHours;
   const ftl365Pct = Math.min(Math.round((ftl365Hours / 900) * 100), 100);
+  const aircraftLogbookPanel = aircraftLogEntries.length ? `
+    <div class="board-panel">
+      <h3><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i> Aircraft Logbook</h3>
+      ${aircraftLogEntries.map(entry => `
+        <div style="background:var(--card-alt); border:1px solid var(--line); border-radius:10px; padding:11px 12px; margin-top:10px;">
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px;">
+            <strong>${escapeChatText(entry.aircraft)} · ${escapeChatText(entry.sector)}</strong>
+            <span style="font-size:10px; font-weight:700; color:#A16207; text-align:right;">${escapeChatText(entry.status)}</span>
+          </div>
+          <p class="board-note" style="margin:7px 0 0;">${escapeChatText(entry.report)}</p>
+          <p class="board-note" style="margin:5px 0 0;">Crew report · ${escapeChatText(entry.reporter)} · ${prettyDate(entry.date, {day:"numeric", month:"short", year:"numeric"})} at ${escapeChatText(entry.time)}</p>
+        </div>`).join("")}
+    </div>` : "";
 
   container.innerHTML=`
     <div class="board-hero">
@@ -5268,6 +5313,7 @@ function renderBoardOverview(container){
       <p>${stats.days.length} of ${totalDays} days recorded · ${CURRENT_USER.base} Base · Boeing 777 Fleet</p>
     </div>
     <p class="board-note">Calculated from your saved roster · Certified flight time & regulatory FTL tracker.</p>
+    ${aircraftLogbookPanel}
     ${!stats.days.length?`<div class="board-panel board-empty"><i class="fa-regular fa-calendar" aria-hidden="true"></i><h3>No roster for this month</h3>Select another month to explore your flying activity. Unrecorded days are not counted as rest.</div><button class="board-action" onclick="switchBidTab('open')">Explore open time <i class="fa-solid fa-arrow-right"></i></button>`:`
 
     <!-- Regulatory FTL & Recency Cards -->
