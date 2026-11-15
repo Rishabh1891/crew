@@ -903,6 +903,12 @@ input{ font-family:inherit; }
 .status-chip.declined{ background:#FBDFE1; color:#B23348; }
 .swap-people{ font-size:12.5px; color:var(--ink-muted); margin-top:9px; }
 .swap-people b{ color:var(--ink); }
+.swap-requester{ display:flex; align-items:center; gap:9px; margin-top:10px; }
+.swap-requester img{ width:34px; height:34px; border-radius:50%; object-fit:cover; flex-shrink:0; }
+.swap-requester-name{ font-size:12px; color:var(--ink-muted); }
+.swap-requester-name b{ color:var(--ink); }
+.swap-offer{ font-size:12px; color:var(--ink-muted); margin-top:8px; }
+.swap-offer b{ color:var(--ink); }
 .swap-actions{ display:flex; gap:8px; margin-top:12px; }
 .btn-sm{ flex:1; border:none; padding:10px; border-radius:9px; font-weight:700; font-size:12.5px; }
 .btn-sm.accept{ background:var(--navy); color:#fff; }
@@ -1176,6 +1182,7 @@ input{ font-family:inherit; }
 }
 .btn-bid:hover{ opacity:.88; }
 .btn-bid.bid-placed{ background:#22C55E; }
+.btn-bid.bid-closed{ background:#9AA3B2; cursor:not-allowed; }
 .btn-bid-detail{
   width:36px; height:36px; background:var(--card-alt); border:none; border-radius:9px;
   color:var(--ink-muted); font-size:13px; cursor:pointer; display:flex;
@@ -1862,13 +1869,13 @@ body{ background:var(--bg-outer); }
 .crew-section-heading h2{margin:0;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft)}
 .crew-section-heading button{border:0;background:none;color:var(--cae-blue);font-size:11px;min-height:32px}
 .crew-agenda{border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.crew-agenda-row{width:100%;display:flex;align-items:center;gap:13px;text-align:left;background:var(--surface);color:var(--ink);border:0;border-bottom:1px solid var(--line);padding:14px 12px}
+.crew-agenda-row{width:100%;display:flex;align-items:center;gap:9px;text-align:left;background:var(--surface);color:var(--ink);border:0;border-bottom:1px solid var(--line);padding:9px 10px}
 .crew-agenda-row:last-child{border-bottom:0}.crew-agenda-row:hover{background:var(--card-alt)}
-.crew-agenda-date{width:36px;flex-shrink:0;text-align:center;font-size:9px;text-transform:uppercase;color:var(--ink-muted);line-height:1.6}
-.crew-agenda-date strong{display:block;font-size:20px;font-weight:600;line-height:1.2;color:var(--ink)}
-.crew-agenda-icon{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--card);flex-shrink:0}
-.crew-agenda-copy{flex:1;min-width:0}.crew-agenda-copy strong{display:block;font-size:12px;font-weight:600}
-.crew-agenda-copy small{display:block;font-size:10px;line-height:1.6;color:var(--ink-soft);margin-top:3px}
+.crew-agenda-date{width:30px;flex-shrink:0;text-align:center;font-size:9px;text-transform:uppercase;color:var(--ink-muted);line-height:1.35}
+.crew-agenda-date strong{display:block;font-size:18px;font-weight:600;line-height:1.15;color:var(--ink)}
+.crew-agenda-icon{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--card);flex-shrink:0}
+.crew-agenda-copy{flex:1;min-width:0;overflow:hidden}.crew-agenda-copy strong{display:block;font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crew-agenda-copy small{display:block;font-size:10px;line-height:1.3;color:var(--ink-soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .crew-agenda-row>.fa-chevron-right{font-size:10px;color:var(--ink-muted)}
 #app-root button:focus-visible,#app-root [tabindex]:focus-visible{outline:2px solid var(--cae-blue);outline-offset:3px}
 @media(min-width:600px){#app-root{border-left:1px solid var(--line);border-right:1px solid var(--line)}}
@@ -2069,8 +2076,8 @@ body{ background:var(--bg-outer); }
 
       <!-- Tabs -->
       <div class="bid-tabs">
-        <button class="bid-tab active" id="bid-tab-overview" onclick="switchBidTab('overview')">Overview</button>
-        <button class="bid-tab" id="bid-tab-open" onclick="switchBidTab('open')">Open Time</button>
+        <button class="bid-tab" id="bid-tab-overview" onclick="switchBidTab('overview')">Overview</button>
+        <button class="bid-tab active" id="bid-tab-open" onclick="switchBidTab('open')">Open Time</button>
         <button class="bid-tab" id="bid-tab-swaps" onclick="switchBidTab('swaps')">
           Swap requests
           <span class="bid-count-pill" id="bid-swaps-count">8</span>
@@ -2342,6 +2349,14 @@ body{ background:var(--bg-outer); }
             <input type="checkbox" id="dark-mode-toggle" onchange="toggleTheme(this.checked)">
             <span class="theme-slider"></span>
           </label>
+        </div>
+        <div class="settings-row" onclick="openOpenTimeBoard()">
+          <div class="settings-row-icon"><i class="fa-solid fa-plane"></i></div>
+          <div class="settings-row-text">
+            <div class="settings-row-title">Open Time</div>
+            <div class="settings-row-sub">November 2026 · View pairings and bids</div>
+          </div>
+          <i class="fa-solid fa-chevron-right chev"></i>
         </div>
         <div class="settings-row" onclick="showToast('Opening notification settings', 'fa-bell')">
           <div class="settings-row-icon"><i class="fa-solid fa-bell"></i></div>
@@ -3140,6 +3155,37 @@ for (const [date, events] of Object.entries(ROSTER)){
 // Existing screen code reads this alias; keep it when adding roster entries.
 const SCHEDULE = ROSTER;
 
+function createAI537Pairing(date){
+  const crew = novemberCrew(`${date}-AI537-538`);
+  crew.firstOfficers = ["Rishabh Tripathi"];
+  return [
+    {
+      type:"flight",
+      flightNo:"AI 537",
+      aircraft:"Boeing 777-300ER (77W)",
+      dep:"DEL",
+      arr:"MAA",
+      depTime:"15:45",
+      arrTime:"18:30",
+      airtime:"02h 45m",
+      note:"Delhi Terminal 3 → Chennai Terminal 4 · Daily service · 03:45 PM–06:30 PM IST · Scheduled block 2h 45m",
+      crew
+    },
+    {
+      type:"flight",
+      flightNo:"AI 538",
+      aircraft:"Boeing 777-300ER (77W)",
+      dep:"MAA",
+      arr:"DEL",
+      depTime:"20:00",
+      arrTime:"22:45",
+      airtime:"02h 45m",
+      note:"Chennai Terminal 4 → Delhi Terminal 3 · Daily service · 08:00 PM–10:45 PM IST · Scheduled block 2h 45m",
+      crew
+    }
+  ];
+}
+
 // These notices are scoped to the affected Chennai sector and are shown only
 // in the selected day's detail panel.
 const SCHEDULE_NOTICES = {
@@ -3150,17 +3196,7 @@ const SCHEDULE_NOTICES = {
 /* ---- Mock duty swap requests -------------------------------------------
    direction: "incoming" (someone asked YOU) / "outgoing" (you requested) */
 let SWAPS = [
-  { id:4, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Nikhil Bhatia", crewId:"58172634", note:"First Officer · B777-300ER · Requesting both sectors, 08:00–12:15 IST. Can offer my 28 October Delhi–Mumbai return." },
-  { id:5, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Aditya Sethi", crewId:"63819427", note:"First Officer · B777-300ER · Available for the full Amritsar return trip. Happy to exchange a domestic turn later this month." },
-  { id:6, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Karan Malhotra", crewId:"71428653", note:"First Officer · B777-300ER · Prefer the 08:00 Delhi departure and 12:15 return. Can offer my 29 October Delhi–Ahmedabad return." },
-  { id:7, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Rohit Menon", crewId:"82936145", note:"First Officer · B777-300ER · Requesting the same-day AI421/AI422 pairing. Available to report at Delhi Terminal 3." },
-  { id:8, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Vivek Khanna", crewId:"49381726", note:"First Officer · B777-300ER · Looking for an Amritsar turn on 26 October. Can offer my 30 October Delhi–Hyderabad return." },
-  { id:9, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Arjun Nair", crewId:"56294813", note:"First Officer · B777-300ER · Available for AI421 at 08:00 and AI422 at 10:50. Prefer to swap the complete return pairing." },
-  { id:10, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Devansh Rao", crewId:"68723594", note:"First Officer · B777-300ER · Requesting your Delhi–Amritsar return. Can exchange my 31 October Delhi–Chennai return." },
-  { id:11, direction:"incoming", status:"pending", date:"2026-10-26", route:"DEL → ATQ → DEL · AI421 / AI422", counterparty:"Akash Kulkarni", crewId:"75349182", note:"First Officer · B777-300ER · Available for both legs on 26 October, returning to Delhi at 12:15 IST. Flexible on the exchange date." },
-  { id:1, direction:"incoming", status:"pending",  date:"2026-11-07", route:"DEL → BOM · AI401", counterparty:"Ashu Puneet", crewId:"CA2231", note:"Family event, can trade my Nov 10 DXB turn if that helps." },
-  { id:2, direction:"outgoing", status:"pending",  date:"2026-09-19", route:"DEL → DXB · AI945", counterparty:"Marcus Lee",    crewId:"CA1188", note:"" },
-  { id:3, direction:"outgoing", status:"accepted", date:"2026-08-15", route:"DEL Training",       counterparty:"Priya Menon",   crewId:"CA1042", note:"" }
+  { id:12, direction:"incoming", status:"pending", date:"2026-11-15", route:"DEL · Reserve (06:00–14:00 IST)", counterparty:"Harnidhi Sandhu", crewId:"84620175", photo:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAkoMv2XW3JZTXC5c9rzCLjq7X-XZznTSSYRzHECcFliBpfOs5X5guKz6r&s=10", offerDate:"2026-11-16", offerRoute:"DEL → MAA → DEL · AI 537 / AI 538", offerFlightNums:["AI 537","AI 538"], note:"Requesting today's DEL reserve duty in exchange for my AI 537 / AI 538 Delhi–Chennai return tomorrow, 16 Nov. Approving replaces your 16 Nov roster with this pairing." },
 ];
 let swapIdCounter = Math.max(...SWAPS.map(s => s.id)) + 1;
 
@@ -3174,6 +3210,7 @@ let swapIdCounter = Math.max(...SWAPS.map(s => s.id)) + 1;
    - First Officer Laxmi Joshi: 39624730
    - First Officer Malishka Rajanna: 42555158
    - Devika Vahiramuthry: 09628492
+   - Harnidhi Sandhu: 84620175
    ========================================================================== */
 const KNOWN_CREW_MEMBERS = {
   "46296492": {
@@ -3221,6 +3258,14 @@ const KNOWN_CREW_MEMBERS = {
     rank: "First Officer",
     crewId: "42555158",
     base: "BLR",
+    fleet: "B777",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAkoMv2XW3JZTXC5c9rzCLjq7X-XZznTSSYRzHECcFliBpfOs5X5guKz6r&s=10"
+  },
+  "84620175": {
+    name: "Harnidhi Sandhu",
+    rank: "First Officer",
+    crewId: "84620175",
+    base: "DEL",
     fleet: "B777",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAkoMv2XW3JZTXC5c9rzCLjq7X-XZznTSSYRzHECcFliBpfOs5X5guKz6r&s=10"
   },
@@ -3440,6 +3485,31 @@ const OPEN_TIME = [
     airline:"Air India"
   }
 ];
+
+for (let day = 1; day <= 30; day++){
+  const date = `2026-11-${String(day).padStart(2, "0")}`;
+  OPEN_TIME.push({
+    id:`OT-AI537-538-${String(day).padStart(2, "0")}`,
+    flightNums:["AI 537","AI 538"],
+    route:["DEL","MAA","DEL"],
+    startDate:date,
+    endDate:date,
+    depTime:"15:45",
+    arrTime:"22:45",
+    duration:"7h 00m pairing",
+    aircraft:"B777-300ER",
+    type:"dom",
+    rank:"fo",
+    slots:1,
+    totalSlots:2,
+    pairing:"P-537/538",
+    sector:"DEL–MAA–DEL",
+    credit:"5h 30m",
+    layover:"Chennai Terminal 4",
+    layoverHrs:"1h 30m transit",
+    airline:"Air India"
+  });
+}
 
 const MY_BIDS = [
   {
@@ -3744,6 +3814,12 @@ function openSettings(){
 }
 function closeSettings(){
   document.getElementById("settings-overlay").classList.remove("show");
+}
+function openOpenTimeBoard(){
+  bidPeriodOffset = (2026 - TODAY.getFullYear()) * 12 + (10 - TODAY.getMonth());
+  closeSettings();
+  switchView("board");
+  switchBidTab("open");
 }
 
 /* ==========================================================================
@@ -4108,10 +4184,17 @@ function renderUpcomingDuties(){
     row.className = "crew-agenda-row";
     const flightRoute = flights.length > 1 ? `${flights[0].dep} → ${flights.map(item => item.arr).join(" → ")}` : `${duty.dep} → ${duty.arr}`;
     const title = flights.length > 1 ? `${flights.map(item => item.flightNo).join(" + ")} · ${flightRoute}` : duty.type === "flight" ? `${duty.flightNo} · ${duty.dep} → ${duty.arr}` : duty.leaveCode === "SL" ? "Medical Leave · SL" : meta.label;
-    const timing = flights.length > 1 ? flights.map(item => `${item.depTime}–${item.arrTime}`).join(" · ") : duty.type === "flight" ? `${duty.depTime} – ${duty.arrTime}` : [duty.start, duty.end].filter(Boolean).join(" – ");
+    const timing = flights.length > 1
+      ? flights.map(item => item.depTime && item.arrTime ? `${item.depTime}–${item.arrTime}` : `Arrival ${item.arrTime || ""}`).join(" · ")
+      : duty.type === "flight"
+        ? duty.continuation ? `Arrival ${duty.arrTime}` : `${duty.depTime}–${duty.arrTime}${duty.airtime ? ` · ${duty.airtime}` : ""}`
+        : [duty.start, duty.end].filter(Boolean).join("–");
+    const supportingDetail = duty.type === "reserve"
+      ? duty.info || (duty.queue ? `Queue ${duty.queue}` : duty.location)
+      : duty.location;
     const detail = flights.length > 1
-      ? [timing, flights.map(item => item.note).filter(Boolean).join(" · "), flights[0].aircraft].filter(Boolean).join(" · ")
-      : [timing, duty.type === "flight" ? duty.airtime : duty.note].filter(Boolean).join(" · ");
+      ? `${timing} · ${flights.length} sectors`
+      : [timing, supportingDetail].filter(Boolean).join(" · ");
     row.innerHTML = `<span class="crew-agenda-date"></span><span class="crew-agenda-icon"><i aria-hidden="true"></i></span><span class="crew-agenda-copy"><strong></strong><small></small></span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>`;
     const dateLabel = row.querySelector(".crew-agenda-date");
     dateLabel.textContent = prettyDate(date, {month:"short"});
@@ -4902,6 +4985,8 @@ function renderSwapCards(list, items, emptyMessage = "No incoming swap requests 
         <span class="status-chip ${s.status}">${s.status}</span>
       </div>
       <div class="swap-people">${s.direction === "incoming" ? "Requested by" : "Swap with"} <b>${s.counterparty}</b> · ${s.crewId}</div>
+      ${s.photo ? `<div class="swap-requester"><img src="${s.photo}" alt="${s.counterparty}" onerror="this.style.display='none';"><div class="swap-requester-name">Crew profile · <b>${s.counterparty}</b></div></div>` : ""}
+      ${s.offerDate && s.offerRoute ? `<div class="swap-offer"><b>Offered for ${prettyDate(s.offerDate, {day:"2-digit", month:"short", year:"numeric"})}:</b> ${s.offerRoute}</div>` : ""}
       ${s.note ? `<div class="swap-people" style="margin-top:6px;">"${s.note}"</div>` : ""}
       ${s.status === "pending" && s.direction === "incoming" ? `
         <div class="swap-actions">
@@ -4920,6 +5005,14 @@ function respondSwap(id, newStatus){
   const s = SWAPS.find(x => x.id === id);
   if (!s) return;
   s.status = newStatus;
+  if (newStatus === "accepted" && s.direction === "incoming" &&
+      s.offerDate && s.offerFlightNums?.includes("AI 537") && s.offerFlightNums?.includes("AI 538")){
+    SCHEDULE[s.offerDate] = createAI537Pairing(s.offerDate);
+    scheduleViewMonth = new Date(s.offerDate + "T00:00:00");
+    scheduleSelectedDate = s.offerDate;
+    scheduleDetailOpen = true;
+    renderScheduleCalendar();
+  }
   renderSwapList();
   renderBidContent();
   renderDashboard();
@@ -5079,9 +5172,10 @@ function submitSwapRequest(){
    ========================================================================== */
 
 /* ---- State ---- */
-let bidTab = "overview";          // "overview" | "open" | "swaps" | "mybids"
+let bidTab = "open";              // "overview" | "open" | "swaps" | "mybids"
 let bidFilter = "all";        // filter chip value
-let bidPeriodOffset = 0;      // months offset from current month
+let bidPeriodOffset = (2026 - TODAY.getFullYear()) * 12 + (10 - TODAY.getMonth());
+                                  // Start on the requested November 2026 bid period.
 let placedBids = new Set();   // IDs of open-time pairings user has bid on this session
 
 /* --- Airport city name lookup --- */
@@ -5101,6 +5195,12 @@ function getBidPeriodDate(){
 function boardMonthKey(){
   const d = getBidPeriodDate();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
+}
+function isOpenTimeClosed(pairing){
+  return new Date(`${pairing.startDate}T${pairing.depTime}:00+05:30`).getTime() <= Date.now();
+}
+function hasRosterConflict(pairing){
+  return (SCHEDULE[pairing.startDate] || []).some(item => item.type !== "off");
 }
 function boardHours(minutes){
   return `${Math.floor(minutes/60)}h ${String(minutes%60).padStart(2,"0")}m`;
@@ -5407,10 +5507,18 @@ function renderOTCard(t){
 
   // CTA button
   const tradeAccepted = t.tradeStatus === "accepted";
-  const btnLabel = tradeAccepted ? "✓ Trade Accepted" : alreadyBid ? (myBidEntry?.status === "approved" ? "✓ Approved" : "✓ Bid Placed") : "Bid for this Pairing";
-  const btnClass = (alreadyBid || tradeAccepted) ? "btn-bid bid-placed" : "btn-bid";
-  const btnDisabled = (alreadyBid || tradeAccepted) ? "disabled" : "";
-  const btnOnclick = (alreadyBid || tradeAccepted) ? "" : `onclick="placeBid('${t.id}')"`;
+  const biddingClosed = isOpenTimeClosed(t);
+  const rosterConflict = hasRosterConflict(t);
+  const unavailable = alreadyBid || tradeAccepted || biddingClosed || rosterConflict;
+  const btnLabel = biddingClosed ? "Bidding Closed"
+    : rosterConflict ? "Roster Conflict"
+    : tradeAccepted ? "✓ Trade Accepted"
+    : alreadyBid ? (myBidEntry?.status === "approved" ? "✓ Approved" : "✓ Bid Placed")
+    : "Bid for this Pairing";
+  const btnClass = alreadyBid || tradeAccepted ? "btn-bid bid-placed"
+    : unavailable ? "btn-bid bid-closed" : "btn-bid";
+  const btnDisabled = unavailable ? "disabled" : "";
+  const btnOnclick = unavailable ? "" : `onclick="placeBid('${t.id}')"`;
 
   return `
     <div class="ot-card" id="ot-card-${t.id}">
@@ -5466,15 +5574,27 @@ function renderOTCard(t){
 }
 
 function placeBid(id){
-  if (OPEN_TIME.find(t => t.id === id)?.tradeStatus === "accepted") return;
+  const pairing = OPEN_TIME.find(t => t.id === id);
+  if (!pairing) return;
+  if (isOpenTimeClosed(pairing)){
+    showToast("Bidding is closed for this departure", "fa-circle-xmark");
+    renderBidContent();
+    return;
+  }
+  if (hasRosterConflict(pairing)){
+    showToast("This pairing conflicts with your roster", "fa-circle-exclamation");
+    renderBidContent();
+    return;
+  }
+  if (pairing.tradeStatus === "accepted") return;
   placedBids.add(id);
   MY_BIDS.push({
     id:"MB-" + id, refId:id,
-    flightNums: OPEN_TIME.find(t=>t.id===id)?.flightNums || [],
-    sector: OPEN_TIME.find(t=>t.id===id)?.sector || "",
-    startDate: OPEN_TIME.find(t=>t.id===id)?.startDate || "",
-    aircraft: OPEN_TIME.find(t=>t.id===id)?.aircraft || "",
-    credit: OPEN_TIME.find(t=>t.id===id)?.credit || "",
+    flightNums: pairing.flightNums,
+    sector: pairing.sector,
+    startDate: pairing.startDate,
+    aircraft: pairing.aircraft,
+    credit: pairing.credit,
     status:"pending",
     submittedOn: new Date().toISOString().slice(0,10)
   });
