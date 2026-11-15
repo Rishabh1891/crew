@@ -448,6 +448,9 @@ input{ font-family:inherit; }
 #app-root .cal-cell .cal-training-icon svg{
   width:14px !important; height:14px !important; display:block !important;
 }
+#app-root .cal-cell .cal-img-ico{
+  width:20px !important; height:20px !important; object-fit:contain !important; display:inline-block !important; vertical-align:middle !important;
+}
 
 /* Airport Code */
 #app-root .cal-cell .cal-code{
@@ -2423,11 +2426,15 @@ const DUTY_TYPES = {
 
 const SCHEDULE_IMAGE_ICONS = {
   flight: "https://i.ibb.co/B5vNwGDV/ready-remove-plane-removebg-preview.png",
-  dutyExit: "https://i.ibb.co/Zzbbvj1T/door-readt-removebg-preview.png"
+  dutyExit: "https://i.ibb.co/Zzbbvj1T/door-readt-removebg-preview.png",
+  classroom: "https://i.postimg.cc/BL9Jv0gm/Gemini-Generated-Image-69uism69uism69ui-removebg-preview.png"
 };
 
 function scheduleImageIcon(item, className){
   const cls = className || "";
+  if (item && item.iconUrl){
+    return `<img class="${cls}" src="${item.iconUrl}" alt="Classroom Duty" style="width:22px;height:22px;object-fit:contain;display:block;">`;
+  }
   if (item.type === "training" || item.type === "groundTraining" || item.type === "easaTest"){
     return `<span class="${cls} training-person-cal-icon">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
@@ -2926,7 +2933,7 @@ const ROSTER = {
       depTime: "01:15",
       arrTime: "03:00",
       airtime: "01h 45m",
-      note: "Terminal 3 (Gate 37) → Terminal 2 · New Delhi (DEL) to Ahmedabad (AMD) · 01:15 AM → 03:00 AM IST",
+      note: "Terminal 3 (Gate 37) → Terminal 2 · New Delhi (DEL) to Ahmedabad (AMD) · 01:15 AM → 03:00 AM IST · 1h 45m",
       crew: {
         captains: ["Iftiqar Bhatt"],
         firstOfficers: ["Rishabh Tripathi"],
@@ -2950,17 +2957,6 @@ const ROSTER = {
       }
     },
     {
-      type: "layover",
-      location: "Ahmedabad, India",
-      hotel: {
-        name: "Taj Skyline Ahmedabad",
-        address: "Sindhu Bhavan Marg, PRL Colony, Bodakdev, Ahmedabad, Gujarat 380058"
-      },
-      note: "Layover at Taj Skyline Ahmedabad"
-    }
-  ],
-  "2026-11-17": [
-    {
       type: "flight",
       flightNo: "AI 424",
       aircraft: "Boeing 777-300ER",
@@ -2969,7 +2965,7 @@ const ROSTER = {
       depTime: "06:15",
       arrTime: "07:50",
       airtime: "01h 35m",
-      note: "Terminal 2 (Gate -) → Terminal 3 · Ahmedabad (AMD) to New Delhi (DEL) · 06:15 AM → 07:50 AM IST",
+      note: "Terminal 2 (Gate -) → Terminal 3 · Ahmedabad (AMD) to New Delhi (DEL) · 06:15 AM → 07:50 AM IST · 1h 35m",
       crew: {
         captains: ["Iftiqar Bhatt"],
         firstOfficers: ["Rishabh Tripathi"],
@@ -2998,8 +2994,39 @@ const ROSTER = {
       note: "Post-flight mandatory rest"
     }
   ],
-  "2026-11-18": [{type:"off", note:"Rest"}],
-  "2026-11-19": [{type:"off", note:"Rest"}],
+  "2026-11-17": [
+    {
+      type: "training",
+      title: "Classroom Duty · Subject Renewal",
+      location: "Air India Training Academy",
+      start: "11:00",
+      end: "17:00",
+      iconUrl: "https://i.postimg.cc/BL9Jv0gm/Gemini-Generated-Image-69uism69uism69ui-removebg-preview.png",
+      note: "Visit in Air India Training Academy, for studies of Subject Reneweal of Pilot Licence holders · 11:00 AM – 05:00 PM IST"
+    }
+  ],
+  "2026-11-18": [
+    {
+      type: "training",
+      title: "Classroom Duty · Subject Renewal",
+      location: "Air India Training Academy",
+      start: "11:00",
+      end: "17:00",
+      iconUrl: "https://i.postimg.cc/BL9Jv0gm/Gemini-Generated-Image-69uism69uism69ui-removebg-preview.png",
+      note: "Visit in Air India Training Academy, for studies of Subject Reneweal of Pilot Licence holders · 11:00 AM – 05:00 PM IST"
+    }
+  ],
+  "2026-11-19": [
+    {
+      type: "training",
+      title: "Classroom Duty · Subject Renewal",
+      location: "Air India Training Academy",
+      start: "11:00",
+      end: "17:00",
+      iconUrl: "https://i.postimg.cc/BL9Jv0gm/Gemini-Generated-Image-69uism69uism69ui-removebg-preview.png",
+      note: "Visit in Air India Training Academy, for studies of Subject Reneweal of Pilot Licence holders · 11:00 AM – 05:00 PM IST"
+    }
+  ],
   "2026-11-20": [
     {
       type: "flight",
@@ -4194,7 +4221,10 @@ function buildCalendarGrid(monthDate, opts){
       const meta = dutyMeta(primary.type);
       dutyMeaning = meta.label;
 
-      if (primary.type === "flight"){
+      if (primary.iconUrl){
+        iconHtml = `<img class="cal-ico cal-img-ico" src="${primary.iconUrl}" alt="${primary.type || 'Duty'}" style="width:18px;height:18px;object-fit:contain;display:block;">`;
+        codeHtml = `<span class="cal-code">${primary.calendarCode || "DEL"}</span>`;
+      } else if (primary.type === "flight"){
         const lastFlight = [...events].reverse().find(e => e.type === "flight") || primary;
         const isExit = primary.continuation || events.some(e => e.continuation) || primary.showExitIcon || dateStr === "2026-09-30";
         if (isExit){
@@ -4631,7 +4661,7 @@ function buildDutyRowsHTML(items, dateStr, keyPrefix){
         : (item.note ? `<div class="di-note">Day off</div>` : "");
       clickable = false;
     } else {
-      title = item.leaveCode === "SL" ? "Medical Leave · SL" : `${meta.label} · ${item.location || CURRENT_USER.base}`;
+      title = item.title || (item.leaveCode === "SL" ? "Medical Leave · SL" : `${meta.label} · ${item.location || CURRENT_USER.base}`);
       gridHtml = `
         <div class="di-grid">
           <div class="di-col"><div class="di-label">Location</div><div class="di-value">${item.location || CURRENT_USER.base}</div></div>
