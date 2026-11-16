@@ -2427,9 +2427,9 @@ const DUTY_TYPES = {
   flight:   { icon: "fa-plane-up",         bg: "#FBE3E3", fg: "#C62828", label: "Flight" },
   report:   { icon: "fa-right-to-bracket", bg: "#F1E6D4", fg: "#B98A52", label: "Report" },
   reserve:  { icon: "fa-clock",            bg: "#DBF0EC", fg: "#34A79C", label: "Reserve" },
-  training: { icon: "fa-calendar-user",    bg: "#FCE7F3", fg: "#D12B6D", label: "Training" },
-  groundTraining: { icon: "fa-calendar-user", bg: "#FCE7F3", fg: "#D12B6D", label: "Test FAA & EASA Regulatories" },
-  easaTest: { icon: "fa-calendar-user", bg: "#FCE7F3", fg: "#D12B6D", label: "EASA Regulatories Test" },
+  training: { icon: "fa-chalkboard-user",    bg: "#FCE7F3", fg: "#D12B6D", label: "Training" },
+  groundTraining: { icon: "fa-chalkboard-user", bg: "#FCE7F3", fg: "#D12B6D", label: "Test FAA & EASA Regulatories" },
+  easaTest: { icon: "fa-chalkboard-user", bg: "#FCE7F3", fg: "#D12B6D", label: "EASA Regulatories Test" },
   meeting:  { icon: "fa-people-group",     bg: "#F1E6D4", fg: "#B98A52", label: "Meeting" },
   conference: { icon: "fa-people-group",   bg: "#F1E6D4", fg: "#B98A52", label: "Conference" },
   medical:  { icon: "fa-stethoscope",      bg: "#FCE7E9", fg: "#C23B4A", label: "Class 1 Medical" },
@@ -3193,8 +3193,7 @@ SCHEDULE["2026-11-16"] = createAI537Pairing("2026-11-16");
 // in the selected day's detail panel.
 const SCHEDULE_NOTICES = {
   "2026-09-15": "Operations suspended due to AEP issue for this sector only.",
-  "2026-09-16": "Layover suspended for this sector only.",
-  "2026-11-16": "Crew-reported 'rotawetter' issue on aircraft VT-ALN; pending maintenance confirmation before its next takeoff."
+  "2026-09-16": "Layover suspended for this sector only."
 };
 
 const AIRCRAFT_LOGBOOK = [
@@ -4232,9 +4231,14 @@ function renderUpcomingDuties(){
     const day = document.createElement("strong");
     day.textContent = date.slice(-2);
     dateLabel.prepend(day);
-    const icon = row.querySelector(".crew-agenda-icon i");
-    icon.className = `fa-solid ${duty.leaveCode === "SL" ? "fa-kit-medical" : meta.icon}`;
-    icon.style.color = duty.leaveCode === "SL" ? "#C23B4A" : meta.fg;
+    const dutyIcon = duty.iconUrl ? scheduleImageIcon(duty, "crew-agenda-duty-icon") : "";
+    if (dutyIcon){
+      row.querySelector(".crew-agenda-icon").innerHTML = dutyIcon;
+    } else {
+      const icon = row.querySelector(".crew-agenda-icon i");
+      icon.className = `fa-solid ${duty.leaveCode === "SL" ? "fa-kit-medical" : meta.icon}`;
+      icon.style.color = duty.leaveCode === "SL" ? "#C23B4A" : meta.fg;
+    }
     row.querySelector(".crew-agenda-copy strong").textContent = title;
     row.querySelector("small").textContent = detail;
     row.setAttribute("aria-label", `${prettyDate(date, {day:"numeric",month:"long",year:"numeric"})}, ${title}, ${detail}`);
