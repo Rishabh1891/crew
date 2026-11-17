@@ -1874,6 +1874,8 @@ body{ background:var(--bg-outer); }
 .crew-agenda-date{width:30px;flex-shrink:0;text-align:center;font-size:9px;text-transform:uppercase;color:var(--ink-muted);line-height:1.35}
 .crew-agenda-date strong{display:block;font-size:18px;font-weight:600;line-height:1.15;color:var(--ink)}
 .crew-agenda-icon{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--card);flex-shrink:0}
+.crew-agenda-icon img,.crew-agenda-duty-icon{width:20px;height:20px;object-fit:contain;display:block}
+.crew-agenda-icon svg{width:20px;height:20px;display:block}
 .crew-agenda-copy{flex:1;min-width:0;overflow:hidden}.crew-agenda-copy strong{display:block;font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .crew-agenda-copy small{display:block;font-size:10px;line-height:1.3;color:var(--ink-soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .crew-agenda-row>.fa-chevron-right{font-size:10px;color:var(--ink-muted)}
@@ -2424,7 +2426,7 @@ const CURRENT_USER = {
 /* ---- Duty type styling: icon, colors, label ---------------------------- */
 const DUTY_TYPES = {
   inTransit: { icon: "fa-plane", bg: "#FBE3E3", fg: "#C62828", label: "In flight" },
-  flight:   { icon: "fa-plane-up",         bg: "#FBE3E3", fg: "#C62828", label: "Flight" },
+  flight:   { icon: "fa-plane",            bg: "#FBE3E3", fg: "#C62828", label: "Flight" },
   report:   { icon: "fa-right-to-bracket", bg: "#F1E6D4", fg: "#B98A52", label: "Report" },
   reserve:  { icon: "fa-clock",            bg: "#DBF0EC", fg: "#34A79C", label: "Reserve" },
   training: { icon: "fa-chalkboard-user",    bg: "#FCE7F3", fg: "#D12B6D", label: "Training" },
@@ -2448,7 +2450,7 @@ const SCHEDULE_IMAGE_ICONS = {
 function scheduleImageIcon(item, className){
   const cls = className || "";
   if (item && item.iconUrl){
-    return `<img class="${cls}" src="${item.iconUrl}" alt="Classroom Duty" style="width:22px;height:22px;object-fit:contain;display:block;">`;
+    return `<img class="${cls}" src="${item.iconUrl}" alt="Classroom Duty" style="width:22px;height:22px;object-fit:contain;display:block;" onerror="this.onerror=null;this.replaceWith((function(){var i=document.createElement('i');i.className='fa-solid fa-chalkboard-user';i.style.color='#D12B6D';return i;})())">`;
   }
   if (item.type === "training" || item.type === "groundTraining" || item.type === "easaTest"){
     return `<span class="${cls} training-person-cal-icon">
@@ -2468,7 +2470,9 @@ function scheduleImageIcon(item, className){
   const isDutyExit = item.type === "report" || item.continuation;
   const src = isDutyExit ? SCHEDULE_IMAGE_ICONS.dutyExit : SCHEDULE_IMAGE_ICONS.flight;
   const alt = isDutyExit ? "Reporting or duty exit" : "Flight";
-  return `<img class="${cls}" src="${src}" alt="${alt}">`;
+  const fallbackIcon = isDutyExit ? "fa-right-to-bracket" : "fa-plane";
+  const fallbackColor = isDutyExit ? "#B98A52" : "#C62828";
+  return `<img class="${cls}" src="${src}" alt="${alt}" onerror="this.onerror=null;this.replaceWith((function(){var i=document.createElement('i');i.className='fa-solid ${fallbackIcon}';i.style.color='${fallbackColor}';return i;})())">`;
 }
 
 /* ---- Airport reference info (used by the "Report" duty drill-down) -----
@@ -3540,20 +3544,20 @@ const MY_BIDS = [
 /* ---- Mock chat threads ---------------------------------------------------*/
 const CHATS = [
   {
+    name: "Pavan Kesarbai Sinha",
+    initials: "PS",
+    photo: "https://media.licdn.com/dms/image/v2/D5603AQGM7oRNwxUdfg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1711207227622?e=1796256000&v=beta&t=yzcjut1kuUWM6ju-ZNJ2WZjP00IkY-XXD8RJGKpAoIQ",
+    preview: "Okay Pavan. I will wait for your confirmation.",
+    time: "04:40 PM",
+    date: "17 Nov 2026"
+  },
+  {
     name: "Harnidhi Sandhu",
     initials: "HS",
     photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAkoMv2XW3JZTXC5c9rzCLjq7X-XZznTSSYRzHECcFliBpfOs5X5guKz6r&s=10",
     preview: "Happy flying. 🫰❤️",
     time: "03:14 AM",
     date: "16 Nov 2026"
-  },
-  {
-    name: "Pavan Kesarbai Sinha",
-    initials: "PS",
-    photo: "https://media.licdn.com/dms/image/v2/D5603AQGM7oRNwxUdfg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1711207227622?e=1796256000&v=beta&t=yzcjut1kuUWM6ju-ZNJ2WZjP00IkY-XXD8RJGKpAoIQ",
-    preview: "I understand your concern captain.",
-    time: "04:06 PM",
-    date: "14 Nov 2026"
   },
   {
     name: "Swati Rawat",
@@ -3599,12 +3603,6 @@ const CHATS = [
 
 const CHAT_MESSAGES = [
   [
-    { direction:"incoming", text:"Hey captain, thanks for accepting my swap it helped a lot.", time:"03:11 AM", date:"16 Nov 2026" },
-    { direction:"incoming", text:"Also, the Aircraft VT-ALN has some rotawetter issue, kindly confirm before its next take off.", time:"03:12 AM" },
-    { direction:"incoming", text:"Add in log book.", time:"03:13 AM" },
-    { direction:"incoming", text:"Happy flying. 🫰❤️", time:"03:14 AM" }
-  ],
-  [
     { direction: "outgoing", text: "Hey Pavan, this is First Officer Rishabh speaking. I got your reference from Swati.", time: "04:03 PM", date: "14 Nov 2026" },
     { direction: "incoming", text: "Hey captain how are you. Good to connect.", time: "04:04 PM" },
     { direction: "outgoing", text: "I purposed a referral of an interested candidate for Senior Planning Analyst in your team. Name is Akanksha Shukla. Can you please tell me the update of her joining and what process are left", time: "04:05 PM" },
@@ -3618,8 +3616,31 @@ const CHAT_MESSAGES = [
     { direction: "outgoing", text: "Okay Pavan. So this is for Cochin location or Gurgaon?.", time: "04:27 PM" },
     { direction: "incoming", text: "This is for absolute for our innovation team in Cochin.", time: "04:28 PM" },
     { direction: "outgoing", text: "Is there any chances that can it be placed in Gurgaon?", time: "04:29 PM" },
-    { direction: "incoming" ,text: "I understand your concern captain. But we are not the one who is deciding it.", time: "04:31 PM" }
+    { direction: "incoming" ,text: "I understand your concern captain. But we are not the one who is deciding it.", time: "04:31 PM" },
+    { direction: "incoming", text: "Hey captain.", time: "04:40 PM", date: "17 Nov 2026" },
+    { direction: "incoming", text: "Man your referal have HR experience so why does she wants to join the IOCC.", time: "04:40 PM" },
+    { direction: "incoming", text: "She can be a great fit for HR team unlike the IOCC.", time: "04:41 PM" },
+    { direction: "outgoing", text: "Hey pavan, but she has cleared the assessment for IOCC and has vast knowledge of technologies.", time: "04:50 PM"},
+    { direction: "incoming", text: "Captain i undertand that but the answer she has wrote have duplicacy and detected AI.", time: "04:52 PM"},
+    { direction: "incoming", text: "what to do captain now, we can't consider her on this basis. We need integral candidats.", time: "04:58 PM"},
+    { direction: "outgoing", text: "Pavan i believe she can perform well. Give her a chance, attend her for a face to face round at least", time: "05:00 PM" },
+    { direction: "incoming", text: "Captain!.", time: "05:01 PM" },
+    { direction: "incoming", text: "I respect yours position and authority. For you", time: "05:02 PM" },
+    { direction: "incoming", text: "Just for you only captain", time: "05:02 PM" },
+    { direction: "incoming", text: "I am forwarding this to my TL as a positive response, and telling him about Akanksha's potential.", time: "05:03 PM" },
+    { direction: "incoming", text: "Rest is up to her now, if she can prove her excellence.", time: "05:04 PM" },
+    { direction: "outgoing", text: "Thank you Pavan. what can be the next step?", time: "05:05 PM" },
+    { direction: "incoming", text: "I will let you know once i get the confirmation from my TL.", time: "05:06 PM" },
+    { direction: "outgoing", text: "Okay Pavan. I will wait for your confirmation.", time: "05:07 PM" }
 
+
+
+  ],
+  [
+    { direction:"incoming", text:"Hey captain, thanks for accepting my swap it helped a lot.", time:"03:11 AM", date:"16 Nov 2026" },
+    { direction:"incoming", text:"Also, the Aircraft VT-ALN has some rotawetter issue, kindly confirm before its next take off.", time:"03:12 AM" },
+    { direction:"incoming", text:"Add in log book.", time:"03:13 AM" },
+    { direction:"incoming", text:"Happy flying. 🫰❤️", time:"03:14 AM" }
   ],
   [
     { direction: "incoming", text: "Hey Rishabh, I am Swati HR at Air India. I will be handling your payroll, leaves and everything regarding operations. You can connect me here for any query or mail me on swati.rathi@airindia.com thank you.", time: "10:15 AM", date: "10 Sep 2026" },
@@ -4231,12 +4252,13 @@ function renderUpcomingDuties(){
     const day = document.createElement("strong");
     day.textContent = date.slice(-2);
     dateLabel.prepend(day);
-    const dutyIcon = duty.iconUrl ? scheduleImageIcon(duty, "crew-agenda-duty-icon") : "";
+    const dutyIcon = scheduleImageIcon(duty, "crew-agenda-duty-icon");
     if (dutyIcon){
       row.querySelector(".crew-agenda-icon").innerHTML = dutyIcon;
     } else {
       const icon = row.querySelector(".crew-agenda-icon i");
-      icon.className = `fa-solid ${duty.leaveCode === "SL" ? "fa-kit-medical" : meta.icon}`;
+      const iconClass = duty.leaveCode === "SL" ? "fa-kit-medical" : (duty.type === "flight" ? "fa-plane" : (meta.icon || "fa-calendar-check"));
+      icon.className = `fa-solid ${iconClass}`;
       icon.style.color = duty.leaveCode === "SL" ? "#C23B4A" : meta.fg;
     }
     row.querySelector(".crew-agenda-copy strong").textContent = title;
