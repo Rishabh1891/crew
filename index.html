@@ -342,11 +342,17 @@ input{ font-family:inherit; }
 /* ---- Screenshot UI Design Tokens & Overrides (Light & Dark Mode) ------- */
 #app-root #view-schedule{
   background:#FFFFFF;
+  position:relative !important;
+  overflow:hidden !important;
+  width:100% !important;
+  max-width:100% !important;
+  box-sizing:border-box !important;
 }
 #app-root #view-schedule .sched-top-header{
   display:flex; align-items:center; justify-content:space-between;
   padding:12px 16px 8px; background:#FFFFFF; flex-shrink:0; position:relative; z-index:50;
   transition:background .2s ease, border-color .2s ease;
+  width:100% !important; box-sizing:border-box !important;
 }
 #app-root .sched-month-pill-container{ position:relative; }
 #app-root .sched-month-pill{
@@ -375,7 +381,22 @@ input{ font-family:inherit; }
 /* Schedule App Main & Sticky Weekdays Header */
 #app-root #view-schedule .app-main{
   background:#FFFFFF; padding:0 16px 95px !important;
-  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  overscroll-behavior-x:none !important;
+  width:100% !important;
+  max-width:100% !important;
+  box-sizing:border-box !important;
+  scrollbar-gutter:stable;
+  -webkit-overflow-scrolling:touch;
+}
+#app-root #sched-month-view,
+#app-root #sched-cal-scroll,
+#app-root .cal-month-block{
+  width:100% !important;
+  max-width:100% !important;
+  overflow-x:hidden !important;
+  box-sizing:border-box !important;
 }
 #app-root .sched-sticky-head{
   position:sticky; top:0; z-index:30; background:#FFFFFF;
@@ -413,9 +434,9 @@ input{ font-family:inherit; }
 /* Calendar Cells */
 #app-root .cal-cell{
   position:relative !important; background:transparent !important; border:none !important;
-  box-shadow:none !important; border-radius:12px !important; padding:5px 1px 11px !important;
+  box-shadow:none !important; border-radius:12px !important; padding:4px 1px 6px !important;
   display:flex !important; flex-direction:column !important; align-items:center !important;
-  justify-content:flex-start !important; min-height:70px !important; height:70px !important;
+  justify-content:flex-start !important; min-height:74px !important; height:74px !important;
   box-sizing:border-box !important; cursor:pointer; user-select:none;
   overflow:visible !important; transform:none !important;
 }
@@ -424,7 +445,7 @@ input{ font-family:inherit; }
 /* Day Number */
 #app-root .cal-cell .cal-num{
   font-size:13.5px !important; font-weight:700 !important; color:#0F172A;
-  line-height:1.15 !important; margin-bottom:2px !important; text-align:center !important;
+  line-height:1.15 !important; margin-bottom:1px !important; text-align:center !important;
 }
 
 /* Duty Icons */
@@ -451,26 +472,48 @@ input{ font-family:inherit; }
 #app-root .cal-cell .cal-img-ico{
   width:20px !important; height:20px !important; object-fit:contain !important; display:inline-block !important; vertical-align:middle !important;
 }
+#app-root .cal-cell .cal-flight-img{
+  width:21px !important; height:18px !important; max-width:24px !important; max-height:20px !important;
+  object-fit:contain !important; display:block !important;
+  margin:1px auto 1px !important; flex-shrink:0 !important;
+}
+#app-root .cal-cell.selected .cal-flight-img{
+  filter: brightness(0) invert(1) !important;
+}
+:root[data-theme="dark"] #app-root .cal-cell .cal-flight-img,
+:root[data-theme="dark"] #app-root .cal-flight-img,
+:root[data-theme="dark"] #app-root .flight-img-icon,
+:root[data-theme="dark"] #app-root .duty-item .di-duty-icon-image[src*="plane"],
+:root[data-theme="dark"] #app-root .di-icon img[src*="plane"],
+:root[data-theme="dark"] #app-root .crew-agenda-duty-icon[src*="plane"]{
+  filter: brightness(0) invert(1) !important;
+}
 
 /* Airport Code */
 #app-root .cal-cell .cal-code{
   font-size:9.5px !important; font-weight:700 !important; color:#475569;
-  letter-spacing:0.25px !important; line-height:1 !important; text-transform:uppercase !important;
+  letter-spacing:0.25px !important; line-height:1.15 !important; text-transform:uppercase !important;
   text-align:center !important; white-space:nowrap !important; overflow:hidden !important;
   text-overflow:ellipsis !important; width:100% !important; padding:0 1px !important;
-  margin-bottom:2px !important;
+  margin-top:1px !important; margin-bottom:2px !important; position:relative !important; z-index:1 !important;
 }
 
 /* Flight Span Underline Bar — positioned at the bottom border of the date, never covering text */
 #app-root .cal-cell .flight-span-bar{
-  position:absolute !important; left:0 !important; right:0 !important; bottom:1px !important;
-  height:3px !important; background:#8E9AA8; border-radius:2px !important;
+  position:absolute !important; left:0 !important; right:0 !important; bottom:2px !important;
+  height:2.5px !important; background:#8E9AA8; border-radius:2px !important;
   pointer-events:none !important; z-index:2 !important;
 }
 #app-root .cal-cell .flight-span-bar.single{ left:5px !important; right:5px !important; border-radius:2px !important; }
 #app-root .cal-cell .flight-span-bar.start{ left:5px !important; right:-2px !important; border-radius:2px 0 0 2px !important; }
 #app-root .cal-cell .flight-span-bar.middle{ left:-2px !important; right:-2px !important; border-radius:0 !important; }
 #app-root .cal-cell .flight-span-bar.end{ left:-2px !important; right:5px !important; border-radius:0 2px 2px 0 !important; }
+#app-root .cal-cell:nth-child(7n) .flight-span-bar{ right:2px !important; }
+#app-root .cal-cell:nth-child(7n+1) .flight-span-bar{ left:2px !important; }
+#app-root #view-schedule .cal-days,
+#app-root #view-schedule .cal-week-row{
+  overflow-x:hidden !important; box-sizing:border-box !important; max-width:100% !important;
+}
 
 /* Empty Cell */
 #app-root .cal-cell.empty{
@@ -480,8 +523,9 @@ input{ font-family:inherit; }
 
 /* Selected Date (Light Mode) */
 #app-root .cal-cell.selected{
-  background:#475569 !important; border:none !important; border-radius:12px !important;
-  box-shadow:0 3px 10px rgba(71,85,105,0.25) !important;
+  background: linear-gradient(180deg, #3B4D63 0%, #1E293B 100%) !important;
+  border:none !important; border-radius:12px !important;
+  box-shadow:0 3px 10px rgba(30,41,59,0.3) !important;
 }
 #app-root .cal-cell.selected .cal-num{ color:#FFFFFF !important; }
 #app-root .cal-cell.selected .cal-code{ color:#FFFFFF !important; }
@@ -494,7 +538,7 @@ input{ font-family:inherit; }
 /* Unpublished Block Cell (Light Mode) */
 #app-root .cal-cell.unpublished-block{
   background:#D1D5DB !important; border:none !important; border-radius:12px !important;
-  height:70px !important; min-height:70px !important; max-height:70px !important;
+  height:74px !important; min-height:74px !important; max-height:74px !important;
   display:flex !important; flex-direction:column !important; align-items:center !important;
   justify-content:flex-start !important; padding:6px 0 0 0 !important;
   box-shadow:none !important; cursor:default !important;
@@ -658,7 +702,7 @@ input{ font-family:inherit; }
   background:#4A5B6E !important;
 }
 :root[data-theme="dark"] #app-root .cal-cell.selected{
-  background:#2563EB !important;
+  background: linear-gradient(180deg, #2563EB 0%, #1D4ED8 100%) !important;
   box-shadow:0 4px 14px rgba(37,99,235,0.45) !important;
 }
 :root[data-theme="dark"] #app-root .cal-cell.selected .cal-num{
@@ -1888,6 +1932,447 @@ body{ background:var(--bg-outer); }
 #app-root .cal-cell.roster-to-be-released .cal-num{ color:#A3A8B0 !important; }
 :root[data-theme="dark"] #app-root .cal-cell.roster-to-be-released{ background:#252A32 !important; }
 :root[data-theme="dark"] #app-root .cal-cell.roster-to-be-released .cal-num{ color:#858B95 !important; }
+
+/* ---- Schedule Calendar Pairing Cell Highlights (Image 1) ---- */
+#app-root .cal-cell.selected{
+  background: #475569 !important;
+  color: #FFFFFF !important;
+  border-radius: 12px !important;
+}
+#app-root .cal-cell.selected .cal-num{
+  color: #FFFFFF !important;
+}
+#app-root .cal-cell.selected.selected-pair-start{
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+#app-root .cal-cell.selected.selected-pair-start .cal-num{
+  background: #FFFFFF !important;
+  color: #1E293B !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+  font-weight: 700 !important;
+}
+#app-root .cal-cell.selected.selected-pair-end{
+  background: #475569 !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+#app-root .cal-cell.selected.selected-pair-end .cal-num{
+  color: #FFFFFF !important;
+  background: transparent !important;
+}
+:root[data-theme="dark"] #app-root .cal-cell.selected{
+  background: #3B4D63 !important;
+}
+:root[data-theme="dark"] #app-root .cal-cell.selected.selected-pair-start .cal-num{
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+}
+:root[data-theme="dark"] #app-root .cal-cell.selected.selected-pair-end{
+  background: #3B4D63 !important;
+}
+
+/* ---- Schedule Native Bottom Sheet (CAE Mobile Native) ---- */
+.sched-bottom-sheet-backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+.sched-bottom-sheet-backdrop.active{
+  opacity: 1;
+  pointer-events: auto;
+}
+.sched-bottom-sheet{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 84%;
+  background: #FFFFFF;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  z-index: 1510;
+  box-shadow: 0 -10px 36px rgba(0, 0, 0, 0.22);
+  transform: translateY(105%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.sched-bottom-sheet.open{
+  transform: translateY(0);
+}
+:root[data-theme="dark"] .sched-bottom-sheet{
+  background: #181E29;
+  box-shadow: 0 -10px 36px rgba(0, 0, 0, 0.5);
+}
+.sched-bs-drag-bar-wrap{
+  padding: 10px 0 6px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.sched-bs-drag-pill{
+  width: 38px;
+  height: 4.5px;
+  border-radius: 3px;
+  background: #D1D5DB;
+}
+:root[data-theme="dark"] .sched-bs-drag-pill{
+  background: #4B5563;
+}
+.sched-bs-content{
+  overflow-y: auto;
+  padding: 0 16px 28px;
+  -webkit-overflow-scrolling: touch;
+  max-height: calc(84vh - 30px);
+}
+.sched-bs-date-title{
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #111827;
+  margin: 4px 0 14px 2px;
+}
+:root[data-theme="dark"] .sched-bs-date-title{
+  color: #F9FAFB;
+}
+
+/* Pairing card (Image 1) */
+.sched-pairing-card{
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+:root[data-theme="dark"] .sched-pairing-card{
+  background: #1E2430;
+  border-color: #2D3748;
+}
+.sched-pairing-header{
+  padding: 12px 16px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111827;
+  border-bottom: 1px solid #F3F4F6;
+  background: #FFFFFF;
+}
+:root[data-theme="dark"] .sched-pairing-header{
+  background: #1E2430;
+  border-bottom-color: #2D3748;
+  color: #F3F4F6;
+}
+.sched-pairing-row{
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 12px 16px;
+  border-bottom: 1px solid #F3F4F6;
+  min-height: 56px;
+}
+:root[data-theme="dark"] .sched-pairing-row{
+  border-bottom-color: #2D3748;
+}
+.sched-pairing-row:last-child{
+  border-bottom: none;
+}
+.sched-pairing-row.clickable{
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.sched-pairing-row.clickable:hover,
+.sched-pairing-row.clickable:active{
+  background: #F8FAFC;
+}
+:root[data-theme="dark"] .sched-pairing-row.clickable:hover,
+:root[data-theme="dark"] .sched-pairing-row.clickable:active{
+  background: #252D3D;
+}
+.sched-pairing-accent{
+  position: absolute;
+  left: 16px;
+  top: 10px;
+  bottom: 10px;
+  width: 3.5px;
+  border-radius: 2px;
+}
+.sched-pairing-accent.accent-amber{
+  background: #F59E0B;
+}
+.sched-pairing-accent.accent-slate{
+  background: #1E293B;
+}
+:root[data-theme="dark"] .sched-pairing-accent.accent-slate{
+  background: #94A3B8;
+}
+.sched-pairing-icon-box{
+  margin-left: 10px;
+  margin-right: 14px;
+  width: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sched-bracket-icon{
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+.sched-plane-ico{
+  width: 21px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+}
+.sched-pairing-col-main{
+  flex: 1;
+  min-width: 0;
+}
+.sched-pairing-title{
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.25;
+}
+:root[data-theme="dark"] .sched-pairing-title{
+  color: #F9FAFB;
+}
+.sched-pairing-sublabel{
+  font-size: 10.5px;
+  color: #9CA3AF;
+  line-height: 1.3;
+}
+.sched-pairing-code{
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  display: block;
+  line-height: 1.25;
+}
+:root[data-theme="dark"] .sched-pairing-code{
+  color: #F3F4F6;
+}
+.sched-pairing-flight-track{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 2px;
+}
+.sched-track-cell{
+  display: flex;
+  flex-direction: column;
+}
+.sched-track-arrow{
+  color: #9CA3AF;
+  font-size: 14px;
+  line-height: 1;
+}
+.sched-pairing-col-right{
+  text-align: right;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+.sched-pairing-time{
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.25;
+}
+:root[data-theme="dark"] .sched-pairing-time{
+  color: #F3F4F6;
+}
+
+/* Crew on flight view (Image 2) */
+.sched-crew-head{
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 2px 0 14px;
+}
+.sched-crew-back-btn{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #111827;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+:root[data-theme="dark"] .sched-crew-back-btn{
+  background: #252D3D;
+  border-color: #374151;
+  color: #F9FAFB;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.sched-crew-title{
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  flex: 1;
+  text-align: center;
+  margin-right: 36px;
+}
+:root[data-theme="dark"] .sched-crew-title{
+  color: #F9FAFB;
+}
+.sched-crew-card{
+  background: #F3F4F6;
+  border-radius: 20px;
+  padding: 16px 14px;
+  margin-bottom: 12px;
+}
+:root[data-theme="dark"] .sched-crew-card{
+  background: #1E2430;
+  border: 1px solid #2D3748;
+}
+.sched-crew-pill{
+  background: #1F2937;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 16px;
+  padding: 4px 12px;
+  display: inline-block;
+  margin-bottom: 10px;
+  letter-spacing: 0.2px;
+}
+:root[data-theme="dark"] .sched-crew-pill{
+  background: #374151;
+}
+.sched-crew-item{
+  display: flex;
+  align-items: center;
+  padding: 7px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+.sched-crew-item:last-child{
+  border-bottom: none;
+}
+.sched-crew-item:hover,
+.sched-crew-item:active{
+  background: rgba(0, 0, 0, 0.03);
+}
+:root[data-theme="dark"] .sched-crew-item:hover,
+:root[data-theme="dark"] .sched-crew-item:active{
+  background: rgba(255, 255, 255, 0.04);
+}
+.sched-crew-avatar{
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #D1D5DB;
+  color: #1E293B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-right: 12px;
+}
+:root[data-theme="dark"] .sched-crew-avatar{
+  background: #374151;
+  color: #E5E7EB;
+}
+.sched-crew-details{
+  flex: 1;
+  min-width: 0;
+}
+.sched-crew-name{
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+:root[data-theme="dark"] .sched-crew-name{
+  color: #F9FAFB;
+}
+.sched-crew-rank{
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #6B7280;
+  margin-top: 1px;
+  text-transform: uppercase;
+}
+:root[data-theme="dark"] .sched-crew-rank{
+  color: #9CA3AF;
+}
+.sched-crew-msg-action{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563EB;
+  font-size: 15px;
+  margin-left: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.12s ease;
+}
+.sched-crew-msg-action:hover{
+  transform: scale(1.05);
+}
+:root[data-theme="dark"] .sched-crew-msg-action{
+  background: #2A3241;
+  color: #60A5FA;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.sched-crew-arrow{
+  font-size: 11px;
+  color: #9CA3AF;
+  margin-left: 8px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+/* Chat inbox user placeholder */
+.chat-avatar-user-placeholder{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #E2E8F0;
+  color: #475569;
+  font-size: 18px;
+  border-radius: 50%;
+}
+:root[data-theme="dark"] .chat-avatar-user-placeholder{
+  background: #334155;
+  color: #E2E8F0;
+}
+
 </style>
 </head>
 <body>
@@ -1998,6 +2483,17 @@ body{ background:var(--bg-outer); }
       <button type="button" class="sched-floating-today" id="sched-floating-today" onclick="jumpToToday()">
         Today
       </button>
+
+      <!-- Flight Pairing & Crew Bottom Sheet (CAE Mobile Native) -->
+      <div id="sched-bottom-sheet-backdrop" class="sched-bottom-sheet-backdrop hidden" onclick="closeFlightBottomSheet()"></div>
+      <div id="sched-bottom-sheet" class="sched-bottom-sheet hidden" aria-modal="true" role="dialog">
+        <div class="sched-bs-drag-bar-wrap" onclick="closeFlightBottomSheet()">
+          <div class="sched-bs-drag-pill"></div>
+        </div>
+        <div id="sched-bs-content" class="sched-bs-content">
+          <!-- Populated by JS: View 1 (Flight Pairing) or View 2 (Crew on Flight) -->
+        </div>
+      </div>
     </section>
 
     <!-- ---------- DUTY SWAPS ---------- -->
@@ -2118,7 +2614,10 @@ body{ background:var(--bg-outer); }
       <div class="subpage-head centered">
         <button type="button" aria-label="Back to chats" onclick="switchView('chat')"><i class="fa-solid fa-arrow-left"></i></button>
         <div class="sp-title-block"><h2 id="chat-inbox-name">Conversation</h2></div>
-        <button type="button" class="chat-profile-btn" aria-label="View contact profile picture" onclick="openChatProfilePhoto()"><img id="chat-inbox-photo" src="" alt=""></button>
+        <button type="button" class="chat-profile-btn" aria-label="View contact profile picture" onclick="openChatProfilePhoto()">
+          <img id="chat-inbox-photo" src="" alt="">
+          <div id="chat-inbox-avatar-placeholder" class="chat-avatar-user-placeholder hidden"><i class="fa-solid fa-user"></i></div>
+        </button>
       </div>
       <div class="app-main chat-inbox-main" id="chat-messages" aria-live="polite"></div>
       <form class="chat-compose" onsubmit="sendChatMessage(event)">
@@ -2442,7 +2941,7 @@ const DUTY_TYPES = {
 };
 
 const SCHEDULE_IMAGE_ICONS = {
-  flight: "https://i.ibb.co/B5vNwGDV/ready-remove-plane-removebg-preview.png",
+  flight: "https://i.postimg.cc/fkVWksP6/plane-bg-remove-removebg-preview.png",
   dutyExit: "https://i.ibb.co/Zzbbvj1T/door-readt-removebg-preview.png",
   classroom: "https://i.postimg.cc/BL9Jv0gm/Gemini-Generated-Image-69uism69uism69ui-removebg-preview.png"
 };
@@ -2472,7 +2971,8 @@ function scheduleImageIcon(item, className){
   const alt = isDutyExit ? "Reporting or duty exit" : "Flight";
   const fallbackIcon = isDutyExit ? "fa-right-to-bracket" : "fa-plane";
   const fallbackColor = isDutyExit ? "#B98A52" : "#C62828";
-  return `<img class="${cls}" src="${src}" alt="${alt}" onerror="this.onerror=null;this.replaceWith((function(){var i=document.createElement('i');i.className='fa-solid ${fallbackIcon}';i.style.color='${fallbackColor}';return i;})())">`;
+  const flightClass = (!isDutyExit && (item.type === "flight" || item.type === "inTransit")) ? "flight-img-icon" : "";
+  return `<img class="${cls} ${flightClass}" src="${src}" alt="${alt}" onerror="this.onerror=null;this.replaceWith((function(){var i=document.createElement('i');i.className='fa-solid ${fallbackIcon}';i.style.color='${fallbackColor}';return i;})())">`;
 }
 
 /* ---- Airport reference info (used by the "Report" duty drill-down) -----
@@ -3027,23 +3527,23 @@ const ROSTER = {
   "2026-11-18": [
     {
       type: "training",
-      title: "Classroom Duty · Subject Renewal",
+      title: "Classroom Duty · Subject Renewal of CPL",
       location: "Air India Training Academy",
       start: "11:00",
       end: "17:00",
       iconUrl: "https://i.postimg.cc/BL9Jv0gm/Gemini-Generated-Image-69uism69uism69ui-removebg-preview.png",
-      note: "Visit in Air India Training Academy, for studies of Subject Reneweal of Pilot Licence holders · 11:00 AM – 05:00 PM IST"
+      note: "Visit to Air India Training Academy for studies of Subject Renewal of CPL (Commercial Pilot Licence) · 11:00 AM – 05:00 PM IST"
     }
   ],
   "2026-11-19": [
     {
       type: "training",
-      title: "Classroom Duty · Subject Renewal",
+      title: "Classroom Duty · Subject Renewal of CPL",
       location: "Air India Training Academy",
       start: "11:00",
       end: "17:00",
       iconUrl: "https://i.postimg.cc/BL9Jv0gm/Gemini-Generated-Image-69uism69uism69ui-removebg-preview.png",
-      note: "Visit in Air India Training Academy, for studies of Subject Reneweal of Pilot Licence holders · 11:00 AM – 05:00 PM IST"
+      note: "Visit to Air India Training Academy for studies of Subject Renewal of CPL (Commercial Pilot Licence) · 11:00 AM – 05:00 PM IST"
     }
   ],
   "2026-11-20": [
@@ -3134,20 +3634,32 @@ const ROSTER = {
 
 // Assign a varied mock crew roster to each November flight. Rishabh Tripathi
 // remains the fixed First Officer on every sector.
-const NOVEMBER_CAPTAINS = ["Arjun Mehta", "Karthik Subramanian", "Zoya Aggarwall", "Manu Kulkarni", "Shekhar Trichipalli", "Vikramaditya Singh", "Anny Divya", "Shreyas Kapoor"];
-const NOVEMBER_FIRST_OFFICERS = ["Amrit Kaur", "Maheep Singh", "Rashot Ulook Totiya", "Sobit Daga", "Ankit Vats", "Soniya Gupta"];
+const NOVEMBER_CAPTAINS = [
+  "ROHAN RAVIKIRAN VEDPATHAK", "RAHUL MEHRA", "SUBHADEEP GHOSH", "SAURABH MISHRA", "MAHESH KAUSHIK",
+  "Arjun Mehta", "Karthik Subramanian", "Zoya Aggarwall", "Manu Kulkarni", "Shekhar Trichipalli", "Vikramaditya Singh", "Anny Divya", "Shreyas Kapoor"
+];
+const NOVEMBER_FIRST_OFFICERS = [
+  "MICHAEL JOSEPH DGAMA", "SUDARSHANA KARWAL", "AASTHA NANDA",
+  "Amrit Kaur", "Maheep Singh", "Rashot Ulook Totiya", "Sobit Daga", "Ankit Vats", "Soniya Gupta"
+];
 const NOVEMBER_CABIN_CREW = [
-  "Simran Kaur", "Aarav Sharma", "Ananya Iyer", "Rohan Desai", "Meera Nair", "Aditya Reddy", "Sayantani Roy", "Chirag Patel", "Dimple Bordoloi", "Tenzin Dolma",
-  "Imran Khan", "Pooja Hegde", "Lalrinpuii Sailo", "Siddharth Kulkarni", "Ningthoujam Rahul", "Shivani Singh", "Kritika Reddy", "Ankit Sahu", "Mayank Bundela", "Lunkim Haokip",
+  "SIMRAN KAUR", "AARAV SHARMA", "ANANYA IYER", "ROHAN DESAI", "MEERA NAIR",
+  "ADITYA REDDY", "SAYANTANI ROY", "CHIRAG PATEL", "DIMPLE BORDOLOI", "TENZIN DOLMA",
+  "IMRAN KHAN", "POOJA HEGDE", "LALRINPUII SAILO", "SIDDHARTH KULKARNI", "NINGTHOUJAM RAHUL",
+  "Shivani Singh", "Kritika Reddy", "Ankit Sahu", "Mayank Bundela", "Lunkim Haokip",
   "Kavita Kullupati", "Meera Pillai", "Shreya Nair", "Deboleena Mukherjee", "Anirban Bhattacharya", "Subhashree Ghosh", "Debanjan Banerjee", "Arpita Chakraborty", "Kalyani Mukherji", "Meenakshi Sati"
 ];
 function novemberCrew(seed){
   const offset = [...seed].reduce((sum, char) => sum + char.charCodeAt(0), 0);
   const pick = (pool, index) => pool[(offset + index) % pool.length];
   return {
-    captains:[pick(NOVEMBER_CAPTAINS, 0), pick(NOVEMBER_CAPTAINS, 3)],
-    firstOfficers:["Rishabh Tripathi", pick(NOVEMBER_FIRST_OFFICERS, 1)],
-    cabin:Array.from({length:15}, (_, index) => pick(NOVEMBER_CABIN_CREW, index * 2))
+    captains:[
+      "ROHAN RAVIKIRAN VEDPATHAK", "RAHUL MEHRA", "SUBHADEEP GHOSH", "SAURABH MISHRA", "MAHESH KAUSHIK"
+    ],
+    firstOfficers:[
+      "MICHAEL JOSEPH DGAMA", "SUDARSHANA KARWAL", "AASTHA NANDA"
+    ],
+    cabin:Array.from({length:15}, (_, index) => pick(NOVEMBER_CABIN_CREW, index))
   };
 }
 for (const [date, events] of Object.entries(ROSTER)){
@@ -3160,8 +3672,15 @@ for (const [date, events] of Object.entries(ROSTER)){
 const SCHEDULE = ROSTER;
 
 function createAI537Pairing(date){
-  const crew = novemberCrew(`${date}-AI537-538`);
-  crew.firstOfficers = ["Rishabh Tripathi"];
+  const crew = {
+    captains: ["ROHAN RAVIKIRAN VEDPATHAK", "RAHUL MEHRA", "SUBHADEEP GHOSH", "SAURABH MISHRA", "MAHESH KAUSHIK"],
+    firstOfficers: ["MICHAEL JOSEPH DGAMA", "SUDARSHANA KARWAL", "AASTHA NANDA"],
+    cabin: [
+      "SIMRAN KAUR", "AARAV SHARMA", "ANANYA IYER", "ROHAN DESAI", "MEERA NAIR",
+      "ADITYA REDDY", "SAYANTANI ROY", "CHIRAG PATEL", "DIMPLE BORDOLOI", "TENZIN DOLMA",
+      "IMRAN KHAN", "POOJA HEGDE", "LALRINPUII SAILO", "SIDDHARTH KULKARNI", "NINGTHOUJAM RAHUL"
+    ]
+  };
   return [
     {
       type:"flight",
@@ -3173,6 +3692,8 @@ function createAI537Pairing(date){
       depTime:"15:45",
       arrTime:"18:30",
       airtime:"02h 45m",
+      reportTime:"14:45",
+      releaseTime:"23:15",
       note:"Delhi Terminal 3 → Chennai Terminal 4 · Daily service · 03:45 PM–06:30 PM IST · Scheduled block 2h 45m",
       crew
     },
@@ -3186,6 +3707,8 @@ function createAI537Pairing(date){
       depTime:"20:00",
       arrTime:"22:45",
       airtime:"02h 45m",
+      reportTime:"14:45",
+      releaseTime:"23:15",
       note:"Chennai Terminal 4 → Delhi Terminal 3 · Daily service · 08:00 PM–10:45 PM IST · Scheduled block 2h 45m",
       crew
     }
@@ -4362,7 +4885,7 @@ function buildCalendarGrid(monthDate, opts){
       dutyMeaning = meta.label;
 
       if (primary.iconUrl){
-        iconHtml = `<img class="cal-ico cal-img-ico" src="${primary.iconUrl}" alt="${primary.type || 'Duty'}" style="width:18px;height:18px;object-fit:contain;display:block;">`;
+        iconHtml = `<img class="cal-ico cal-img-ico" src="${primary.iconUrl}" alt="${primary.type || 'Duty'}" style="width:21px;height:18px;object-fit:contain;display:block;">`;
         codeHtml = `<span class="cal-code">${primary.calendarCode || "DEL"}</span>`;
       } else if (primary.type === "flight"){
         const lastFlight = [...events].reverse().find(e => e.type === "flight") || primary;
@@ -4370,7 +4893,7 @@ function buildCalendarGrid(monthDate, opts){
         if (isExit){
           iconHtml = `<i class="fa-solid fa-right-from-bracket door-orange cal-ico" aria-hidden="true"></i>`;
         } else {
-          iconHtml = `<i class="fa-solid fa-plane plane-dark cal-ico" aria-hidden="true"></i>`;
+          iconHtml = `<img class="cal-ico cal-img-ico cal-flight-img flight-img-icon" src="${SCHEDULE_IMAGE_ICONS.flight}" alt="Flight" style="width:21px;height:18px;object-fit:contain;display:block;">`;
         }
         codeHtml = `<span class="cal-code">${lastFlight.arr || ""}</span>`;
         if (events.some(event => event.type === "off")) dutyMeaning = `${meta.label} to ${lastFlight.arr || "destination"} and Rest`;
@@ -4384,7 +4907,7 @@ function buildCalendarGrid(monthDate, opts){
         iconHtml = `<span class="cal-ico cal-training-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3.5" width="13.5" height="13.5" rx="2.5" fill="#FCE7F3" stroke="#E0247D" stroke-width="1.6"/><path d="M2 8H15.5" stroke="#E0247D" stroke-width="1.5"/><path d="M5.5 1.8V4.5M11.5 1.8V4.5" stroke="#E0247D" stroke-width="1.6" stroke-linecap="round"/><circle cx="5.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="8.5" cy="11.2" r="0.8" fill="#E0247D"/><circle cx="5.5" cy="14" r="0.8" fill="#E0247D"/><circle cx="17" cy="11.5" r="3.2" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5"/><path d="M12 20.5C12 17.5 14.2 16 17 16C19.8 16 22 17.5 22 20.5" fill="#E0247D" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/></svg></span>`;
         codeHtml = `<span class="cal-code">DEL</span>`;
       } else if (primary.type === "inTransit"){
-        iconHtml = `<i class="fa-solid fa-plane plane-dark cal-ico" aria-hidden="true"></i>`;
+        iconHtml = `<img class="cal-ico cal-img-ico cal-flight-img flight-img-icon" src="${SCHEDULE_IMAGE_ICONS.flight}" alt="Flight" style="width:21px;height:18px;object-fit:contain;display:block;">`;
         codeHtml = `<span class="cal-code">${primary.calendarCode || "ENR"}</span>`;
       } else if (primary.type === "medical"){
         iconHtml = `<i class="fa-solid fa-stethoscope medical-red cal-ico" aria-hidden="true"></i>`;
@@ -4663,12 +5186,18 @@ function changeMonth(delta){
   const target = new Date(scheduleViewMonth.getFullYear(), scheduleViewMonth.getMonth() + delta, 1);
   scrollToMonth(target.getFullYear(), target.getMonth());
 }
+function escapeQuotes(str){
+  return String(str || "").replace(/'/g, "\\'").replace(/"/g, "&quot;");
+}
+
 function restoreScheduleSelection(){
   const container = document.getElementById("sched-cal-scroll");
   if (!container) return;
 
-  // Clear any stale selection/detail from every rendered month.
-  container.querySelectorAll(".cal-cell.selected").forEach(cell => cell.classList.remove("selected"));
+  // Clear any stale selection/pairing from every rendered month.
+  container.querySelectorAll(".cal-cell.selected").forEach(cell => {
+    cell.classList.remove("selected", "selected-pair-start", "selected-pair-end");
+  });
   container.querySelectorAll(".week-detail-slot").forEach(slot => {
     slot.classList.add("hidden");
     slot.setAttribute("aria-hidden", "true");
@@ -4680,47 +5209,351 @@ function restoreScheduleSelection(){
   const selected = container.querySelector(`.cal-cell[data-date="${scheduleSelectedDate}"]`);
   if (!selected) return;
 
-  selected.classList.add("selected");
-
-  if (!scheduleDetailOpen) return;
-
-  const week = selected.closest(".cal-week-row");
-  const slot = week ? week.nextElementSibling : null;
-  if (!slot || !slot.classList.contains("week-detail-slot")) return;
-
-  slot.innerHTML = getDayDetailHTML(scheduleSelectedDate);
-  slot.classList.remove("hidden");
-  slot.setAttribute("aria-hidden", "false");
+  // Check general overnight flight pairings
+  const events = SCHEDULE[scheduleSelectedDate] || [];
+  const cont = events.find(e => e.type === "flight" && e.continuation && e.continuesFrom);
+  const hasNext = events.find(e => e.type === "flight" && e.arrTime && e.arrTime.includes("+1"));
+  if (cont && cont.continuesFrom){
+    const prev = container.querySelector(`.cal-cell[data-date="${cont.continuesFrom}"]`);
+    if (prev) prev.classList.add("selected", "selected-pair-start");
+    selected.classList.add("selected", "selected-pair-end");
+  } else if (hasNext){
+    const [y, m, d] = scheduleSelectedDate.split("-").map(Number);
+    const nextDt = new Date(y, m - 1, d + 1);
+    const nextStr = `${nextDt.getFullYear()}-${String(nextDt.getMonth() + 1).padStart(2, "0")}-${String(nextDt.getDate()).padStart(2, "0")}`;
+    const nextCell = container.querySelector(`.cal-cell[data-date="${nextStr}"]`);
+    selected.classList.add("selected", "selected-pair-start");
+    if (nextCell) nextCell.classList.add("selected", "selected-pair-end");
+  } else {
+    selected.classList.add("selected");
+  }
 }
 
 function selectScheduleDate(dateStr){
   const isSameDate = scheduleSelectedDate === dateStr;
 
-  // Same date: close only the detail panel. Do not rebuild the calendar.
   if (isSameDate && scheduleDetailOpen){
-    scheduleDetailOpen = false;
-    restoreScheduleSelection();
+    closeFlightBottomSheet();
     return;
   }
 
-  // Different date: move the selection in-place and open the new roster.
   scheduleSelectedDate = dateStr;
   scheduleDetailOpen = true;
   restoreScheduleSelection();
+  openFlightBottomSheet(dateStr);
+}
 
-  // If the selected date is in a currently rendered month, keep it visible.
+function openFlightBottomSheet(dateStr){
+  const sheet = document.getElementById("sched-bottom-sheet");
+  const backdrop = document.getElementById("sched-bottom-sheet-backdrop");
+  if (!sheet || !backdrop) return;
+
+  renderFlightPairingSheet(dateStr);
+
+  backdrop.classList.remove("hidden");
+  sheet.classList.remove("hidden");
   requestAnimationFrame(() => {
-    const selected = document.querySelector(`.cal-cell[data-date="${dateStr}"]`);
-    if (!selected) return;
-
-    const week = selected.closest(".cal-week-row");
-    const slot = week ? week.nextElementSibling : null;
-
-    if (week) week.scrollIntoView({ block:"nearest", behavior:"smooth" });
-    if (slot && slot.classList.contains("week-detail-slot")){
-      slot.scrollIntoView({ block:"nearest", behavior:"smooth" });
-    }
+    backdrop.classList.add("active");
+    sheet.classList.add("open");
   });
+}
+
+function closeFlightBottomSheet(){
+  scheduleDetailOpen = false;
+  const sheet = document.getElementById("sched-bottom-sheet");
+  const backdrop = document.getElementById("sched-bottom-sheet-backdrop");
+  if (sheet) sheet.classList.remove("open");
+  if (backdrop) backdrop.classList.remove("active");
+  setTimeout(() => {
+    if (!scheduleDetailOpen){
+      if (sheet) sheet.classList.add("hidden");
+      if (backdrop) backdrop.classList.add("hidden");
+    }
+  }, 320);
+}
+
+function renderFlightPairingSheet(dateStr){
+  const container = document.getElementById("sched-bs-content");
+  if (!container) return;
+
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const dt = new Date(y, m - 1, d);
+  const weekday = dt.toLocaleDateString("en-US", { weekday: "long" });
+  const monthShort = dt.toLocaleDateString("en-US", { month: "short" });
+  const titleDate = `${weekday}, ${d} ${monthShort} ${y}`;
+
+  let items = SCHEDULE[dateStr] || [];
+  const contItem = items.find(it => it.continuation && it.continuesFrom);
+  let effectiveDate = dateStr;
+  if (contItem && contItem.continuesFrom && SCHEDULE[contItem.continuesFrom]){
+    effectiveDate = contItem.continuesFrom;
+    items = SCHEDULE[effectiveDate];
+  }
+
+  const flights = items.filter(it => it.type === "flight" && !it.continuation);
+
+  if (flights.length > 0){
+    const f0 = flights[0];
+    const fLast = flights[flights.length - 1];
+
+    let reportTime = f0.reportTime;
+    if (!reportTime && f0.depTime){
+      const [dh, dm] = f0.depTime.split(":").map(Number);
+      let rh = dh - 1;
+      if (rh < 0) rh += 24;
+      reportTime = `${String(rh).padStart(2, "0")}:${String(dm).padStart(2, "0")}`;
+    }
+    if (!reportTime) reportTime = "17:00";
+
+    let releaseEndTime = fLast.releaseTime;
+    let releaseStartTime = fLast.arrTime ? fLast.arrTime.replace("+1", "").trim() : "01:10";
+    if (!releaseEndTime && releaseStartTime){
+      const [ah, am] = releaseStartTime.split(":").map(Number);
+      let em = am + 30;
+      let eh = ah + Math.floor(em / 60);
+      em = em % 60;
+      eh = eh % 24;
+      releaseEndTime = `${String(eh).padStart(2, "0")}:${String(em).padStart(2, "0")}`;
+    }
+    if (!releaseEndTime) releaseEndTime = "01:40";
+
+    const [ey, em2, ed] = effectiveDate.split("-").map(Number);
+    const startDt = new Date(ey, em2 - 1, ed);
+    const startDayStr = `${startDt.getDate()} ${startDt.toLocaleDateString("en-US", { month: "short" })}`;
+
+    let endDt = new Date(startDt);
+    if (fLast.arrTime && fLast.arrTime.includes("+1")){
+      endDt.setDate(endDt.getDate() + 1);
+    }
+    const endDayStr = `${endDt.getDate()} ${endDt.toLocaleDateString("en-US", { month: "short" })}`;
+
+    let durHours = "8h";
+    try {
+      const startMinutes = timeToMinutes(reportTime);
+      let endMinutes = timeToMinutes(releaseEndTime);
+      if (endDt > startDt || endMinutes < startMinutes) endMinutes += 24 * 60;
+      const totalMinutes = endMinutes - startMinutes;
+      const h = Math.floor(totalMinutes / 60);
+      const min = totalMinutes % 60;
+      durHours = min > 0 ? `${h}h` : `${h}h`;
+    } catch(e) {
+      durHours = "8h";
+    }
+
+    const dutyHeaderStr = `${startDayStr} ${reportTime} – ${endDayStr} ${releaseEndTime} (${durHours})`;
+    const reportLocation = f0.dep || "DEL";
+    const releaseLocation = fLast.arr || "DEL";
+
+    const flightRowsHtml = flights.map(flight => `
+      <div class="sched-pairing-row flight-row clickable" onclick="openCrewOnFlight('${escapeQuotes(flight.flightNo)}', '${effectiveDate}')" title="Tap to view crew">
+        <div class="sched-pairing-accent accent-slate"></div>
+        <div class="sched-pairing-icon-box">
+          <img class="sched-plane-ico flight-img-icon" src="${SCHEDULE_IMAGE_ICONS.flight}" alt="Flight">
+        </div>
+        <div class="sched-pairing-col-main">
+          <div class="sched-pairing-title">${escapeChatText(flight.flightNo)}</div>
+          <div class="sched-pairing-flight-track">
+            <div class="sched-track-cell">
+              <span class="sched-pairing-sublabel">Departs from</span>
+              <span class="sched-pairing-code">${escapeChatText(flight.dep)} ${escapeChatText(flight.depTime)}</span>
+            </div>
+            <div class="sched-track-arrow">→</div>
+            <div class="sched-track-cell">
+              <span class="sched-pairing-sublabel">Arrives in</span>
+              <span class="sched-pairing-code">${escapeChatText(flight.arr)} ${escapeChatText(flight.arrTime)}</span>
+            </div>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right" style="color:#9CA3AF; font-size:12px; margin-left:8px;" aria-hidden="true"></i>
+      </div>
+    `).join("");
+
+    container.innerHTML = `
+      <div class="sched-bs-date-title">${titleDate}</div>
+      <div class="sched-pairing-card">
+        <div class="sched-pairing-header">${dutyHeaderStr}</div>
+        
+        <!-- Report Row -->
+        <div class="sched-pairing-row report-row">
+          <div class="sched-pairing-accent accent-amber"></div>
+          <div class="sched-pairing-icon-box">
+            <svg class="sched-bracket-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8983F" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+              <polyline points="10 17 15 12 10 7"/>
+              <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+          </div>
+          <div class="sched-pairing-col-main">
+            <div class="sched-pairing-title">Report</div>
+            <div class="sched-pairing-sublabel">Locations</div>
+            <div class="sched-pairing-code">${escapeChatText(reportLocation)}</div>
+          </div>
+          <div class="sched-pairing-col-right">
+            <div class="sched-pairing-sublabel">Start:</div>
+            <div class="sched-pairing-time">${escapeChatText(reportTime)}</div>
+          </div>
+        </div>
+
+        <!-- Flight Row(s) -->
+        ${flightRowsHtml}
+
+        <!-- Release Row -->
+        <div class="sched-pairing-row release-row">
+          <div class="sched-pairing-accent accent-amber"></div>
+          <div class="sched-pairing-icon-box">
+            <svg class="sched-bracket-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8983F" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </div>
+          <div class="sched-pairing-col-main">
+            <div class="sched-pairing-title">Release</div>
+            <div class="sched-pairing-sublabel">Locations</div>
+            <div class="sched-pairing-code">${escapeChatText(releaseLocation)}</div>
+          </div>
+          <div class="sched-pairing-col-right">
+            <div class="sched-pairing-sublabel">Start: &nbsp; End:</div>
+            <div class="sched-pairing-time">${escapeChatText(releaseStartTime)} – ${escapeChatText(releaseEndTime)}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Non-flight duties (Training, Reserve, Off, Leave)
+  const primary = items[0] || { type: "off", note: "Rest Day" };
+  const meta = dutyMeta(primary.type);
+  const location = primary.location || CURRENT_USER.base || "DEL";
+  const start = primary.start || "--";
+  const end = primary.end || "--";
+  const dur = (primary.start && primary.end) ? ` (${fmtHrsMins(timeDiffMinutes(primary.start, primary.end))})` : "";
+
+  container.innerHTML = `
+    <div class="sched-bs-date-title">${titleDate}</div>
+    <div class="sched-pairing-card">
+      <div class="sched-pairing-header">${d} ${monthShort} ${start !== "--" ? `${start} – ${end}${dur}` : meta.label}</div>
+      <div class="sched-pairing-row">
+        <div class="sched-pairing-accent accent-amber"></div>
+        <div class="sched-pairing-icon-box">
+          ${primary.iconUrl ? `<img src="${primary.iconUrl}" alt="Training" style="width:22px;height:20px;object-fit:contain;display:block;">` : `<i class="fa-solid ${meta.icon}" style="color:${meta.fg}; font-size:18px;"></i>`}
+        </div>
+        <div class="sched-pairing-col-main">
+          <div class="sched-pairing-title">${escapeChatText(primary.title || meta.label)}</div>
+          <div class="sched-pairing-sublabel">Locations</div>
+          <div class="sched-pairing-code">${escapeChatText(location)}</div>
+        </div>
+        <div class="sched-pairing-col-right">
+          <div class="sched-pairing-sublabel">${primary.queue ? "Queue:" : "Timing:"}</div>
+          <div class="sched-pairing-time">${primary.queue ? `#${primary.queue}` : (start !== "--" ? `${start} – ${end}` : "All day")}</div>
+        </div>
+      </div>
+      ${primary.note ? `<div style="padding:10px 16px; font-size:11.5px; color:var(--ink-soft); line-height:1.4; border-top:1px solid #F3F4F6;">${escapeChatText(primary.note)}</div>` : ''}
+    </div>
+  `;
+}
+
+function openCrewOnFlight(flightNo, dateStr){
+  const container = document.getElementById("sched-bs-content");
+  if (!container) return;
+
+  const items = SCHEDULE[dateStr] || [];
+  let flight = items.find(it => it.flightNo === flightNo);
+  if (!flight) flight = items.find(it => it.type === "flight");
+  if (!flight) return;
+
+  const crew = flight.crew || novemberCrew(`${dateStr}-${flightNo}`);
+  const captains = crew.captains || ["ROHAN RAVIKIRAN VEDPATHAK", "RAHUL MEHRA", "SUBHADEEP GHOSH", "SAURABH MISHRA", "MAHESH KAUSHIK"];
+  const firstOfficers = crew.firstOfficers || ["MICHAEL JOSEPH DGAMA", "SUDARSHANA KARWAL", "AASTHA NANDA"];
+  const cabin = crew.cabin && crew.cabin.length ? crew.cabin : [
+    "SIMRAN KAUR", "AARAV SHARMA", "ANANYA IYER", "ROHAN DESAI", "MEERA NAIR",
+    "ADITYA REDDY", "SAYANTANI ROY", "CHIRAG PATEL", "DIMPLE BORDOLOI", "TENZIN DOLMA",
+    "IMRAN KHAN", "POOJA HEGDE", "LALRINPUII SAILO", "SIDDHARTH KULKARNI", "NINGTHOUJAM RAHUL"
+  ];
+
+  const pilots = [
+    ...captains.map(name => ({ name, rank: "CP" })),
+    ...firstOfficers.map(name => ({ name, rank: "FO" }))
+  ];
+
+  const renderCrewRows = (list) => list.map(member => `
+    <div class="sched-crew-item" onclick="startChatWithCrewMember('${escapeQuotes(member.name)}')" title="Message ${escapeChatText(member.name)}">
+      <div class="sched-crew-avatar">
+        <i class="fa-solid fa-user"></i>
+      </div>
+      <div class="sched-crew-details">
+        <div class="sched-crew-name">${escapeChatText(member.name.toUpperCase())}</div>
+        <div class="sched-crew-rank">${member.rank}</div>
+      </div>
+      <button type="button" class="sched-crew-msg-action" onclick="event.stopPropagation(); startChatWithCrewMember('${escapeQuotes(member.name)}')" title="Message ${escapeChatText(member.name)}">
+        <i class="fa-solid fa-comment-dots"></i>
+      </button>
+      <i class="fa-solid fa-chevron-right sched-crew-arrow"></i>
+    </div>
+  `).join("");
+
+  container.innerHTML = `
+    <div class="sched-crew-head">
+      <button type="button" class="sched-crew-back-btn" onclick="backToFlightDetails('${dateStr}')" aria-label="Back to flight details">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <div class="sched-crew-title">Crew on flight ${escapeChatText(flightNo)}</div>
+    </div>
+    
+    <div class="sched-crew-card">
+      <div class="sched-crew-pill">Pilot in command</div>
+      <div class="sched-crew-list">
+        ${renderCrewRows(pilots)}
+      </div>
+
+      <div class="sched-crew-pill" style="margin-top:16px;">Cabin Crew</div>
+      <div class="sched-crew-list">
+        ${renderCrewRows(cabin.map(name => ({ name, rank: "CC" })))}
+      </div>
+    </div>
+
+    <div class="sched-bs-drag-bar-wrap" style="padding-top:4px;">
+      <div class="sched-bs-drag-pill" style="opacity:0.6;"></div>
+    </div>
+  `;
+
+  container.scrollTop = 0;
+}
+
+function backToFlightDetails(dateStr){
+  renderFlightPairingSheet(dateStr);
+}
+
+function startChatWithCrewMember(rawName){
+  if (!rawName) return;
+
+  // Title Case name, e.g. "Rohan Ravikiran Vedpathak"
+  const formattedName = rawName.trim().split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
+
+  closeFlightBottomSheet();
+
+  let index = CHATS.findIndex(c => c.name.toLowerCase() === formattedName.toLowerCase() || c.name.toLowerCase() === rawName.toLowerCase());
+
+  if (index === -1){
+    const parts = formattedName.split(/\s+/);
+    const initials = parts.length >= 2 ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase() : parts[0].slice(0, 2).toUpperCase();
+
+    const newChat = {
+      name: formattedName,
+      initials: initials,
+      photo: "", // NO PHOTO! User icon initially
+      preview: "Active in crew roster",
+      time: currentChatTime(),
+      date: "Today"
+    };
+
+    CHATS.unshift(newChat);
+    CHAT_MESSAGES.unshift([]);
+    index = 0;
+  }
+
+  openChat(index);
 }
 
 function renderDayDetail(dateStr){
@@ -5763,8 +6596,21 @@ function renderChatInbox(){
   if (!chat) return;
   document.getElementById("chat-inbox-name").textContent = chat.name;
   const profilePhoto = document.getElementById("chat-inbox-photo");
-  profilePhoto.src = chat.photo;
-  profilePhoto.alt = `${chat.name} profile picture`;
+  const avatarPlaceholder = document.getElementById("chat-inbox-avatar-placeholder");
+  if (chat.photo){
+    if (profilePhoto){
+      profilePhoto.src = chat.photo;
+      profilePhoto.alt = `${chat.name} profile picture`;
+      profilePhoto.classList.remove("hidden");
+    }
+    if (avatarPlaceholder) avatarPlaceholder.classList.add("hidden");
+  } else {
+    if (profilePhoto){
+      profilePhoto.src = "";
+      profilePhoto.classList.add("hidden");
+    }
+    if (avatarPlaceholder) avatarPlaceholder.classList.remove("hidden");
+  }
   const box = document.getElementById("chat-messages");
   let lastDate = "";
   box.innerHTML = (CHAT_MESSAGES[activeChatIndex] || []).map(message => {
@@ -5830,6 +6676,10 @@ function sendChatMessage(event){
   const text = input.value.trim();
   if (!text) return;
   CHAT_MESSAGES[activeChatIndex].push({ direction:"outgoing", text, time:currentChatTime() });
+  if (CHATS[activeChatIndex]){
+    CHATS[activeChatIndex].preview = text;
+    CHATS[activeChatIndex].time = currentChatTime();
+  }
   input.value = "";
   renderChatInbox();
   input.focus();
