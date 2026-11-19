@@ -1977,6 +1977,32 @@ body{ background:var(--bg-outer); }
 :root[data-theme="dark"] #app-root .cal-cell.selected.selected-pair-end{
   background: #3B4D63 !important;
 }
+:root #app-root .cal-cell.roster-suspended,
+:root #app-root .cal-cell.roster-suspended:hover,
+:root #app-root .cal-cell.roster-suspended.selected{
+  background:#E5E7EB !important;
+  box-shadow:none !important;
+}
+:root #app-root .cal-cell.roster-suspended .cal-num,
+:root #app-root .cal-cell.roster-suspended.selected .cal-num{
+  color:#6B7280 !important;
+}
+:root[data-theme="dark"] #app-root .cal-cell.roster-suspended,
+:root[data-theme="dark"] #app-root .cal-cell.roster-suspended:hover,
+:root[data-theme="dark"] #app-root .cal-cell.roster-suspended.selected{
+  background:#252A32 !important;
+}
+:root[data-theme="dark"] #app-root .cal-cell.roster-suspended .cal-num,
+:root[data-theme="dark"] #app-root .cal-cell.roster-suspended.selected .cal-num{
+  color:#858B95 !important;
+}
+.roster-suspended-message{
+  color:var(--ink-muted);
+  font-size:15px;
+  font-weight:600;
+  text-align:center;
+  margin:20px 0;
+}
 
 /* ---- Schedule Native Bottom Sheet (CAE Mobile Native) ---- */
 .sched-bottom-sheet-backdrop{
@@ -3656,7 +3682,7 @@ const NOVEMBER_CAPTAINS = [
   "Arjun Mehta", "Karthik Subramanian", "Zoya Aggarwall", "Manu Kulkarni", "Shekhar Trichipalli", "Vikramaditya Singh", "Anny Divya", "Shreyas Kapoor"
 ];
 const NOVEMBER_FIRST_OFFICERS = [
-  "MICHAEL JOSEPH DGAMA", "SUDARSHANA KARWAL", "AASTHA NANDA",
+  "Rishabh Tripathi", "SUDARSHANA KARWAL", "AASTHA NANDA",
   "Amrit Kaur", "Maheep Singh", "Rashot Ulook Totiya", "Sobit Daga", "Ankit Vats", "Soniya Gupta"
 ];
 const NOVEMBER_CABIN_CREW = [
@@ -3690,8 +3716,8 @@ const SCHEDULE = ROSTER;
 
 function createAI537Pairing(date){
   const crew = {
-    captains: ["ROHAN RAVIKIRAN VEDPATHAK", "RAHUL MEHRA", "SUBHADEEP GHOSH", "SAURABH MISHRA", "MAHESH KAUSHIK"],
-    firstOfficers: ["MICHAEL JOSEPH DGAMA", "SUDARSHANA KARWAL", "AASTHA NANDA"],
+    captains: ["Iftyqar Bhatt"],
+    firstOfficers: ["Rishabh Tripathi"],
     cabin: [
       "SIMRAN KAUR", "AARAV SHARMA", "ANANYA IYER", "ROHAN DESAI", "MEERA NAIR",
       "ADITYA REDDY", "SAYANTANI ROY", "CHIRAG PATEL", "DIMPLE BORDOLOI", "TENZIN DOLMA",
@@ -4585,6 +4611,7 @@ const findTodayRosterItem = () => {
 function renderDashboard(){
   const { date, items } = findTodayRosterItems();
   const card = document.getElementById("up-next-card");
+  const isSuspended = isRosterSuspended(date);
   const hasActiveDuties = items.some(i => i.type !== "off");
   const isRest = !hasActiveDuties;
 
@@ -4622,7 +4649,13 @@ function renderDashboard(){
   const allLayovers = tripItems.filter(i => i.type === "layover");
   const isMultiSectorOrLayover = allFlights.length > 1 || (allFlights.length >= 1 && allLayovers.length >= 1);
 
-  if (isMultiSectorOrLayover){
+  if (isSuspended){
+    card.innerHTML = `
+      <div class="upnext-top">
+        <span class="upnext-label">Today's Roster</span>
+      </div>
+      <div class="upnext-duty">Roster Suspended</div>`;
+  } else if (isMultiSectorOrLayover){
     const firstFlight = allFlights[0];
     const lastFlight = allFlights[allFlights.length - 1];
     const flightNos = allFlights.map(i => i.flightNo).join(" · ");
@@ -4727,7 +4760,7 @@ function renderDashboard(){
   document.getElementById("badge-swaps").textContent = pendingIncoming;
   document.getElementById("badge-swaps").style.display = pendingIncoming ? "flex" : "none";
   const upcomingDutyDays = Object.entries(SCHEDULE)
-    .filter(([date, items]) => date >= fmt(TODAY) && items.some(item => item.type !== "off"))
+    .filter(([date, items]) => date >= fmt(TODAY) && !isRosterSuspended(date) && items.some(item => item.type !== "off"))
     .length;
   const scheduleBadge = document.getElementById("badge-schedule");
   scheduleBadge.textContent = upcomingDutyDays > 2 ? "2+" : upcomingDutyDays;
@@ -4757,7 +4790,7 @@ function renderDashboard(){
 function renderUpcomingDuties(){
   const container = document.getElementById("dashboard-upcoming");
   const upcoming = Object.entries(SCHEDULE)
-    .filter(([date, items]) => date > fmt(TODAY) && items.some(item => item.type !== "off"))
+    .filter(([date, items]) => date > fmt(TODAY) && !isRosterSuspended(date) && items.some(item => item.type !== "off"))
     .sort(([a], [b]) => a.localeCompare(b)).slice(0, 3);
   container.replaceChildren();
   if (!upcoming.length){
@@ -4821,7 +4854,15 @@ function isRosterToBeReleased(dateStr){
     !(SCHEDULE[dateStr] && SCHEDULE[dateStr].length);
 }
 
+function isRosterSuspended(dateStr){
+  const todayStr = fmt(TODAY);
+  return dateStr.slice(0, 7) === todayStr.slice(0, 7) && dateStr >= todayStr;
+}
+
 function getDayDetailHTML(dateStr){
+  if (isRosterSuspended(dateStr)){
+    return `<div class="empty-state"><p>Roster Suspended</p></div>`;
+  }
   if (isRosterToBeReleased(dateStr)){
     return `<div class="day-detail-head"><div class="dd-date">${prettyDate(dateStr, {weekday:"long", day:"numeric", month:"long"})}</div></div><div class="empty-state"><i class="fa-regular fa-calendar"></i><p>To be Released</p></div>`;
   }
@@ -4857,13 +4898,17 @@ function isFlightTripDay(day, eventsMap){
 }
 
 function flightSpanPosition(dateStr, eventsMap){
-  if (!isFlightTripDay(dateStr, eventsMap)) return "";
-
   const adjacentDate = (day, offset) => {
     const date = new Date(`${day}T12:00:00`);
     date.setDate(date.getDate() + offset);
     return fmt(date);
   };
+  if (
+    isRosterSuspended(dateStr) ||
+    isRosterSuspended(adjacentDate(dateStr, -1)) ||
+    isRosterSuspended(adjacentDate(dateStr, 1))
+  ) return "";
+  if (!isFlightTripDay(dateStr, eventsMap)) return "";
 
   const hasPrevious = isFlightTripDay(adjacentDate(dateStr, -1), eventsMap);
   const hasNext = isFlightTripDay(adjacentDate(dateStr, 1), eventsMap);
@@ -4947,7 +4992,14 @@ function buildCalendarGrid(monthDate, opts){
       }
     }
 
-    if (isRosterToBeReleased(dateStr)){
+    if (isRosterSuspended(dateStr)){
+      cells.push(`
+        <button type="button" class="cal-cell roster-suspended ${isSelected ? "selected" : ""}" data-date="${dateStr}"
+                ${opts.onSelectFn ? `onclick="${opts.onSelectFn}('${dateStr}')"` : ""}
+                title="Roster Suspended" aria-label="${prettyDate(dateStr, {weekday:'long', day:'numeric', month:'long'})} — Roster Suspended">
+          <span class="cal-num">${day}</span>
+        </button>`);
+    } else if (isRosterToBeReleased(dateStr)){
       cells.push(`
         <button type="button" class="cal-cell roster-to-be-released ${isSelected ? "selected" : ""}" data-date="${dateStr}"
                 ${opts.onSelectFn ? `onclick="${opts.onSelectFn}('${dateStr}')"` : ""}
@@ -5233,7 +5285,9 @@ function restoreScheduleSelection(){
   const events = SCHEDULE[scheduleSelectedDate] || [];
   const cont = events.find(e => e.type === "flight" && e.continuation && e.continuesFrom);
   const hasNext = events.find(e => e.type === "flight" && e.arrTime && e.arrTime.includes("+1"));
-  if (cont && cont.continuesFrom){
+  if (isRosterSuspended(scheduleSelectedDate)){
+    selected.classList.add("selected");
+  } else if (cont && cont.continuesFrom){
     const prev = container.querySelector(`.cal-cell[data-date="${cont.continuesFrom}"]`);
     if (prev) prev.classList.add("selected", "selected-pair-start");
     selected.classList.add("selected", "selected-pair-end");
@@ -5295,6 +5349,10 @@ function closeFlightBottomSheet(){
 function renderFlightPairingSheet(dateStr){
   const container = document.getElementById("sched-bs-content");
   if (!container) return;
+  if (isRosterSuspended(dateStr)){
+    container.innerHTML = `<p class="roster-suspended-message">Roster Suspended</p>`;
+    return;
+  }
 
   const [y, m, d] = dateStr.split("-").map(Number);
   const dt = new Date(y, m - 1, d);
@@ -5734,7 +5792,9 @@ function computeMonthStats(monthDate){
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   let flights = 0, dutyDays = 0, daysOff = 0, blockMinutes = 0;
   for (let day = 1; day <= daysInMonth; day++){
-    const items = SCHEDULE[fmt(new Date(year, month, day))];
+    const dateStr = fmt(new Date(year, month, day));
+    if (isRosterSuspended(dateStr)) continue;
+    const items = SCHEDULE[dateStr];
     if (!items || !items.length) continue;
     if (items.length === 1 && items[0].type === "off"){ daysOff++; continue; }
     dutyDays++;
@@ -5790,6 +5850,10 @@ function renderScheduleAgenda(){
   let html = "";
   for (let day = 1; day <= daysInMonth; day++){
     const dateStr = fmt(new Date(year, month, day));
+    if (isRosterSuspended(dateStr)){
+      html += `<div class="agenda-date-label">${prettyDate(dateStr, {weekday:"short", day:"numeric", month:"short"})}</div><div class="empty-state"><p>Roster Suspended</p></div>`;
+      continue;
+    }
     if (isRosterToBeReleased(dateStr)){
       html += `<div class="agenda-date-label">${prettyDate(dateStr, {weekday:"short", day:"numeric", month:"short"})}</div><div class="empty-state"><p>To be Released</p></div>`;
       continue;
@@ -6801,6 +6865,7 @@ function renderDocuments(){
     for(var i = 0; i < existing.length; i++) existing[i].parentNode.removeChild(existing[i]);
 
     var todayKey = fmt(TODAY);
+    if(isRosterSuspended(todayKey)) return;
     var todayItems = SCHEDULE[todayKey] || [];
     var activeDuty = null;
     for(var j = 0; j < todayItems.length; j++){
