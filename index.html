@@ -2112,8 +2112,14 @@ body{ background:var(--bg-outer); }
 .sched-pairing-accent.accent-amber{
   background: #F59E0B;
 }
+.sched-pairing-accent.accent-red{
+  background: #DC2626;
+}
 .sched-pairing-accent.accent-slate{
   background: #1E293B;
+}
+:root[data-theme="dark"] .sched-pairing-accent.accent-red{
+  background: #EF4444;
 }
 :root[data-theme="dark"] .sched-pairing-accent.accent-slate{
   background: #94A3B8;
@@ -2935,6 +2941,7 @@ const DUTY_TYPES = {
   conference: { icon: "fa-people-group",   bg: "#F1E6D4", fg: "#B98A52", label: "Conference" },
   medical:  { icon: "fa-stethoscope",      bg: "#FCE7E9", fg: "#C23B4A", label: "Class 1 Medical" },
   technical:{ icon: "fa-plane-circle-check", bg: "#F1E6D4", fg: "#B98A52", label: "Technical Stop" },
+  maintenance:{ icon: "fa-screwdriver-wrench", bg: "#FEF2F2", fg: "#DC2626", label: "Aircraft Visit · MRO" },
   layover:  { icon: "fa-bed",              bg: "#F3E3EC", fg: "#B4507C", label: "Layover" },
   leave:    { icon: "fa-umbrella-beach",   bg: "#FEF3C7", fg: "#D97706", label: "Leave" },
   off:      { icon: "fa-star",             bg: "#FCE7F3", fg: "#D12B6D", label: "Rest Day" }
@@ -3536,6 +3543,16 @@ const ROSTER = {
     }
   ],
   "2026-11-19": [
+    {
+      type: "maintenance",
+      title: "Aircraft Visit · Terminal 2 MRO (Urgent)",
+      location: "Terminal 2 MRO · DEL",
+      calendarCode: "MRO",
+      start: "17:00",
+      end: "19:00",
+      urgent: true,
+      note: "Urgent aircraft visit at Terminal 2 MRO · 05:00 PM IST"
+    },
     {
       type: "training",
       title: "Classroom Duty · Subject Renewal of CPL",
@@ -4678,7 +4695,7 @@ function renderDashboard(){
         <span class="upnext-label">Today's Roster</span>
         <span class="upnext-status ${isRest ? "unpublished" : "published"}">${isRest ? "Rest day" : "Published"}</span>
       </div>
-      <div class="upnext-duty">${isFlight ? (item.continuation ? `Arrival · ${item.flightNo}` : item.flightNo) : (isRest ? (item.note || "Rest") : item.leaveCode === "SL" ? "Medical Leave (SL)" : item.type === "training" ? "Training" : ["easaTest", "medical"].includes(item.type) ? meta.label : meta.label + " (" + meta.label.toUpperCase() + ")")}</div>
+      <div class="upnext-duty">${isFlight ? (item.continuation ? `Arrival · ${item.flightNo}` : item.flightNo) : (item.title || (isRest ? (item.note || "Rest") : item.leaveCode === "SL" ? "Medical Leave (SL)" : item.type === "training" ? "Training" : ["easaTest", "medical"].includes(item.type) ? meta.label : meta.label + " (" + meta.label.toUpperCase() + ")"))}</div>
       ${isFlight ? `
         <div class="upnext-route">
           <div class="up-pt"><div class="code">${item.dep}</div><div class="time">${item.continuation ? "—" : item.depTime}</div></div>
@@ -4887,6 +4904,9 @@ function buildCalendarGrid(monthDate, opts){
       if (primary.iconUrl){
         iconHtml = `<img class="cal-ico cal-img-ico" src="${primary.iconUrl}" alt="${primary.type || 'Duty'}" style="width:21px;height:18px;object-fit:contain;display:block;">`;
         codeHtml = `<span class="cal-code">${primary.calendarCode || "DEL"}</span>`;
+      } else if (primary.type === "maintenance" || primary.type === "technical"){
+        iconHtml = `<i class="fa-solid fa-screwdriver-wrench cal-ico" style="color:${primary.urgent ? '#DC2626' : '#D97706'}; font-size:14px;" aria-hidden="true"></i>`;
+        codeHtml = `<span class="cal-code" style="${primary.urgent ? 'color:#DC2626; font-weight:800;' : ''}">${primary.calendarCode || "MRO"}</span>`;
       } else if (primary.type === "flight"){
         const lastFlight = [...events].reverse().find(e => e.type === "flight") || primary;
         const isExit = primary.continuation || events.some(e => e.continuation) || primary.showExitIcon || dateStr === "2026-09-30";
@@ -5422,34 +5442,51 @@ function renderFlightPairingSheet(dateStr){
     return;
   }
 
-  // Non-flight duties (Training, Reserve, Off, Leave)
-  const primary = items[0] || { type: "off", note: "Rest Day" };
-  const meta = dutyMeta(primary.type);
-  const location = primary.location || CURRENT_USER.base || "DEL";
-  const start = primary.start || "--";
-  const end = primary.end || "--";
-  const dur = (primary.start && primary.end) ? ` (${fmtHrsMins(timeDiffMinutes(primary.start, primary.end))})` : "";
+  // Non-flight duties (Training, Maintenance, Reserve, Off, Leave)
+  const dutyRowsHtml = items.map(item => {
+    const meta = dutyMeta(item.type);
+    const location = item.location || CURRENT_USER.base || "DEL";
+    const start = item.start || "--";
+    const end = item.end || "--";
+    const isUrgent = item.urgent;
 
-  container.innerHTML = `
-    <div class="sched-bs-date-title">${titleDate}</div>
-    <div class="sched-pairing-card">
-      <div class="sched-pairing-header">${d} ${monthShort} ${start !== "--" ? `${start} – ${end}${dur}` : meta.label}</div>
+    let iconContent = `<i class="fa-solid ${meta.icon}" style="color:${isUrgent ? '#DC2626' : meta.fg}; font-size:18px;"></i>`;
+    if (item.iconUrl) {
+      iconContent = `<img src="${item.iconUrl}" alt="${escapeChatText(item.type)}" style="width:22px;height:20px;object-fit:contain;display:block;">`;
+    }
+
+    return `
       <div class="sched-pairing-row">
-        <div class="sched-pairing-accent accent-amber"></div>
+        <div class="sched-pairing-accent ${isUrgent ? 'accent-red' : 'accent-amber'}"></div>
         <div class="sched-pairing-icon-box">
-          ${primary.iconUrl ? `<img src="${primary.iconUrl}" alt="Training" style="width:22px;height:20px;object-fit:contain;display:block;">` : `<i class="fa-solid ${meta.icon}" style="color:${meta.fg}; font-size:18px;"></i>`}
+          ${iconContent}
         </div>
         <div class="sched-pairing-col-main">
-          <div class="sched-pairing-title">${escapeChatText(primary.title || meta.label)}</div>
+          <div class="sched-pairing-title">
+            ${escapeChatText(item.title || meta.label)}
+            ${isUrgent ? `<span class="urgent-tag" style="background:#FEE2E2; color:#DC2626; font-size:10px; font-weight:700; padding:2px 7px; border-radius:10px; margin-left:6px; vertical-align:middle;">URGENT</span>` : ''}
+          </div>
           <div class="sched-pairing-sublabel">Locations</div>
           <div class="sched-pairing-code">${escapeChatText(location)}</div>
         </div>
         <div class="sched-pairing-col-right">
-          <div class="sched-pairing-sublabel">${primary.queue ? "Queue:" : "Timing:"}</div>
-          <div class="sched-pairing-time">${primary.queue ? `#${primary.queue}` : (start !== "--" ? `${start} – ${end}` : "All day")}</div>
+          <div class="sched-pairing-sublabel">${item.queue ? "Queue:" : "Timing:"}</div>
+          <div class="sched-pairing-time">${item.queue ? `#${item.queue}` : (start !== "--" ? (end !== "--" ? `${start} – ${end}` : start) : "All day")}</div>
         </div>
       </div>
-      ${primary.note ? `<div style="padding:10px 16px; font-size:11.5px; color:var(--ink-soft); line-height:1.4; border-top:1px solid #F3F4F6;">${escapeChatText(primary.note)}</div>` : ''}
+      ${item.note ? `<div style="padding:10px 16px; font-size:11.5px; color:var(--ink-soft); line-height:1.4; border-bottom:1px solid #F3F4F6;">${escapeChatText(item.note)}</div>` : ''}
+    `;
+  }).join("");
+
+  const firstStart = items[0].start || "--";
+  const lastEnd = items[items.length - 1].end || "--";
+  const headerTime = (firstStart !== "--" && lastEnd !== "--") ? `${firstStart} – ${lastEnd}` : (firstStart !== "--" ? firstStart : dutyMeta(items[0].type).label);
+
+  container.innerHTML = `
+    <div class="sched-bs-date-title">${titleDate}</div>
+    <div class="sched-pairing-card">
+      <div class="sched-pairing-header">${d} ${monthShort} ${headerTime}</div>
+      ${dutyRowsHtml}
     </div>
   `;
 }
