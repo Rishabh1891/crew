@@ -3589,90 +3589,17 @@ const ROSTER = {
       note: "Visit to Air India Training Academy for studies of Subject Renewal of CPL (Commercial Pilot Licence) · 11:00 AM – 05:00 PM IST"
     }
   ],
-  "2026-11-20": [
-    {
-      type: "flight",
-      flightNo: "AI 143",
-      aircraft: "Boeing 777-300ER (B77W)",
-      dep: "DEL",
-      arr: "CDG",
-      depTime: "12:45",
-      arrTime: "19:05",
-      airtime: "10h 50m",
-      note: "DEL Terminal 3 → CDG Terminal 2C · 12:45 PM IST → 07:05 PM CET · Nonstop · 10h 50m",
-      crew: {
-        captains: ["Gautam Hathiramani", "Manu Kulkarni"],
-        firstOfficers: ["Rishabh Tripathi", "Amrit Kaur"]
-      }
-    },
-    {
-      type: "layover",
-      location: "Paris, France",
-      hotel: {
-        name: "Paris Marriott Charles de Gaulle Airport Hotel",
-        address: "Zone Hoteliere, 50 Allee des Vergers, 95700 Roissy-en-France, France"
-      },
-      note: "Post-flight layover at Paris Marriott Charles de Gaulle Airport Hotel"
-    }
-  ],
-  "2026-11-21": [
-    {
-      type: "layover",
-      location: "Paris, France",
-      hotel: {
-        name: "Paris Marriott Charles de Gaulle Airport Hotel",
-        address: "Zone Hoteliere, 50 Allee des Vergers, 95700 Roissy-en-France, France"
-      },
-      note: "Layover in Paris · Paris Marriott Charles de Gaulle Airport Hotel"
-    }
-  ],
-  "2026-11-22": [
-    {
-      type: "flight",
-      flightNo: "AI 142",
-      aircraft: "Boeing 787-8 (B788)",
-      dep: "CDG",
-      arr: "DEL",
-      depTime: "20:35",
-      arrTime: "10:35+1",
-      airtime: "09h 30m",
-      note: "CDG Terminal 2C → DEL Terminal 3 · 08:35 PM CET (Sun 22 Nov) → 10:35 AM IST (Mon 23 Nov) · Nonstop · 9h 30m",
-      crew: {
-        captains: ["Gautam Hathiramani", "Manu Kulkarni"],
-        firstOfficers: ["Rishabh Tripathi", "Amrit Kaur"]
-      }
-    }
-  ],
-  "2026-11-23": [
-    {
-      type: "flight",
-      flightNo: "AI 142",
-      aircraft: "Boeing 787-8 (B788)",
-      dep: "CDG",
-      arr: "DEL",
-      arrTime: "10:35",
-      airtime: "09h 30m",
-      continuation: true,
-      continuesFrom: "2026-11-22",
-      showExitIcon: true,
-      note: "Arrival at Indira Gandhi International Airport (DEL Terminal 3) · 10:35 AM IST · Continued from Nov 22"
-    },
-    {
-      type: "off",
-      start: "10:35",
-      note: "Post-flight mandatory FTL rest"
-    }
-  ],
-  "2026-11-24": [{type:"off", note:"Rest"}],
-  "2026-11-25": [{type:"off", note:"Rest"}],
-  "2026-11-26": [{type:"reserve", location:"DEL", start:"11:23", end:"19:00", queue:53, note:"ASBY · Starting Queue 53 · 11:23 AM–07:00 PM IST"}],
-  "2026-11-27": [{type:"off", note:"Rest"}],
-  "2026-11-28": [
-    {type:"flight", flightNo:"AI 187", aircraft:"Boeing 777-300ER (B77W)", dep:"DEL", arr:"YYZ", depTime:"03:00", arrTime:"07:15", airtime:"14h 45m", note:"Air India nonstop · Departure DEL Terminal 3 at 03:00 IST · Arrival Toronto Pearson Terminal 1 at 07:15 EST", crew:{captains:["Raj Chandok","Gautam Hathiramani"],firstOfficers:["Rishabh Tripathi","Amit Sharma"]}},
-    {type:"layover", location:"Toronto, Canada", hotel:{name:"Novotel Toronto Centre"}, note:"Mandatory rest and recovery for the four-person cockpit crew through 29 November"}
-  ],
-  "2026-11-29": [{type:"flight", flightNo:"AI 188", aircraft:"Boeing 777-300ER (B77W)", dep:"YYZ", arr:"DEL", depTime:"12:15", arrTime:"14:45+1", airtime:"14h 00m", note:"Air India nonstop · Departure Toronto Pearson Terminal 1 at 12:15 EST · Arrival DEL Terminal 3 at 14:45 IST on 30 November", crew:{captains:["Raj Chandok","Gautam Hathiramani"],firstOfficers:["Rishabh Tripathi","Amit Sharma"]}}],
-  "2026-11-30": [{type:"flight", flightNo:"AI 188", aircraft:"Boeing 777-300ER (B77W)", dep:"YYZ", arr:"DEL", arrTime:"14:45", airtime:"14h 00m", continuation:true, continuesFrom:"2026-11-29", showExitIcon:true, note:"Arrival at Indira Gandhi International Airport, Terminal 3 · 14:45 IST"}]
+  "2026-11-20": [{ type: "suspended", note: "Roster Suspended" }],
+  "2026-11-21": [{ type: "suspended", note: "Roster Suspended" }],
+  "2026-11-22": [{ type: "suspended", note: "Roster Suspended" }],
+  "2026-11-23": [{ type: "suspended", note: "Roster Suspended" }],
+  "2026-11-24": [{ type: "suspended", note: "Roster Suspended" }],
+  "2026-11-25": [{ type: "suspended", note: "Roster Suspended" }],
+  "2026-11-26": [{ type: "suspended", note: "Roster Suspended" }],
+  "2026-11-27": [{ type: "suspended", note: "Roster Suspended" }],
+  "2026-11-28": [{ type: "suspended", note: "Roster Suspended" }],
+  "2026-11-29": [{ type: "suspended", note: "Roster Suspended" }],
+  "2026-11-30": [{ type: "suspended", note: "Roster Suspended" }]
 };
 
 // Assign a varied mock crew roster to each November flight. Rishabh Tripathi
@@ -4881,6 +4808,9 @@ function isRosterToBeReleased(dateStr){
 }
 
 function isRosterSuspended(dateStr){
+  if (dateStr >= "2026-11-20" && dateStr <= "2026-11-30") return true;
+  const items = SCHEDULE[dateStr];
+  if (items && items.some(e => e.type === "suspended")) return true;
   const todayStr = fmt(TODAY);
   return dateStr.slice(0, 7) === todayStr.slice(0, 7) && dateStr >= todayStr;
 }
