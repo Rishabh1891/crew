@@ -1875,6 +1875,9 @@ body{ background:var(--bg-outer); }
 .header-row{gap:12px}.header-icons{gap:2px}
 #app-root .icon-btn{width:40px;height:40px;background:var(--card-alt)}
 #app-root .app-main{padding-bottom:calc(90px + env(safe-area-inset-bottom, 0px))}
+#app-root .chat-inbox-main,
+#app-root #view-chat-inbox .app-main{padding:14px 14px 10px !important}
+#app-root #view-chat-inbox .chat-compose{padding:8px 12px calc(8px + env(safe-area-inset-bottom, 0px)) !important}
 #app-root .upnext-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:none;padding:20px}
 .upnext-top{gap:10px;align-items:flex-start}.upnext-status{line-height:1.5;text-align:right}
 #app-root .upnext-duty{color:var(--ink);font-size:27px;font-weight:600;letter-spacing:-.7px}
@@ -4040,9 +4043,9 @@ const CHATS = [
     name: "Iftykar Bhatt",
     initials: "IB",
     photo: "https://media.licdn.com/dms/image/v2/C5603AQFYG9wGjriOwg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1654451382931?e=2147483647&v=beta&t=IWFrwUhS7OaCGnguQSp0m4ozSTB-W1nCz2ljtPvvpyQ",
-    preview: "I am not sure what is going on.",
-    time: "05:52 PM",
-    date: "Today"
+    preview: "I swear if i see your name next time as a co-pilot i will not fly with you",
+    time: "09:48 PM",
+    date: "23 Nov 2026"
   },
   {
     name: "Pavan Kesarbai Sinha",
@@ -4104,12 +4107,12 @@ const CHATS = [
 
 const CHAT_MESSAGES = [
   [
-    { direction: "incoming", text: "Rishabh what the fuck is this happening what is this ridiculous summon of court of enquiry.", time: "10:02 PM", date: "Yesterday" },
+    { direction: "incoming", text: "Rishabh what the fuck is this happening what is this ridiculous summon of court of enquiry.", time: "10:02 PM", date: "20 Nov 2026" },
     { direction: "incoming", text: "I swear to god if anything happens to me and my career you are done bro....", time: "10:03 PM" },
     { direction: "incoming", text: "Anything happens with my license you are the one responsible.", time: "10:03 PM" },
     { direction: "incoming", text: "You are the worst co-pilot i have flew with.", time: "10:04 PM" },
     { direction: "incoming", text: "😡", time: "10:04 PM" },
-    { direction: "outgoing", text: "Hey captain, Your anger is justified. But this is not the time for argument. I think this is on our licence now. As a senior i need your support. Let's connect on call today.", time: "03:18 AM", date: "Today" },
+    { direction: "outgoing", text: "Hey captain, Your anger is justified. But this is not the time for argument. I think this is on our licence now. As a senior i need your support. Let's connect on call today.", time: "03:18 AM", date: "21 Nov 2026" },
     { direction: "incoming", text: "I don't want you involve in this i can see this matter by myself.", time: "05:09 PM" },
     { direction: "incoming", text: "You take care of your things i will check and manage what is wrong and right accordingly. 🙏", time: "05:09 PM" },
     { direction: "outgoing", text: "Captain this is not right i am telling you. You are going to begin this investigation and i have made it so fare. I am middle of this. Join me... it will help a lot.", time: "05:48 PM" },
@@ -4119,7 +4122,16 @@ const CHAT_MESSAGES = [
     { direction: "outgoing", text: "sure captain are you also facing flight de-rostring?", time: "05:55 PM" },
     { direction: "incoming", text: "No what do you expect?", time: "05:56 PM" },
     { direction: "incoming", text: "They gonna let me fly and chill?", time: "05:56 PM" },
-    { direction: "outgoing", text: "I am not sure what is going on.", time: "05:57 PM" }
+    { direction: "outgoing", text: "I am not sure what is going on.", time: "05:57 PM" },
+    { direction: "incoming", text: "as per the discussion i will mail you the documents.", time: "09:42 PM", date: "23 Nov 2026" },
+    { direction: "incoming", text: "I trust no one, so i want to make everything documented.", time: "09:46 PM" },
+    { direction: "incoming", text: "And before entering the court room, meet me for few minutes.", time: "09:47 PM" },
+    { direction: "incoming", text: "You have made my career worse. I want to have some words with you.", time: "09:48 PM" },
+    { direction: "outgoing", text: "Fine captain. This thing is also impacting me you are not the one safe there. Please understand", time: "10:49 PM" },
+    { direction: "incoming", text: "Whatever, i wish i wouldn't have flew at that day", time: "10:50 PM" },
+    { direction: "outgoing", text: "Captain you are being rude here which is not acceptable. I am telling it was not my pre-planning to spoil flying. I also want to grow.", time: "10:56 PM" },
+    { direction: "incoming", text: "You are the one being blamed here is true and justified for me.", time: "10:57 PM" },
+    { direction: "incoming", text: "I swear if i see your name next time as a co-pilot i will not fly with you.", time: "10:58 PM"},
   ],
   [
     { direction: "outgoing", text: "Hey Pavan, this is First Officer Rishabh speaking. I got your reference from Swati.", time: "04:03 PM", date: "14 Nov 2026" },
