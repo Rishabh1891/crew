@@ -4082,7 +4082,7 @@ const CHATS = [
   {
     name: "Sanyam Golem",
     initials: "SG",
-    photo: "https://instagram.fdel10-1.fna.fbcdn.net/v/t51.75761-15/484886994_18490016137048864_1413449798259802763_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&_nc_map=urlgen_bucketless&ig_cache_key=MzU5MTAyNTQ5MTAxNDM1NTg3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Vhq9i-bBNhYQ7kNvwHL-hV2&_nc_oc=AdoT809af2OHlviZMczptZhgwmgS63DnS0MEN5_0MJbRvD-ZvXgNnPCPy0O7sohfUfE&_nc_zt=23&_nc_ht=instagram.fdel10-1.fna&_nc_gid=hd3-M6NH9u2iT5bFBlA9vQ&_nc_ss=7b289&oh=00_AQJBxzX8eCSZb3P6iYtLmndgbyt2bb5_ITHQRmbC_8O3dw&oe=6AACBEDF",
+    photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsE0UkHI-oJmtfV2B2YT5ucL6S40-C7hvnANslh02Ux9QQygT7M0awMmh1&s=10",
     preview: "aur let's talk whenever you are free.",
     time: "07:21 PM",
     date: "14 Sep"
@@ -6636,7 +6636,10 @@ function cancelBid(bidId){
    CHAT
    ========================================================================== */
 function renderChat(){
-  document.getElementById("chat-list").innerHTML = CHATS.map((c, index) => `
+  const orderedChats = CHATS
+    .map((chat, index) => ({ chat, index }))
+    .sort((a, b) => Number(b.chat.name === "Anny Divya") - Number(a.chat.name === "Anny Divya"));
+  document.getElementById("chat-list").innerHTML = orderedChats.map(({ chat: c, index }) => `
     <div class="chat-row" role="button" tabindex="0" onclick="openChat(${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openChat(${index})}">
       <div class="chat-avatar">${c.photo ? `<img src="${c.photo}" alt="${escapeChatText(c.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : c.initials}</div>
       <div style="min-width:0; flex:1;">
