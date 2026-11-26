@@ -3608,8 +3608,8 @@ const ROSTER = {
 // Assign a varied mock crew roster to each November flight. Rishabh Tripathi
 // remains the fixed First Officer on every sector.
 const NOVEMBER_CAPTAINS = [
-  "ROHAN RAVIKIRAN VEDPATHAK", "RAHUL MEHRA", "SUBHADEEP GHOSH", "SAURABH MISHRA", "MAHESH KAUSHIK",
-  "Arjun Mehta", "Karthik Subramanian", "Zoya Aggarwall", "Manu Kulkarni", "Shekhar Trichipalli", "Vikramaditya Singh", "Anny Divya", "Shreyas Kapoor"
+  "Anny Divya", "ROHAN RAVIKIRAN VEDPATHAK", "RAHUL MEHRA", "SUBHADEEP GHOSH", "SAURABH MISHRA", "MAHESH KAUSHIK",
+  "Arjun Mehta", "Karthik Subramanian", "Zoya Aggarwall", "Manu Kulkarni", "Shekhar Trichipalli", "Vikramaditya Singh", "Shreyas Kapoor"
 ];
 const NOVEMBER_FIRST_OFFICERS = [
   "Rishabh Tripathi", "SUDARSHANA KARWAL", "AASTHA NANDA",
@@ -3716,8 +3716,8 @@ let swapIdCounter = 1;
 /* ==========================================================================
    CREW DIRECTORY FOR DUTY SWAPS
    Crew IDs available for initiating swap:
-   - Zoya Agarwal: 46296492
    - Anny Divya: 37592648
+   - Zoya Agarwal: 46296492
    - First Officer Amritulya: 00149283
    - First Officer Rohit Lalit Lalla: 10142957
    - First Officer Laxmi Joshi: 39624730
@@ -4040,14 +4040,6 @@ const MY_BIDS = [
 /* ---- Mock chat threads ---------------------------------------------------*/
 const CHATS = [
   {
-    name: "Anny Divya",
-    initials: "AD",
-    photo: "https://static.toiimg.com/thumb/msid-68317377,width-400,resizemode-4/68317377.jpg",
-    preview: "I am landing on Saturday. Meet me in Taj Delhi...",
-    time: "08:58 PM",
-    date: "26 Nov 2026"
-  },
-  {
     name: "Iftykar Bhatt",
     initials: "IB",
     photo: "https://media.licdn.com/dms/image/v2/C5603AQFYG9wGjriOwg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1654451382931?e=2147483647&v=beta&t=IWFrwUhS7OaCGnguQSp0m4ozSTB-W1nCz2ljtPvvpyQ",
@@ -4078,6 +4070,14 @@ const CHATS = [
     preview: "his crew id: 738563 name: Pavan Kesarbai Sinha",
     time: "03:02 PM",
     date: "14 Nov 2026"
+  },
+  {
+    name: "Anny Divya",
+    initials: "AD",
+    photo: "https://static.toiimg.com/thumb/msid-68317377,width-400,resizemode-4/68317377.jpg",
+    preview: "I am landing on Saturday. Meet me in Taj Delhi...",
+    time: "08:58 PM",
+    date: "26 Nov 2026"
   },
   {
     name: "Sanyam Golem",
@@ -4254,7 +4254,8 @@ const CHAT_MESSAGES = [
     { direction: "outgoing", text: "Okay captain.", time: "02:27 PM" },
     { direction: "incoming", text: "Hey Rishabh, hope you are fine.", time: "08:55 PM", date: "26 Nov 2026" },
     { direction: "incoming", text: "I heard the news. Yes it is sorrowful. But don't worry.", time: "08:57 PM" },
-    { direction: "incoming", text: "It happens and i have also faced it. I am landing on Saturday. Meet me in Taj Delhi at 04:00PM evening. Let's have tea and talk. 🫖🤝", time: "08:58 PM" }
+    { direction: "incoming", text: "It happens and i have also faced it. I am landing on Saturday. Meet me in Taj Delhi at 04:00PM evening. Let's have tea and talk. 🫖🤝", time: "08:58 PM" },
+    { direction: "outgoing", text: "Okay Captain. Yes the situations is harsh. I will surely need your mentorship.", time: "09:15 PM" }
   ],
   [
     { direction: "incoming", text: "Hi Rishabh, We will be operating the Vienna sector together.", time: "07:21 PM", date: "14 Sep 2026" },
